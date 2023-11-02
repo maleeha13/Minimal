@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+
+    <ImageView
+        android:id="@+id/iv_deck"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/card_back" />
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lay"
+            android:layout_alignParentBottom="true"
+        android:weightSum="5"
+        android:orientation="horizontal"
+        android:layout_height="150dp">
+
+
+
+        <ImageView
+            android:id="@+id/iv_p1c1"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p1c2"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p1c3"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p1c4"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p1c5"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:id="@+id/lay2"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:weightSum="5"
+        android:orientation="vertical"
+        android:layout_height="300dp"
+        android:rotation="0">
+
+        <ImageView
+            android:id="@+id/iv_p2c1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_p2c2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_p2c3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_p2c4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_p2c5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:id="@+id/la"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:weightSum="5"
+            android:orientation="vertical"
+            android:layout_height="300dp"
+            android:rotation="0">
+        <!-- New Images -->
+        <ImageView
+            android:id="@+id/iv_new_p2c1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p2c2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_new_p2c3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p2c4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p2c5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <!-- Add more new images here -->
+    </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:id="@+id/lay3"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+
+        android:weightSum="5"
+        android:orientation="vertical"
+        android:layout_height="300dp"
+        android:rotation="0">
+
+
+
+
+        <ImageView
+            android:id="@+id/iv_p3c1"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back"
+            android:rotation="90">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p3c2"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back"
+            android:rotation="90">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_p3c3"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back"
+            android:rotation="90">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_p3c4"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back"
+            android:rotation="90">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p3c5"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back"
+            android:rotation="90">
+
+        </ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:id="@+id/la3"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+
+        android:weightSum="5"
+        android:orientation="vertical"
+        android:layout_height="300dp"
+        android:rotation="0">
+        <ImageView
+            android:id="@+id/iv_new_p3c1"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p3c2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_new_p3c3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p3c4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p3c5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:rotation="90"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <!-- Add more new images here -->
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lay4"
+        android:layout_alignParentTop="true"
+        android:weightSum="5"
+        android:orientation="horizontal"
+        android:layout_height="150dp">
+
+
+
+        <ImageView
+            android:id="@+id/iv_p4c1"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p4c2"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p4c3"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p4c4"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_p4c5"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/la4"
+        android:layout_alignParentTop="true"
+        android:weightSum="5"
+        android:orientation="horizontal"
+        android:layout_height="150dp">
+        <ImageView
+            android:id="@+id/iv_new_p4c1"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p4c2"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+        <ImageView
+            android:id="@+id/iv_new_p4c3"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p4c4"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_new_p4c5"
+            android:layout_weight="1"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/card_back">
+        </ImageView>
+
+        <!-- Add more new images here -->
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+    
