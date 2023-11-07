@@ -16,7 +16,7 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
 
 
-    int[] numbers = {1, 2, 3, 4};
+    int[] turns = {1, 2, 3, 4};
     int current_player=1;
 
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         // Get the card value based on the clicked ImageView
                         int cardValue = Card.getCards().get(x);
                         // Call the method to handle the card click event
-                        onCardClicked(cardValue, imageView);
+                        onCardClicked(cardValue, imageView, start);
                     }
                 });
             }
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void assign(ImageView imageView){
+    private void assign(ImageView imageView, int player){
         x++;
         if (x >= Card.getCards().size()) {
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     // Get the card value based on the clicked ImageView
                     int cardValue = Card.getCards().get(x);
                     // Call the method to handle the card click event
-                    onCardClicked(cardValue, imageView);
+                    onCardClicked(cardValue, imageView, player);
                 }
             });
 
@@ -91,13 +91,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void onCardClicked(int cardValue, ImageView imageView) {
-        Log.d("CArd", "each?");
-        ImageView stackImageView = findViewById(R.id.stack);
+    private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
-        stackImageView.setImageDrawable(cardDrawable);
-        imageView.setVisibility(View.INVISIBLE);
+        if(player==current_player){
+            Log.d("CArd", "each?");
+
+            ImageView stackImageView = findViewById(R.id.stack);
+
+            Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
+            stackImageView.setImageDrawable(cardDrawable);
+            imageView.setVisibility(View.INVISIBLE);
+        }
+
     }
 
 
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startTurns();
+//        startTurns();
 
 //        hideImageViewsRange(2, "iv_new_p", View.VISIBLE);
 //        hideImageViewsRange(3, "iv_new_p", View.VISIBLE);
@@ -174,21 +179,40 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-
     }
 
     private void onDeckClick() {
 
         for (int i = 1; i <= 5; i++) {
-            int imageViewId = getResources().getIdentifier("iv_p1c" + i, "id", getPackageName());
+            int imageViewId = getResources().getIdentifier("iv_p" + current_player +"c" + i, "id", getPackageName());
             ImageView imageView = findViewById(imageViewId);
 
 
             if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-                assign(imageView);
+                assign(imageView, current_player);
                 imageView.setVisibility(View.VISIBLE);            }
         }
+
+//        nextTurn();
     }
+
+//    private void nextTurn(){
+//        for(int j=1; j<6; j++){
+//            int imageViewId = getResources().getIdentifier("iv_p" + current_player +"c" +j, "id", getPackageName());
+//            ImageView imageView = findViewById(imageViewId);
+//            imageView.setOnClickListener(null);
+//        }
+//        current_player = turns[current_player+1];
+//
+//        for(int j=1; j<6; j++){
+//            int imageViewId = getResources().getIdentifier("iv_p" + current_player +"c" +j, "id", getPackageName());
+//            ImageView imageView = findViewById(imageViewId);
+//            imageView.setOnClickListener(null);
+//        }
+//
+//    }
+
+
+
 
 }
