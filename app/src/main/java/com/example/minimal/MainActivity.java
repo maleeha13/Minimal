@@ -16,6 +16,12 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
 
 
+    int[] numbers = {1, 2, 3, 4};
+    int current_player=1;
+
+
+
+
     ImageView iv_deck;
     int x = 0;
 
@@ -86,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void onCardClicked(int cardValue, ImageView imageView) {
+        Log.d("CArd", "each?");
         ImageView stackImageView = findViewById(R.id.stack);
 
         Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
@@ -134,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         iv_deck = (ImageView) findViewById(R.id.iv_deck);
 
+
         iv_deck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,10 +149,31 @@ public class MainActivity extends AppCompatActivity {
                 onDeckClick();
             }
         });
-//
+
+        startTurns();
+
 //        hideImageViewsRange(2, "iv_new_p", View.VISIBLE);
 //        hideImageViewsRange(3, "iv_new_p", View.VISIBLE);
 //        hideImageViewsRange(4, "iv_new_p", View.VISIBLE);
+
+
+    }
+
+    private void startTurns(){
+
+
+        for(int i =1; i<5; i++){
+            if(current_player!=i){
+                for(int j=1; j<6; j++){
+                    int imageViewId = getResources().getIdentifier("iv_p" + i +"c" +j, "id", getPackageName());
+                    ImageView imageView = findViewById(imageViewId);
+                    imageView.setOnClickListener(null);
+                }
+            }
+
+
+        }
+
 
 
     }
