@@ -17,7 +17,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     int[] turns = {1, 2, 3, 4};
-    int current_player=1;
+    int current_player=0;
+    boolean dropped = false;
+    boolean picked = true;
+
 
 
 
@@ -93,8 +96,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        if(player==current_player){
-            Log.d("CArd", "each?");
+
+        if(player==turns[current_player] && picked == true){
+            Log.d("DROPPPPPPPPPP", String.valueOf(turns[current_player]));
+
+            dropped=true;
+            picked=false;
 
             ImageView stackImageView = findViewById(R.id.stack);
 
@@ -168,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         for(int i =1; i<5; i++){
-            if(current_player!=i){
+            if(turns[current_player]!=i){
                 for(int j=1; j<6; j++){
                     int imageViewId = getResources().getIdentifier("iv_p" + i +"c" +j, "id", getPackageName());
                     ImageView imageView = findViewById(imageViewId);
@@ -182,35 +189,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onDeckClick() {
+        if(dropped==true){
+            Log.d("PICKCKKCKC", "www");
 
-        for (int i = 1; i <= 5; i++) {
-            int imageViewId = getResources().getIdentifier("iv_p" + current_player +"c" + i, "id", getPackageName());
-            ImageView imageView = findViewById(imageViewId);
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
+                ImageView imageView = findViewById(imageViewId);
 
 
-            if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-                assign(imageView, current_player);
-                imageView.setVisibility(View.VISIBLE);            }
+                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                    assign(imageView, turns[current_player]);
+                    imageView.setVisibility(View.VISIBLE);            }
+            }
+
+            dropped=false;
+            picked=true;
+            nextTurn();
+
+
         }
 
-//        nextTurn();
+
     }
 
-//    private void nextTurn(){
-//        for(int j=1; j<6; j++){
-//            int imageViewId = getResources().getIdentifier("iv_p" + current_player +"c" +j, "id", getPackageName());
-//            ImageView imageView = findViewById(imageViewId);
-//            imageView.setOnClickListener(null);
-//        }
-//        current_player = turns[current_player+1];
-//
-//        for(int j=1; j<6; j++){
-//            int imageViewId = getResources().getIdentifier("iv_p" + current_player +"c" +j, "id", getPackageName());
-//            ImageView imageView = findViewById(imageViewId);
-//            imageView.setOnClickListener(null);
-//        }
-//
-//    }
+    private void nextTurn(){
+
+        if (current_player == 3) {
+            current_player=0;
+        }
+        else{
+            current_player = current_player+1;
+
+        }
+        Log.d("turn befpre", String.valueOf(current_player));
+        Log.d("turn after", String.valueOf(current_player));
+
+
+
+    }
 
 
 
