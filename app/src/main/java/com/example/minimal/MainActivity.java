@@ -8,7 +8,10 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     int current_player=0;
     boolean dropped = false;
     boolean picked = true;
+    int selectedCardId;
 
 
     Drawable previous ;
@@ -172,37 +176,63 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        if(player==turns[current_player] && picked == true){
+        if(player==turns[current_player] ){
 
-            dropped=true;
-            picked=false;
+//            dropped=true;
+//            picked=false;
 
-            Log.d("SET STACK VIEW", "check");
-
-            ImageView stackImageView = findViewById(R.id.stack);
-
-
-             previous =stackImageView.getDrawable();
 
             Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
 
-            if (stackImageView.getVisibility() == View.VISIBLE) {
-                stackImageView.setImageDrawable(previous);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
 
-            }
-            else{
-                stackImageView.setImageDrawable(cardDrawable);
+            params.topMargin -= 50;
 
-            }
+            imageView.setLayoutParams(params);
 
-            current = cardDrawable;
-//                stackImageView.setImageDrawable(cardDrawable);
+            ImageView selectedCard = imageView;
+            selectedCardId = imageView.getId();
+            selectedCard.setId(selectedCardId);
 
-            imageView.setVisibility(View.INVISIBLE);
-            stackImageView.setVisibility(View.VISIBLE);
+
 
         }
 
+    }
+
+
+    public void onCardDrop(View v){
+        ImageView selectedCard = findViewById(selectedCardId);
+
+        ImageView stackImageView = findViewById(R.id.stack);
+
+
+            dropped=true;
+            picked=false;
+        previous =stackImageView.getDrawable();
+
+        Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
+
+        if (stackImageView.getVisibility() == View.VISIBLE) {
+            stackImageView.setImageDrawable(previous);
+
+        }
+        else{
+            stackImageView.setImageDrawable(cardDrawable);
+
+        }
+
+        current = cardDrawable;
+//                stackImageView.setImageDrawable(cardDrawable);
+
+        selectedCard.setVisibility(View.INVISIBLE);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedCard.getLayoutParams();
+
+        params.topMargin += 50;
+
+        selectedCard.setLayoutParams(params);
+        stackImageView.setVisibility(View.VISIBLE);
     }
 
     private void onPileClick() {
