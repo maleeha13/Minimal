@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        if(player==turns[current_player] ){
+        if(player==turns[current_player] && picked == true){
 
 //            dropped=true;
 //            picked=false;
