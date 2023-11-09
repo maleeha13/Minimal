@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     boolean picked = true;
 
 
+    Drawable previous ;
+    Drawable current ;
 
 
 
@@ -94,23 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-
-        if(player==turns[current_player] && picked == true){
-            Log.d("DROPPPPPPPPPP", String.valueOf(turns[current_player]));
-
-            dropped=true;
-            picked=false;
-
-            ImageView stackImageView = findViewById(R.id.stack);
-
-            Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
-            stackImageView.setImageDrawable(cardDrawable);
-            imageView.setVisibility(View.INVISIBLE);
-        }
-
-    }
 
 
 
@@ -152,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         hideImageViewsRange(4, "iv_p", View.VISIBLE);
 
         iv_deck = (ImageView) findViewById(R.id.iv_deck);
+        ImageView stack = (ImageView) findViewById(R.id.stack);
 
 
         iv_deck.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +149,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        stack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onPileClick();
+            }
+        });
+
+        stack.setVisibility(View.INVISIBLE);
+
 //        startTurns();
 
 //        hideImageViewsRange(2, "iv_new_p", View.VISIBLE);
@@ -171,23 +168,82 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void startTurns(){
 
 
-        for(int i =1; i<5; i++){
-            if(turns[current_player]!=i){
-                for(int j=1; j<6; j++){
-                    int imageViewId = getResources().getIdentifier("iv_p" + i +"c" +j, "id", getPackageName());
-                    ImageView imageView = findViewById(imageViewId);
-                    imageView.setOnClickListener(null);
-                }
+    private void onCardClicked(int cardValue, ImageView imageView, int player) {
+
+        if(player==turns[current_player] && picked == true){
+
+            dropped=true;
+            picked=false;
+
+            Log.d("SET STACK VIEW", "check");
+
+            ImageView stackImageView = findViewById(R.id.stack);
+
+
+             previous =stackImageView.getDrawable();
+
+            Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
+
+            if (stackImageView.getVisibility() == View.VISIBLE) {
+                stackImageView.setImageDrawable(previous);
+
+            }
+            else{
+                stackImageView.setImageDrawable(cardDrawable);
+
             }
 
+            current = cardDrawable;
+//                stackImageView.setImageDrawable(cardDrawable);
+
+            imageView.setVisibility(View.INVISIBLE);
+            stackImageView.setVisibility(View.VISIBLE);
 
         }
 
     }
 
+    private void onPileClick() {
+        Log.d("DOOOOO UUUUU ENTERRRR", "B4");
+
+        if(dropped==true){
+            Log.d("DOOOOO UUUUU ENTERRRR", "CHEKCKCKCKKC");
+
+
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
+                ImageView imageView = findViewById(imageViewId);
+
+
+                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+
+                    // Change to the ID of your target ImageView
+
+                    Drawable cardDrawable = previous; // Get the drawable from the stack ImageView
+                    imageView.setImageDrawable(cardDrawable); // Set the drawable to the target ImageView
+                    ImageView stackImageView = findViewById(R.id.stack);
+                    stackImageView.setImageDrawable(current);
+//                    ImageView test = findViewById(R.id.test);
+//                    test.setImageDrawable(current);
+//                    ImageView test2 = findViewById(R.id.test);
+//                    test2.setImageDrawable(previous);
+//                    stackImageView.setVisibility(View.INVISIBLE);
+                    imageView.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            dropped=false;
+            picked=true;
+            nextTurn();
+
+
+        }
+
+
+    }
     private void onDeckClick() {
         if(dropped==true){
             Log.d("PICKCKKCKC", "www");
@@ -201,6 +257,9 @@ public class MainActivity extends AppCompatActivity {
                     assign(imageView, turns[current_player]);
                     imageView.setVisibility(View.VISIBLE);            }
             }
+            ImageView stackImageView = findViewById(R.id.stack);
+
+            stackImageView.setImageDrawable(current);
 
             dropped=false;
             picked=true;
