@@ -277,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
 //                    test2.setImageDrawable(previous);
 //                    stackImageView.setVisibility(View.INVISIBLE);
                     imageView.setVisibility(View.VISIBLE);
+                    break;
+
 
                 }
             }
@@ -300,8 +302,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+
                     assign(imageView, turns[current_player]);
-                    imageView.setVisibility(View.VISIBLE);            }
+                    imageView.setVisibility(View.VISIBLE);
+                break;
+                }
             }
             ImageView stackImageView = findViewById(R.id.stack);
 
