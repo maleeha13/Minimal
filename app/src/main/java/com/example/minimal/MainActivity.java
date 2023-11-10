@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ImageView> cardsSelected = new ArrayList<>();
 
 
+    ImageView currentCard;
     Drawable previous ;
     Drawable current ;
 
@@ -176,40 +177,53 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
-        int cardNumber = (int) imageView.getTag();
-        int lastDigit = cardNumber % 10;
-
-        ImageView v = null;
-        int existing =-1;
-
-        if(!cardsSelected.isEmpty()){
-             v = cardsSelected.get(0);
-             int x = (int) v.getTag();
-            existing = x % 10;
-
-        }
-        Log.d("NEWWWWWW", String.valueOf(lastDigit));
-        Log.d("OLDLDLLDLDLDL", String.valueOf(existing));
-
-
-        if(player==turns[current_player] && picked == true &&(cardsSelected.isEmpty() || lastDigit==existing)){
-
-
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-
-
-            cardsSelected.add(imageView);
-
-            params.topMargin -= 50;
-            imageView.setLayoutParams(params);
-
-            ImageView selectedCard = imageView;
-            selectedCardId = imageView.getId();
-            selectedCard.setId(selectedCardId);
-
+        if (imageView == currentCard) {
+            Log.d("BANNNNN ITTTT","YOUUUU CCCAAANNNNOOOOTTTT DOOOOO THIS");
 
 
         }
+
+        else{
+            int cardNumber = (int) imageView.getTag();
+            int lastDigit = cardNumber % 10;
+
+            ImageView v = null;
+            int existing =-1;
+
+            if(!cardsSelected.isEmpty()){
+                v = cardsSelected.get(0);
+                int x = (int) v.getTag();
+                existing = x % 10;
+
+            }
+            Log.d("NEWWWWWW", String.valueOf(lastDigit));
+            Log.d("OLDLDLLDLDLDL", String.valueOf(existing));
+
+
+            if(player==turns[current_player] && picked == true &&(cardsSelected.isEmpty() || lastDigit==existing)){
+
+
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+
+
+                cardsSelected.add(imageView);
+
+                params.topMargin -= 50;
+                imageView.setLayoutParams(params);
+
+                ImageView selectedCard = imageView;
+                selectedCardId = imageView.getId();
+                selectedCard.setId(selectedCardId);
+
+
+
+            }
+
+        }
+
+         currentCard = findViewById(selectedCardId);
+
+
 
     }
 
@@ -222,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
 
             dropped=true;
             picked=false;
-        previous =stackImageView.getDrawable();
 
         Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
@@ -234,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
             stackImageView.setImageDrawable(cardDrawable);
 
         }
-
         current = cardDrawable;
 //                stackImageView.setImageDrawable(cardDrawable);
         for (ImageView img_view : cardsSelected) {
