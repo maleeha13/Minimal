@@ -178,7 +178,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
         if (imageView == currentCard) {
-            Log.d("BANNNNN ITTTT","YOUUUU CCCAAANNNNOOOOTTTT DOOOOO THIS");
+//            Log.d("BANNNNN ITTTT","YOUUUU CCCAAANNNNOOOOTTTT DOOOOO THIS");
+            cardsSelected.clear();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+
+
+
+            params.topMargin += 50;
+            imageView.setLayoutParams(params);
+            currentCard=null;
+
 
 
         }
@@ -219,9 +228,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            currentCard = findViewById(selectedCardId);
+
         }
 
-         currentCard = findViewById(selectedCardId);
 
 
 
@@ -229,38 +239,45 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onCardDrop(View v){
-        ImageView selectedCard = findViewById(selectedCardId);
+        if(picked){
 
-        ImageView stackImageView = findViewById(R.id.stack);
+            ImageView selectedCard = findViewById(selectedCardId);
+
+            ImageView stackImageView = findViewById(R.id.stack);
 
 
             dropped=true;
             picked=false;
+            previous =stackImageView.getDrawable();
 
-        Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
-        if (stackImageView.getVisibility() == View.VISIBLE) {
-            stackImageView.setImageDrawable(previous);
+            Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
-        }
-        else{
-            stackImageView.setImageDrawable(cardDrawable);
+            if (stackImageView.getVisibility() == View.VISIBLE) {
+                stackImageView.setImageDrawable(previous);
 
-        }
-        current = cardDrawable;
+            }
+            else{
+                stackImageView.setImageDrawable(cardDrawable);
+
+            }
+            current = cardDrawable;
 //                stackImageView.setImageDrawable(cardDrawable);
-        for (ImageView img_view : cardsSelected) {
-            img_view.setVisibility(View.INVISIBLE);
-        }
+            for (ImageView img_view : cardsSelected) {
+                img_view.setVisibility(View.INVISIBLE);
+            }
 //        selectedCard.setVisibility(View.INVISIBLE);
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedCard.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedCard.getLayoutParams();
 
-        params.topMargin += 50;
+            params.topMargin += 50;
 
 
-        selectedCard.setLayoutParams(params);
-        stackImageView.setVisibility(View.VISIBLE);
+            selectedCard.setLayoutParams(params);
+            stackImageView.setVisibility(View.VISIBLE);
+
+        }
+
     }
 
     private void onPileClick() {
