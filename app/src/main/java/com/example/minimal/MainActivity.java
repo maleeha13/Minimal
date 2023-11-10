@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     boolean dropped = false;
     boolean picked = true;
     int selectedCardId;
+    private ArrayList<ImageView> cardsSelected = new ArrayList<>();
 
 
     Drawable previous ;
@@ -175,19 +176,31 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
+        int cardNumber = (int) imageView.getTag();
+        int lastDigit = cardNumber % 10;
 
-        if(player==turns[current_player] && picked == true){
+        ImageView v = null;
+        int existing =-1;
 
-//            dropped=true;
-//            picked=false;
+        if(!cardsSelected.isEmpty()){
+             v = cardsSelected.get(0);
+             int x = (int) v.getTag();
+            existing = x % 10;
+
+        }
+        Log.d("NEWWWWWW", String.valueOf(lastDigit));
+        Log.d("OLDLDLLDLDLDL", String.valueOf(existing));
 
 
-            Drawable cardDrawable = imageView.getDrawable(); // Get the drawable from the clicked card
+        if(player==turns[current_player] && picked == true &&(cardsSelected.isEmpty() || lastDigit==existing)){
+
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
 
-            params.topMargin -= 50;
 
+            cardsSelected.add(imageView);
+
+            params.topMargin -= 50;
             imageView.setLayoutParams(params);
 
             ImageView selectedCard = imageView;
@@ -224,12 +237,15 @@ public class MainActivity extends AppCompatActivity {
 
         current = cardDrawable;
 //                stackImageView.setImageDrawable(cardDrawable);
-
-        selectedCard.setVisibility(View.INVISIBLE);
+        for (ImageView img_view : cardsSelected) {
+            img_view.setVisibility(View.INVISIBLE);
+        }
+//        selectedCard.setVisibility(View.INVISIBLE);
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) selectedCard.getLayoutParams();
 
         params.topMargin += 50;
+
 
         selectedCard.setLayoutParams(params);
         stackImageView.setVisibility(View.VISIBLE);
@@ -313,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("turn befpre", String.valueOf(current_player));
         Log.d("turn after", String.valueOf(current_player));
 
-
+        cardsSelected.clear();
 
     }
 
