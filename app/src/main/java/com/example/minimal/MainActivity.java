@@ -123,14 +123,14 @@ public class MainActivity extends AppCompatActivity {
         hideImageViewsRange(4, "iv_p", View.INVISIBLE);
 
         Card.makeCardList();
-
+        startGame();
 
 
 
     }
 
 
-    public void startGame(View v) {
+    public void startGame() {
         Collections.shuffle(Card.getCards());
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
