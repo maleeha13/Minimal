@@ -20,28 +20,20 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
-
     int[] turns = {1, 2, 3, 4};
     Integer[] scores = new Integer[4];
-
     int current_player=0;
     boolean dropped = false;
     boolean picked = true;
     int selectedCardId;
     private ArrayList<ImageView> cardsSelected = new ArrayList<>();
-
     ImageView currentCard;
     Drawable previous ;
     Drawable current ;
-
     ImageView new_pr;
     ImageView pre;
     int check;
     int second;
-//    ImageView cur;
-
-
-
     ImageView iv_deck;
     int x = 0;
 
@@ -54,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             if (imageView != null) {
                 imageView.setVisibility(visibility);
             }
-
         }
     }
 
@@ -63,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i=1; i<=5; i++){
             x++;
             if (x >= Card.getCards().size()) {
-
                 iv_deck.setVisibility(View.INVISIBLE);
             }
             else{
@@ -73,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Get the card value based on the clicked ImageView
                         int cardValue = Card.getCards().get(x);
-                        // Call the method to handle the card click event
                         onCardClicked(cardValue, imageView, start);
                     }
                 });
@@ -108,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
 
@@ -178,11 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
         stack.setVisibility(View.INVISIBLE);
 
-//        startTurns();
 
-//        hideImageViewsRange(2, "iv_new_p", View.VISIBLE);
-//        hideImageViewsRange(3, "iv_new_p", View.VISIBLE);
-//        hideImageViewsRange(4, "iv_new_p", View.VISIBLE);
 
 
     }
@@ -192,8 +173,9 @@ public class MainActivity extends AppCompatActivity {
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
 
-        if (imageView == currentCard) {
-            cardsSelected.clear();
+        if ( cardsSelected.contains(imageView)) {
+            System.out.println("one of the selected cards");
+            cardsSelected.remove(imageView);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
 
             params.topMargin += 50;
@@ -202,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+
 
         else{
             int cardNumber = (int) imageView.getTag();
@@ -231,11 +215,6 @@ public class MainActivity extends AppCompatActivity {
                 ImageView selectedCard = imageView;
 
                 selectedCardId = imageView.getId();
-//                tag = imageView.getTag();
-//                selectedCard.setId(selectedCardId);
-//                selectedCard.setTag(tag);
-
-
 
             }
 
@@ -439,7 +418,6 @@ public class MainActivity extends AppCompatActivity {
                 minIndex = i;
             }
         }
-
 
 
         return minIndex;
