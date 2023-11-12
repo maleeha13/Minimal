@@ -20,12 +20,12 @@ public class Card {
         cards.add(106);
         cards.add(107);
         cards.add(108);
-        cards.add(109);
+        cards.add(100);
         cards.add(110);
         cards.add(111);
         cards.add(112);
         cards.add(113);
-        cards.add(114);
+        cards.add(101);
 
         cards.add(202);
         cards.add(203);
@@ -34,12 +34,12 @@ public class Card {
         cards.add(206);
         cards.add(207);
         cards.add(208);
-        cards.add(209);
+        cards.add(200);
         cards.add(210);
         cards.add(211);
         cards.add(212);
         cards.add(213);
-        cards.add(214);
+        cards.add(201);
 
         cards.add(302);
         cards.add(303);
@@ -48,12 +48,12 @@ public class Card {
         cards.add(306);
         cards.add(307);
         cards.add(308);
-        cards.add(309);
+        cards.add(300);
         cards.add(310);
         cards.add(311);
         cards.add(312);
         cards.add(313);
-        cards.add(314);
+        cards.add(301);
 
         cards.add(402);
         cards.add(403);
@@ -62,12 +62,12 @@ public class Card {
         cards.add(406);
         cards.add(407);
         cards.add(408);
-        cards.add(409);
+        cards.add(400);
         cards.add(410);
         cards.add(411);
         cards.add(412);
         cards.add(413);
-        cards.add(414);
+        cards.add(401);
 
         return cards;
     }
@@ -98,7 +98,7 @@ public class Card {
             case 108:
                 image.setImageResource(R.drawable.clubs_8);
                 break;
-            case 109:
+            case 100:
                 image.setImageResource(R.drawable.clubs_9);
                 break;
             case 110:
@@ -113,7 +113,7 @@ public class Card {
             case 113:
                 image.setImageResource(R.drawable.king_of_clubs);
                 break;
-            case 114:
+            case 101:
                 image.setImageResource(R.drawable.ace_of_clubs);
                 break;
             case 202:
@@ -137,7 +137,7 @@ public class Card {
             case 208:
                 image.setImageResource(R.drawable.diamonds_8);
                 break;
-            case 209:
+            case 200:
                 image.setImageResource(R.drawable.diamonds_9);
                 break;
             case 210:
@@ -152,7 +152,7 @@ public class Card {
             case 213:
                 image.setImageResource(R.drawable.king_of_diamonds);
                 break;
-            case 214:
+            case 201:
                 image.setImageResource(R.drawable.ace_of_diamonds);
                 break;
 
@@ -178,7 +178,7 @@ public class Card {
                 image.setImageResource(R.drawable.hearts_8);
                 break;
 
-            case 309:
+            case 300:
                 image.setImageResource(R.drawable.hearts_9);
                 break;
             case 310:
@@ -193,7 +193,7 @@ public class Card {
             case 313:
                 image.setImageResource(R.drawable.king_of_hearts);
                 break;
-            case 314:
+            case 301:
                 image.setImageResource(R.drawable.ace_of_hearts);
                 break;
 
@@ -218,7 +218,7 @@ public class Card {
             case 408:
                 image.setImageResource(R.drawable.spades_8);
                 break;
-            case 409:
+            case 400:
                 image.setImageResource(R.drawable.spades_9);
                 break;
             case 410:
@@ -233,7 +233,7 @@ public class Card {
             case 413:
                 image.setImageResource(R.drawable.king_of_spades);
                 break;
-            case 414:
+            case 401:
                 image.setImageResource(R.drawable.ace_of_spades);
                 break;
         }
