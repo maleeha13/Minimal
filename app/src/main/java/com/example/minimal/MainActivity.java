@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     int[] turns = {1, 2, 3, 4};
+    Integer[] scores = new Integer[4];
+
     int current_player=0;
     boolean dropped = false;
     boolean picked = true;
@@ -133,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
         hideImageViewsRange(3, "iv_p", View.INVISIBLE);
         hideImageViewsRange(4, "iv_p", View.INVISIBLE);
 
-//        Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
-//
-//        showButton.setVisibility(View.INVISIBLE);
+        Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
+
+        showButton.setVisibility(View.INVISIBLE);
         Card.makeCardList();
         startGame();
 
@@ -345,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            second =check;
+
             dropped=false;
             picked=true;
             nextTurn();
@@ -406,10 +410,61 @@ public class MainActivity extends AppCompatActivity {
         Log.d("turn after", String.valueOf(current_player));
 
         cardsSelected.clear();
+        int min = calculateScores();
 
+        System.out.println(scores[min]);
+        if(scores[current_player]<=5){
+            Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
+
+            showButton.setVisibility(View.VISIBLE);
+        }
     }
 
+    private int calculateScores(){
 
+        for(int j=1; j<5; j++){
+            int score =0;
+            System.out.println("FOR PLAYER "+ j);
+            for (int i = 1; i <= 5; i++) {
+
+                int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+
+                ImageView img = findViewById(imageViewId);
+
+                if(img.getVisibility()==View.VISIBLE){
+                    int cardNumber = (int) img.getTag();
+
+                    score = score + (cardNumber % 100);
+                    System.out.println((cardNumber % 100));
+                }
+            }
+
+            scores[j-1]=score;
+            Log.d("SCORE OF PLAYER IS", String.valueOf(score));
+        }
+
+        for (int i = 0; i < scores.length; i++) {
+            System.out.println("Index " + i + ": " + scores[i]);
+        }
+
+        int minIndex = 0;
+        for (int i = 0; i < scores.length; i++) {
+            if (scores[i] < scores[minIndex]) {
+                System.out.println(scores[i]);
+                minIndex = i;
+            }
+        }
+
+
+
+        return minIndex;
+    }
+
+    private void showScores(){
+
+        int win = calculateScores();
+        System.out.println("THE WINNER IS PLAYER" + win+1);
+    }
 
 
 }
