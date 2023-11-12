@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                         // Get the card value based on the clicked ImageView
                         int cardValue = Card.getCards().get(x);
                         // Call the method to handle the card click event
-                        System.out.println("CARD VALUE" + cardValue);
                         onCardClicked(cardValue, imageView, start);
                     }
                 });
@@ -90,11 +90,9 @@ public class MainActivity extends AppCompatActivity {
         if (x >= Card.getCards().size()) {
 
             iv_deck.setVisibility(View.INVISIBLE);
-            System.out.println("in teh if" + pre.getTag());
         }
         else{
             Card.assignImages(Card.getCards().get(x), imageView);
-            System.out.println("in teh else" + pre.getTag());
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            System.out.println("in after" + pre.getTag());
 
         }
 
@@ -267,7 +264,6 @@ public class MainActivity extends AppCompatActivity {
 
             pre = selectedCard;
             check= (int) selectedCard.getTag();
-            System.out.println("getttingngnng THE TAG" + check);
 
             Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
@@ -328,9 +324,6 @@ public class MainActivity extends AppCompatActivity {
                     imageView.setImageDrawable(previous);
 
                         imageView.setTag(second);
-                        System.out.println("the tag is "+ new_pr.getTag());
-                        System.out.println("THE TAG OF THE CARD PICKED IS" + (int)(imageView.getTag()));
-
 
                     ImageView stackImageView = findViewById(R.id.stack);
 
@@ -359,7 +352,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void onDeckClick() {
-        System.out.println("the tag of the card on the stack is " + pre.getTag());
 
         if(dropped==true){
 
@@ -368,7 +360,6 @@ public class MainActivity extends AppCompatActivity {
                 int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
                 ImageView imageView = findViewById(imageViewId);
 
-                System.out.println("TESTSTTS1111 " + check);
 
                 new_pr =pre;
                 if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
@@ -385,7 +376,6 @@ public class MainActivity extends AppCompatActivity {
 //            new_pr = pre;
             second =check;
 
-            System.out.println("TESTSTTS1111 " + check);
 
             dropped=false;
             picked=true;
@@ -406,8 +396,7 @@ public class MainActivity extends AppCompatActivity {
             current_player = current_player+1;
 
         }
-        Log.d("turn befpre", String.valueOf(current_player));
-        Log.d("turn after", String.valueOf(current_player));
+
 
         cardsSelected.clear();
         int min = calculateScores();
@@ -424,7 +413,6 @@ public class MainActivity extends AppCompatActivity {
 
         for(int j=1; j<5; j++){
             int score =0;
-            System.out.println("FOR PLAYER "+ j);
             for (int i = 1; i <= 5; i++) {
 
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
@@ -440,12 +428,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             scores[j-1]=score;
-            Log.d("SCORE OF PLAYER IS", String.valueOf(score));
         }
 
-        for (int i = 0; i < scores.length; i++) {
-            System.out.println("Index " + i + ": " + scores[i]);
-        }
+
 
         int minIndex = 0;
         for (int i = 0; i < scores.length; i++) {
@@ -460,10 +445,12 @@ public class MainActivity extends AppCompatActivity {
         return minIndex;
     }
 
-    private void showScores(){
+    public void showScores(View v){
 
         int win = calculateScores();
         System.out.println("THE WINNER IS PLAYER" + win+1);
+        Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
+
     }
 
 
