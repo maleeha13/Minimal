@@ -286,47 +286,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onPileClick() {
+        ImageView stackImageView = findViewById(R.id.stack);
 
 
-        if(dropped==true){
-            System.out.println("pile " + check);
+        if( stackImageView.getVisibility()==View.INVISIBLE){
+            if(dropped==true){
+                System.out.println("pile " + check);
 
 
-            for (int i = 1; i <= 5; i++) {
-                int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
-                ImageView imageView = findViewById(imageViewId);
+                for (int i = 1; i <= 5; i++) {
+                    int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
+                    ImageView imageView = findViewById(imageViewId);
 
 
-                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                    if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
 
-                    imageView.setImageDrawable(previous);
+                        imageView.setImageDrawable(previous);
 
                         imageView.setTag(second);
 
-                    ImageView stackImageView = findViewById(R.id.stack);
 
-                    stackImageView.setImageDrawable(current);
+                        stackImageView.setImageDrawable(current);
 
 //                    pre = stackImageView;
 
 
-                    imageView.setVisibility(View.VISIBLE);
+                        imageView.setVisibility(View.VISIBLE);
 
-                    break;
+                        break;
 
 
+                    }
                 }
+
+                second =check;
+
+                dropped=false;
+                picked=true;
+                nextTurn();
+
+
             }
 
-            second =check;
-
-            dropped=false;
-            picked=true;
-            nextTurn();
-
-
         }
+
 
 
     }
