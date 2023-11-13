@@ -8,6 +8,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,12 +17,14 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
     int[] turns = {1, 2, 3, 4};
     Integer[] scores = new Integer[4];
+    boolean begin = true;
     int current_player=0;
     boolean dropped = false;
     boolean picked = true;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     int second;
     ImageView iv_deck;
     int x = 0;
+
 
     private void hideImageViewsRange(int start, String pre, int visibility) {
         for (int i = 1; i <= 5; i++) {
@@ -171,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
+        int tag = (int) imageView.getTag();
 
 
         if ( cardsSelected.contains(imageView)) {
@@ -217,6 +222,20 @@ public class MainActivity extends AppCompatActivity {
                 selectedCardId = imageView.getId();
 
             }
+            else if ((!(cardsSelected.isEmpty()) && (lastDigit!=existing))&& picked){
+                Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
+
+            } else if (player!=turns[current_player]) {
+                Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
+
+            }
+
+
+//
+            else if((turns[current_player])==tag){
+                Toast.makeText(this, "Thats not your card! " , Toast.LENGTH_LONG).show();
+
+            }
 
             currentCard = findViewById(selectedCardId);
 
@@ -230,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onCardDrop(View v){
-        if(picked){
+        if(picked && !(cardsSelected.isEmpty())){
 
             ImageView selectedCard = findViewById(selectedCardId);
 
@@ -274,12 +293,16 @@ public class MainActivity extends AppCompatActivity {
                 params.topMargin += 50;
                 img_view.setLayoutParams(params);
             }
-//        selectedCard.setVisibility(View.INVISIBLE);
 
 
 
             stackImageView.setVisibility(View.VISIBLE);
 
+
+        }
+
+        else{
+            Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
 
         }
 
@@ -289,8 +312,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView stackImageView = findViewById(R.id.stack);
 
 
-        if( stackImageView.getVisibility()==View.INVISIBLE){
-            if(dropped==true){
+            if(dropped && !begin){
                 System.out.println("pile " + check);
 
 
@@ -309,9 +331,6 @@ public class MainActivity extends AppCompatActivity {
 
                         stackImageView.setImageDrawable(current);
 
-//                    pre = stackImageView;
-
-
                         imageView.setVisibility(View.VISIBLE);
 
                         break;
@@ -329,14 +348,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }
+            else if(!dropped){
+                Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+
+            }
+            else if(begin){
+                Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
+
+            }
+
+
 
 
 
     }
     private void onDeckClick() {
 
-        if(dropped==true){
+        if(dropped){
 
 
             for (int i = 1; i <= 5; i++) {
@@ -366,6 +394,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+        else {
+            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+
+        }
 
 
     }
@@ -390,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
 
             showButton.setVisibility(View.VISIBLE);
         }
+        begin =false;
     }
 
     private int calculateScores(){

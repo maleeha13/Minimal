@@ -46,7 +46,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            android:tag="1"
+            >
 
         </ImageView>
         <ImageView
@@ -58,7 +60,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            android:tag="1"
+            >
 
         </ImageView>
         <ImageView
@@ -70,7 +74,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            android:tag="1"
+            >
 
         </ImageView>
         <ImageView
@@ -82,7 +88,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            android:tag="1"
+            >
 
         </ImageView>
         <ImageView
@@ -94,7 +102,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            android:tag="1"
+            >
 
         </ImageView>
 
