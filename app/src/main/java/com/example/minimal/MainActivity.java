@@ -57,9 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i=1; i<=5; i++){
             x++;
-            if (x >= Card.getCards().size()) {
+            System.out.println(x);
+            if (x >= Card.getCards().size()-1) {
                 iv_deck.setVisibility(View.INVISIBLE);
-            }
+                int win = calculateScores();
+                System.out.println("THE WINNER IS PLAYER " + (win + 1));
+                Toast.makeText(this, "THE WINNER IS PLAYER " + (win + 1), Toast.LENGTH_LONG).show();            }
             else{
                 int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
                 ImageView imageView = findViewById(imageViewId);
@@ -79,9 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void assign(ImageView imageView, int player){
         x++;
-        if (x >= Card.getCards().size()) {
+        System.out.println(x);
+
+        if (x >= Card.getCards().size()-1) {
 
             iv_deck.setVisibility(View.INVISIBLE);
+            int win = calculateScores();
+            System.out.println("THE WINNER IS PLAYER " + (win + 1));
+            Toast.makeText(this, "THE WINNER IS PLAYER " + (win + 1), Toast.LENGTH_LONG).show();
         }
         else{
             Card.assignImages(Card.getCards().get(x), imageView);
@@ -465,7 +473,6 @@ public class MainActivity extends AppCompatActivity {
         int win = calculateScores();
         System.out.println("THE WINNER IS PLAYER" + win+1);
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
-
     }
 
 
