@@ -23,23 +23,7 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
-    int[] turns = {1, 2, 3, 4};
-    Integer[] scores = new Integer[4];
-    boolean begin = true;
-    int current_player=0;
-    boolean dropped = false;
-    boolean picked = true;
-    int selectedCardId;
-    private ArrayList<ImageView> cardsSelected = new ArrayList<>();
-    ImageView currentCard;
-    Drawable previous ;
-    Drawable current ;
-    ImageView new_pr;
-    ImageView pre;
-    int check;
-    int second;
-    ImageView iv_deck;
-    int x = 0;
+ Game game;
 
 
     private void hideImageViewsRange(int start, String pre, int visibility) {
@@ -57,21 +41,21 @@ public class MainActivity extends AppCompatActivity {
     private void assignCard(String pre, int start){
 
         for(int i=1; i<=5; i++){
-            x++;
-            System.out.println(x);
-            if (x >= Card.getCards().size()-1) {
-                iv_deck.setVisibility(View.INVISIBLE);
+            game.x++;
+            System.out.println(game.x);
+            if (game.x >= Card.getCards().size()-1) {
+                game.iv_deck.setVisibility(View.INVISIBLE);
                 int win = calculateScores();
                 System.out.println("THE WINNER IS PLAYER " + (win + 1));
                 Toast.makeText(this, "THE WINNER IS PLAYER " + (win + 1), Toast.LENGTH_LONG).show();            }
             else{
                 int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
                 ImageView imageView = findViewById(imageViewId);
-                Card.assignImages(Card.getCards().get(x), imageView);
+                Card.assignImages(Card.getCards().get(game.x), imageView);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int cardValue = Card.getCards().get(x);
+                        int cardValue = Card.getCards().get(game.x);
                         onCardClicked(cardValue, imageView, start);
                     }
                 });
@@ -82,24 +66,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void assign(ImageView imageView, int player){
-        x++;
-        System.out.println(x);
+        game.x++;
+        System.out.println(game.x);
 
-        if (x >= Card.getCards().size()-1) {
+        if (game.x >= Card.getCards().size()-1) {
 
-            iv_deck.setVisibility(View.INVISIBLE);
+            game.iv_deck.setVisibility(View.INVISIBLE);
             int win = calculateScores();
             System.out.println("THE WINNER IS PLAYER " + (win + 1));
             Toast.makeText(this, "THE WINNER IS PLAYER " + (win + 1), Toast.LENGTH_LONG).show();
         }
         else{
-            Card.assignImages(Card.getCards().get(x), imageView);
+            Card.assignImages(Card.getCards().get(game.x), imageView);
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Get the card value based on the clicked ImageView
-                    int cardValue = Card.getCards().get(x);
+                    int cardValue = Card.getCards().get(game.x);
                     // Call the method to handle the card click event
                     onCardClicked(cardValue, imageView, player);
                 }
@@ -118,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        game = new Game();
 
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
@@ -142,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startGame() {
-        x=0;
+        game.x=0;
         Collections.shuffle(Card.getCards());
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
@@ -155,11 +140,11 @@ public class MainActivity extends AppCompatActivity {
         hideImageViewsRange(3, "iv_p", View.VISIBLE);
         hideImageViewsRange(4, "iv_p", View.VISIBLE);
 
-        iv_deck = (ImageView) findViewById(R.id.iv_deck);
+        game.iv_deck = (ImageView) findViewById(R.id.iv_deck);
         ImageView stack = (ImageView) findViewById(R.id.stack);
 
 
-        iv_deck.setOnClickListener(new View.OnClickListener() {
+        game.iv_deck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -188,14 +173,14 @@ public class MainActivity extends AppCompatActivity {
         int tag = (int) imageView.getTag();
 
 
-        if ( cardsSelected.contains(imageView)) {
+        if ( game.cardsSelected.contains(imageView)) {
             System.out.println("one of the selected cards");
-            cardsSelected.remove(imageView);
+            game.cardsSelected.remove(imageView);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
 
             params.topMargin += 50;
             imageView.setLayoutParams(params);
-            currentCard=null;
+            game.currentCard=null;
 
 
         }
@@ -209,45 +194,45 @@ public class MainActivity extends AppCompatActivity {
             ImageView v = null;
             int existing =-1;
 
-            if(!cardsSelected.isEmpty()){
-                v = cardsSelected.get(0);
+            if(!game.cardsSelected.isEmpty()){
+                v = game.cardsSelected.get(0);
                 int x = (int) v.getTag();
                 existing = x % 100;
 
             }
 
 
-            if(player==turns[current_player] && picked == true &&(cardsSelected.isEmpty() || lastDigit==existing)){
+            if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
 
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
 
 
-                cardsSelected.add(imageView);
+                game.cardsSelected.add(imageView);
 
                 params.topMargin -= 50;
                 imageView.setLayoutParams(params);
 
                 ImageView selectedCard = imageView;
 
-                selectedCardId = imageView.getId();
+                game.selectedCardId = imageView.getId();
 
             }
-            else if ((!(cardsSelected.isEmpty()) && (lastDigit!=existing))&& picked){
+            else if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
                 Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
 
-            } else if (player!=turns[current_player]) {
+            } else if (player!=game.turns[game.current_player]) {
                 Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
 
             }
 
 
 //
-            else if((turns[current_player])==tag){
+            else if((game.turns[game.current_player])==tag){
                 Toast.makeText(this, "Thats not your card! " , Toast.LENGTH_LONG).show();
 
             }
 
-            currentCard = findViewById(selectedCardId);
+            game.currentCard = findViewById(game.selectedCardId);
 
 
         }
@@ -259,26 +244,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onCardDrop(View v){
-        if(picked && !(cardsSelected.isEmpty())){
+        if(game.picked && !(game.cardsSelected.isEmpty())){
 
-            ImageView selectedCard = findViewById(selectedCardId);
+            ImageView selectedCard = findViewById(game.selectedCardId);
 
             ImageView stackImageView = findViewById(R.id.stack);
 
 
-            dropped=true;
-            picked=false;
-            previous =stackImageView.getDrawable();
+            game.dropped=true;
+            game.picked=false;
+            game.previous =stackImageView.getDrawable();
 
-            pre = selectedCard;
-            check= (int) selectedCard.getTag();
+            game.pre = selectedCard;
+            game.check= (int) selectedCard.getTag();
 
             Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
 
 
             if (stackImageView.getVisibility() == View.VISIBLE) {
-                stackImageView.setImageDrawable(previous);
+                stackImageView.setImageDrawable(game.previous);
 
 
 
@@ -292,10 +277,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            current = cardDrawable;
+            game.current = cardDrawable;
 
 //                stackImageView.setImageDrawable(cardDrawable);
-            for (ImageView img_view : cardsSelected) {
+            for (ImageView img_view : game.cardsSelected) {
                 img_view.setVisibility(View.INVISIBLE);
 
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
@@ -322,24 +307,25 @@ public class MainActivity extends AppCompatActivity {
         ImageView stackImageView = findViewById(R.id.stack);
 
 
-            if(dropped && !begin){
-                System.out.println("pile " + check);
+            if(game.dropped && !game.begin){
+                System.out.println("pile " + game.check);
 
 
                 for (int i = 1; i <= 5; i++) {
-                    int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
+                    int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
                     ImageView imageView = findViewById(imageViewId);
 
 
                     if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
 
-                        imageView.setImageDrawable(previous);
+                        imageView.setImageDrawable(game.previous);
 
-                        imageView.setTag(second);
+                        imageView.setTag(game.second);
 
 
-                        stackImageView.setImageDrawable(current);
+                        imageView.setTag(game.second);
+                        stackImageView.setImageDrawable(game.current);
 
                         imageView.setVisibility(View.VISIBLE);
 
@@ -349,20 +335,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                second =check;
+                game.second =game.check;
 
-                dropped=false;
-                picked=true;
+                game.dropped=false;
+                game.picked=true;
                 nextTurn();
 
 
             }
 
-            else if(!dropped){
+            else if(!game.dropped){
                 Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
 
             }
-            else if(begin){
+            else if(game.begin){
                 Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
 
             }
@@ -374,18 +360,18 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onDeckClick() {
 
-        if(dropped){
+        if(game.dropped){
 
 
             for (int i = 1; i <= 5; i++) {
-                int imageViewId = getResources().getIdentifier("iv_p" + turns[current_player] +"c" + i, "id", getPackageName());
+                int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
                 ImageView imageView = findViewById(imageViewId);
 
 
-                new_pr =pre;
+                game.new_pr =game.pre;
                 if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
-                    assign(imageView, turns[current_player]);
+                    assign(imageView, game.turns[game.current_player]);
                     imageView.setVisibility(View.VISIBLE);
 
                     break;
@@ -393,13 +379,13 @@ public class MainActivity extends AppCompatActivity {
             }
             ImageView stackImageView = findViewById(R.id.stack);
 
-            stackImageView.setImageDrawable(current);
+            stackImageView.setImageDrawable(game.current);
 //            new_pr = pre;
-            second =check;
+            game.second =game.check;
 
 
-            dropped=false;
-            picked=true;
+            game.dropped=false;
+            game.picked=true;
             nextTurn();
 
 
@@ -414,20 +400,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void nextTurn(){
 
-        if (current_player == 3) {
-            current_player=0;
+        if (game.current_player == 3) {
+            game.current_player=0;
         }
         else{
-            current_player = current_player+1;
+            game.current_player = game.current_player+1;
 
         }
 
 
-        cardsSelected.clear();
+        game.cardsSelected.clear();
         int min = calculateScores();
 
-        System.out.println(scores[min]);
-        if(scores[current_player]<=5){
+        System.out.println(game.scores[min]);
+        if(game.scores[game.current_player]<=5){
             Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
 
             showButton.setVisibility(View.VISIBLE);
@@ -439,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
 
             showButton.setVisibility(View.INVISIBLE);
         }
-        begin =false;
+        game.begin =false;
     }
 
     private int calculateScores(){
@@ -460,19 +446,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            scores[j-1]=score;
+            game.scores[j-1]=score;
         }
 
 
 
         int minIndex = 0;
-        for (int i = 0; i < scores.length; i++) {
-            if (scores[i] < scores[minIndex]) {
-                System.out.println(scores[i]);
+        for (int i = 0; i < game.scores.length; i++) {
+            if (game.scores[i] < game.scores[minIndex]) {
+                System.out.println(game.scores[i]);
                 minIndex = i;
             }
         }
-
 
         return minIndex;
     }
