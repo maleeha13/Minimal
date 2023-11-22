@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startGame() {
+        x=0;
         Collections.shuffle(Card.getCards());
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
@@ -473,6 +474,8 @@ public class MainActivity extends AppCompatActivity {
         int win = calculateScores();
         System.out.println("THE WINNER IS PLAYER" + win+1);
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
+
+        startGame();
     }
 
 
