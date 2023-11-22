@@ -3,6 +3,7 @@ package com.example.minimal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -431,6 +432,13 @@ public class MainActivity extends AppCompatActivity {
 
             showButton.setVisibility(View.VISIBLE);
         }
+        else{
+            System.out.println("Should reset");
+
+            Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
+
+            showButton.setVisibility(View.INVISIBLE);
+        }
         begin =false;
     }
 
@@ -474,8 +482,9 @@ public class MainActivity extends AppCompatActivity {
         int win = calculateScores();
         System.out.println("THE WINNER IS PLAYER" + win+1);
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
+        Intent intent=new Intent(MainActivity.this, StartScreen.class);
 
-        startGame();
+        startActivityForResult(intent, 1);
     }
 
 
