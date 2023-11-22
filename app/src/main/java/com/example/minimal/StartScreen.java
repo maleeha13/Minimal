@@ -35,7 +35,7 @@ public class StartScreen extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Handle the selected item
                 String selectedOption = parentView.getItemAtPosition(position).toString();
-                Toast.makeText(StartScreen.this, "Selected: " + selectedOption, Toast.LENGTH_SHORT).show();
+                Game.setRounds(selectedOption);
             }
 
             @Override

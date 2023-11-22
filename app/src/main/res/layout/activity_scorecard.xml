@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <!-- res/layout/popup_scoreboard.xml -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:id="@+id/popup_scoreboard">
+
+
+
+        <!-- Include the same TableLayout as before -->
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*" />
+
+        <!-- Add any additional views or buttons as needed -->
+
+    </LinearLayout>
+
+

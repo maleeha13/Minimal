@@ -1,13 +1,18 @@
 
 package com.example.minimal;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
+
+import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
@@ -15,6 +20,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -268,18 +276,14 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-            else{
+            else {
 
                 stackImageView.setImageDrawable(cardDrawable);
-
-
-
 
             }
 
             game.current = cardDrawable;
 
-//                stackImageView.setImageDrawable(cardDrawable);
             for (ImageView img_view : game.cardsSelected) {
                 img_view.setVisibility(View.INVISIBLE);
 
@@ -426,6 +430,10 @@ public class MainActivity extends AppCompatActivity {
             showButton.setVisibility(View.INVISIBLE);
         }
         game.begin =false;
+
+        if(game.current_player!=0){
+            greedyAI(game.current_player+1);
+        }
     }
 
     private int calculateScores(){
@@ -467,10 +475,124 @@ public class MainActivity extends AppCompatActivity {
         int win = calculateScores();
         System.out.println("THE WINNER IS PLAYER" + win+1);
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
-        Intent intent=new Intent(MainActivity.this, StartScreen.class);
-
-        startActivityForResult(intent, 1);
+        showScoreboardPopup(5);
+//
+//        Intent intent=new Intent(MainActivity.this, StartScreen.class);
+//        startActivityForResult(intent, 1);
     }
 
+    private void showScoreboardPopup(int delayInSeconds) {
+        // Delay the appearance of the scoreboard
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Inflate the layout for the popup
+                View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
 
+                // Create a TableLayout and add it to the popup
+                TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
+                createScoreboard(tableLayout, 5); // 5 columns, adjust as needed
+
+                // Build the AlertDialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setView(popupView);
+                builder.setTitle("Bowling Scoreboard"); // Set the title as needed
+
+                // Add any additional customization or buttons to the AlertDialog if needed
+
+                // Show the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        }, delayInSeconds * 1000); // Convert seconds to milliseconds
+    }
+
+    private void createScoreboard(TableLayout tableLayout, int numColumns) {
+        // Create Header Row
+        TableRow headerRow = new TableRow(this);
+        headerRow.setLayoutParams(new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
+
+        // Player Header
+        TextView playerHeader = new TextView(this);
+        playerHeader.setText("Player");
+        playerHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+        headerRow.addView(playerHeader);
+
+        // Dynamic Frame Headers
+        for (int i = 1; i < numColumns; i++) {
+            TextView frameHeader = new TextView(this);
+            frameHeader.setText("Player " + i);
+            frameHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+            headerRow.addView(frameHeader);
+        }
+
+        // Add Header Row to the TableLayout
+        tableLayout.addView(headerRow);
+
+        // Create Player Rows
+        for (int player = 1; player <= 5; player++) {
+            TableRow playerRow = new TableRow(this);
+            playerRow.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT));
+
+            // Player Name
+            TextView playerName = new TextView(this);
+            playerName.setText("R " + player);
+            playerName.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+            playerRow.addView(playerName);
+
+            // Dynamic Frame Cells
+            for (int frame = 1; frame <= numColumns; frame++) {
+                TextView frameCell = new TextView(this);
+                frameCell.setText(" "); // Empty cell
+                frameCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+                playerRow.addView(frameCell);
+            }
+
+            // Add Player Row to the TableLayout
+            tableLayout.addView(playerRow);
+        }
+    }
+
+    public void greedyAI(int j){
+        ImageView drop = null;
+        int largest=0;
+        for (int i = 1; i <= 5; i++) {
+
+            int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+
+            ImageView img = findViewById(imageViewId);
+
+                int cardNumber = (int) img.getTag();
+                if((cardNumber % 100)>largest){
+                    largest=cardNumber % 100;
+                    drop=img;
+                }
+
+        }
+        drop.performClick();
+        Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Perform the second click after a 2-second delay
+                dropButton.performClick();
+            }
+        }, 2000); // 2000 milliseconds = 2 seconds
+
+// Delay between the second and third clicks
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Perform the third click after a 2-second delay
+                game.iv_deck.performClick();
+            }
+        }, 4000);
+
+
+    }
 }
