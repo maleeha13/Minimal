@@ -21,6 +21,15 @@
 
         <!-- Add any additional views or buttons as needed -->
 
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="nextRound"
+
+        android:text="Next">
+
+    </Button>
     </LinearLayout>
 
 

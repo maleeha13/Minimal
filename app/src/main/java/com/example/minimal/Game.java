@@ -25,10 +25,7 @@ public class Game {
     ImageView iv_deck;
     int x = 0;
 
-    static int numberOfRounds=0;
 
 
-    public static void setRounds(String rounds){
-        numberOfRounds= Integer.parseInt(rounds);
-    }
+
 }

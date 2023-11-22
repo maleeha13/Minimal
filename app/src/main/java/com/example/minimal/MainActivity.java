@@ -32,6 +32,7 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity {
 
  Game game;
+ public static AlertDialog dialog;
 
 
     private void hideImageViewsRange(int start, String pre, int visibility) {
@@ -51,12 +52,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i=1; i<=5; i++){
             game.x++;
             System.out.println(game.x);
-            if (game.x >= Card.getCards().size()-1) {
-                game.iv_deck.setVisibility(View.INVISIBLE);
-                int win = calculateScores();
-                System.out.println("THE WINNER IS PLAYER " + (win + 1));
-                Toast.makeText(this, "THE WINNER IS PLAYER " + (win + 1), Toast.LENGTH_LONG).show();            }
-            else{
+
                 int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
                 ImageView imageView = findViewById(imageViewId);
                 Card.assignImages(Card.getCards().get(game.x), imageView);
@@ -69,22 +65,15 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
-        }
+
 
     }
 
     private void assign(ImageView imageView, int player){
-        game.x++;
         System.out.println(game.x);
 
-        if (game.x >= Card.getCards().size()-1) {
 
-            game.iv_deck.setVisibility(View.INVISIBLE);
-            int win = calculateScores();
-            System.out.println("THE WINNER IS PLAYER " + (win + 1));
-            Toast.makeText(this, "THE WINNER IS PLAYER " + (win + 1), Toast.LENGTH_LONG).show();
-        }
-        else{
+
             Card.assignImages(Card.getCards().get(game.x), imageView);
 
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-        }
+
 
     }
 
@@ -110,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        game = new Game();
+
 
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
@@ -123,10 +112,6 @@ public class MainActivity extends AppCompatActivity {
         hideImageViewsRange(3, "iv_p", View.INVISIBLE);
         hideImageViewsRange(4, "iv_p", View.INVISIBLE);
 
-        Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
-
-        showButton.setVisibility(View.INVISIBLE);
-        Card.makeCardList();
         startGame();
 
 
@@ -135,7 +120,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startGame() {
+        game = new Game();
         game.x=0;
+
+        Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
+
+        showButton.setVisibility(View.INVISIBLE);
+        Card.makeCardList();
         Collections.shuffle(Card.getCards());
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
@@ -386,8 +377,6 @@ public class MainActivity extends AppCompatActivity {
             stackImageView.setImageDrawable(game.current);
 //            new_pr = pre;
             game.second =game.check;
-
-
             game.dropped=false;
             game.picked=true;
             nextTurn();
@@ -403,6 +392,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void nextTurn(){
+        game.x++;
+
 
         if (game.current_player == 3) {
             game.current_player=0;
@@ -412,11 +403,23 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        if (game.x >= Card.getCards().size()-1) {
+
+            game.iv_deck.setVisibility(View.INVISIBLE);
+            Button showButton = findViewById(R.id.show);
+            showButton.performClick();
+        }
+
 
         game.cardsSelected.clear();
         int min = calculateScores();
 
         System.out.println(game.scores[min]);
+
+
+        if(game.current_player!=0){
+            greedyAI(game.current_player+1);
+        }
         if(game.scores[game.current_player]<=5){
             Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
 
@@ -430,10 +433,6 @@ public class MainActivity extends AppCompatActivity {
             showButton.setVisibility(View.INVISIBLE);
         }
         game.begin =false;
-
-        if(game.current_player!=0){
-            greedyAI(game.current_player+1);
-        }
     }
 
     private int calculateScores(){
@@ -476,9 +475,51 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("THE WINNER IS PLAYER" + win+1);
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
         showScoreboardPopup(5);
+
+
+
+
 //
 //        Intent intent=new Intent(MainActivity.this, StartScreen.class);
 //        startActivityForResult(intent, 1);
+    }
+
+    public void nextRound(View v){
+        StartScreen.currentRound++;
+
+        System.out.println("outututu");
+        System.out.println(StartScreen.currentRound);
+        System.out.println(StartScreen.numberOfRounds);
+
+        if(StartScreen.currentRound < StartScreen.numberOfRounds){
+            System.out.println("test");
+//            View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
+//
+//            // Find the LinearLayout within the inflated view
+//            LinearLayout layout = popupView.findViewById(R.id.popup_scoreboard);
+//
+//            // Set the visibility of the LinearLayout
+//            layout.setVisibility(View.GONE);
+//            dialog.dismiss();
+            startGame();
+            View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
+
+            TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
+            tableLayout.setVisibility(View.INVISIBLE);
+            tableLayout.setVisibility(View.GONE);
+            if(tableLayout.getVisibility()==View.VISIBLE){
+                tableLayout.setVisibility(View.INVISIBLE);
+                tableLayout.setVisibility(View.GONE);
+
+            }
+            if (dialog != null && dialog.isShowing()) {
+                System.out.println("DISMISSSSSIIIING");
+                dialog.dismiss();
+                dialog.closeOptionsMenu();
+            }
+        }
+
+
     }
 
     private void showScoreboardPopup(int delayInSeconds) {
@@ -492,16 +533,15 @@ public class MainActivity extends AppCompatActivity {
                 // Create a TableLayout and add it to the popup
                 TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
                 createScoreboard(tableLayout, 5); // 5 columns, adjust as needed
-
                 // Build the AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setView(popupView);
-                builder.setTitle("Bowling Scoreboard"); // Set the title as needed
+                builder.setTitle("Scoreboard"); // Set the title as needed
 
                 // Add any additional customization or buttons to the AlertDialog if needed
 
                 // Show the AlertDialog
-                AlertDialog dialog = builder.create();
+                 dialog = builder.create();
                 dialog.show();
             }
         }, delayInSeconds * 1000); // Convert seconds to milliseconds
@@ -582,7 +622,7 @@ public class MainActivity extends AppCompatActivity {
                 // Perform the second click after a 2-second delay
                 dropButton.performClick();
             }
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 500); // 2000 milliseconds = 2 seconds
 
 // Delay between the second and third clicks
         new Handler().postDelayed(new Runnable() {
@@ -591,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
                 // Perform the third click after a 2-second delay
                 game.iv_deck.performClick();
             }
-        }, 4000);
+        }, 1000);
 
 
     }

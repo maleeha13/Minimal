@@ -13,6 +13,10 @@ import android.widget.Toast;
 public class StartScreen extends AppCompatActivity {
 
     MainActivity m = new MainActivity();
+    static int numberOfRounds=0;
+    static int currentRound=0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,7 @@ public class StartScreen extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Handle the selected item
                 String selectedOption = parentView.getItemAtPosition(position).toString();
-                Game.setRounds(selectedOption);
+                setRounds(selectedOption);
             }
 
             @Override
@@ -46,6 +50,11 @@ public class StartScreen extends AppCompatActivity {
 
 
     }
+
+    public static void setRounds(String rounds){
+        numberOfRounds= Integer.parseInt(rounds);
+    }
+
 
 
     public void startButton (View v){
