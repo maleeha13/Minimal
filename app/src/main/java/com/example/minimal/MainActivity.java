@@ -124,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
-        hideImageViewsRange(2, "iv_new_p", View.INVISIBLE);
-        hideImageViewsRange(3, "iv_new_p", View.INVISIBLE);
-        hideImageViewsRange(4, "iv_new_p", View.INVISIBLE);
+        hideImageViewsRange(2, "iv_new_p", View.VISIBLE);
+        hideImageViewsRange(3, "iv_new_p", View.VISIBLE);
+        hideImageViewsRange(4, "iv_new_p", View.VISIBLE);
 
         hideImageViewsRange(1, "iv_p", View.INVISIBLE);
         hideImageViewsRange(2, "iv_p", View.INVISIBLE);
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
 
         showButton.setVisibility(View.INVISIBLE);
+
         Card.makeCardList();
         Collections.shuffle(Card.getCards());
         assignCard("iv_p", 1);
@@ -299,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
 
             for (ImageView img_view : game.cardsSelected) {
                 img_view.setVisibility(View.INVISIBLE);
+                game.droppedCard= img_view;
+
 
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
 
@@ -344,7 +347,10 @@ public class MainActivity extends AppCompatActivity {
                         imageView.setTag(game.second);
                         stackImageView.setImageDrawable(game.current);
 
-                        imageView.setVisibility(View.VISIBLE);
+                        if(game.turns[game.current_player]!=0){
+                            imageView.setVisibility(View.VISIBLE);
+
+                        }
 
                         break;
 
@@ -394,10 +400,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                     game.new_pr =game.pre;
-                    if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                    if (imageView != null  ) {
 
                         assign(imageView, game.turns[game.current_player]);
-                        imageView.setVisibility(View.VISIBLE);
+                        if(game.turns[game.current_player]!=0){
+                            imageView.setVisibility(View.VISIBLE);
+
+                        }
 
                         break;
                     }
