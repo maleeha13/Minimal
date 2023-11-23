@@ -1,6 +1,9 @@
 
 package com.example.minimal;
 
+import static com.example.minimal.StartScreen.currentRound;
+import static com.example.minimal.StartScreen.numberOfRounds;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +28,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,30 +54,47 @@ public class MainActivity extends AppCompatActivity {
     private void assignCard(String pre, int start){
 
         for(int i=1; i<=5; i++){
-            game.x++;
-            System.out.println(game.x);
 
-                int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
-                ImageView imageView = findViewById(imageViewId);
-                Card.assignImages(Card.getCards().get(game.x), imageView);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int cardValue = Card.getCards().get(game.x);
-                        onCardClicked(cardValue, imageView, start);
-                    }
-                });
+
+//
+//                if (game.x > Card.getCards().size() -2) {
+//                    game.iv_deck.setVisibility(View.INVISIBLE);
+//                    Button showButton = findViewById(R.id.show);
+//                    showButton.performClick();
+//                }
+
+//                else{
+                    int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
+                    ImageView imageView = findViewById(imageViewId);
+                    Card.assignImages(Card.getCards().get(game.x), imageView);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int cardValue = Card.getCards().get(game.x);
+                            onCardClicked(cardValue, imageView, start);
+                        }
+                    });
+                    game.x++;
+
+//                }
+
+
             }
+
+
 
 
 
     }
 
     private void assign(ImageView imageView, int player){
-        System.out.println(game.x);
 
-
-
+//        if (game.x > Card.getCards().size()-2) {
+//            game.iv_deck.setVisibility(View.INVISIBLE);
+//            Button showButton = findViewById(R.id.show);
+//            showButton.performClick();
+//        }
+//        else{
             Card.assignImages(Card.getCards().get(game.x), imageView);
 
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -85,13 +106,12 @@ public class MainActivity extends AppCompatActivity {
                     onCardClicked(cardValue, imageView, player);
                 }
             });
+            game.x++;
 
-
+//        }
 
 
     }
-
-
 
 
 
@@ -100,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        game.scores = new int[numberOfRounds][4];
 
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
@@ -141,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         game.iv_deck = (ImageView) findViewById(R.id.iv_deck);
         ImageView stack = (ImageView) findViewById(R.id.stack);
+        game.iv_deck.setVisibility(View.VISIBLE);
 
 
         game.iv_deck.setOnClickListener(new View.OnClickListener() {
@@ -355,44 +377,55 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onDeckClick() {
 
-        if(game.dropped){
+        System.out.println("it is "+ game.x);
+        if (game.x > Card.getCards().size() -2) {
+            game.iv_deck.setVisibility(View.INVISIBLE);
+            Button showButton = findViewById(R.id.show);
+            showButton.performClick();
+        }
+        else{
+
+            if(game.dropped){
 
 
-            for (int i = 1; i <= 5; i++) {
-                int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
-                ImageView imageView = findViewById(imageViewId);
+                for (int i = 1; i <= 5; i++) {
+                    int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
+                    ImageView imageView = findViewById(imageViewId);
 
 
-                game.new_pr =game.pre;
-                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                    game.new_pr =game.pre;
+                    if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
-                    assign(imageView, game.turns[game.current_player]);
-                    imageView.setVisibility(View.VISIBLE);
+                        assign(imageView, game.turns[game.current_player]);
+                        imageView.setVisibility(View.VISIBLE);
 
-                    break;
+                        break;
+                    }
                 }
-            }
-            ImageView stackImageView = findViewById(R.id.stack);
+                ImageView stackImageView = findViewById(R.id.stack);
 
-            stackImageView.setImageDrawable(game.current);
+                stackImageView.setImageDrawable(game.current);
 //            new_pr = pre;
-            game.second =game.check;
-            game.dropped=false;
-            game.picked=true;
-            nextTurn();
+                game.second =game.check;
+                game.dropped=false;
+                game.picked=true;
+                nextTurn();
 
 
+            }
+            else {
+                Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+
+            }
         }
-        else {
-            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
 
-        }
+
 
 
     }
 
     private void nextTurn(){
-        game.x++;
+//        game.x++;
 
 
         if (game.current_player == 3) {
@@ -402,72 +435,72 @@ public class MainActivity extends AppCompatActivity {
             game.current_player = game.current_player+1;
 
         }
+//
+//        if (game.x >= Card.getCards().size()-1) {
+//
+//            game.iv_deck.setVisibility(View.INVISIBLE);
+//            Button showButton = findViewById(R.id.show);
+//            showButton.performClick();
+//        }
 
-        if (game.x >= Card.getCards().size()-1) {
-
-            game.iv_deck.setVisibility(View.INVISIBLE);
-            Button showButton = findViewById(R.id.show);
-            showButton.performClick();
-        }
-
-
+        Button showButton = findViewById(R.id.show);
         game.cardsSelected.clear();
         int min = calculateScores();
 
-        System.out.println(game.scores[min]);
 
 
-        if(game.current_player!=0){
+        if(game.current_player!=6){
             greedyAI(game.current_player+1);
         }
-        if(game.scores[game.current_player]<=5){
-            Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
+        if(game.scores[currentRound][game.current_player]<=5){
 
             showButton.setVisibility(View.VISIBLE);
         }
         else{
             System.out.println("Should reset");
 
-            Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
 
             showButton.setVisibility(View.INVISIBLE);
         }
         game.begin =false;
     }
 
-    private int calculateScores(){
 
-        for(int j=1; j<5; j++){
-            int score =0;
+    private int calculateScores() {
+        int currentRound = StartScreen.currentRound;
+
+
+        for (int j = 1; j < 5; j++) {
+            int score = 0;
+
             for (int i = 1; i <= 5; i++) {
-
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
-
                 ImageView img = findViewById(imageViewId);
 
-                if(img.getVisibility()==View.VISIBLE){
+                if (img.getVisibility() == View.VISIBLE) {
                     int cardNumber = (int) img.getTag();
-
                     score = score + (cardNumber % 100);
                     System.out.println((cardNumber % 100));
                 }
             }
 
-            game.scores[j-1]=score;
+            // Use scores[currentRound][j] to store scores for each player in each round
+            game.scores[currentRound][j - 1] = score;
         }
 
-
-
         int minIndex = 0;
-        for (int i = 0; i < game.scores.length; i++) {
-            if (game.scores[i] < game.scores[minIndex]) {
-                System.out.println(game.scores[i]);
+
+        // Find the minimum score for the current round
+        for (int i = 0; i < game.scores[currentRound].length; i++) {
+            if (game.scores[currentRound][i] < game.scores[currentRound][minIndex]) {
+                System.out.println(game.scores[currentRound][i]);
                 minIndex = i;
             }
         }
 
         return minIndex;
     }
+
 
     public void showScores(View v){
 
@@ -485,23 +518,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextRound(View v){
-        StartScreen.currentRound++;
+        currentRound++;
 
         System.out.println("outututu");
-        System.out.println(StartScreen.currentRound);
+        System.out.println(currentRound);
         System.out.println(StartScreen.numberOfRounds);
 
-        if(StartScreen.currentRound < StartScreen.numberOfRounds){
+        if(currentRound < StartScreen.numberOfRounds+1){
             System.out.println("test");
-//            View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
-//
-//            // Find the LinearLayout within the inflated view
-//            LinearLayout layout = popupView.findViewById(R.id.popup_scoreboard);
-//
-//            // Set the visibility of the LinearLayout
-//            layout.setVisibility(View.GONE);
-//            dialog.dismiss();
-            startGame();
+
             View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
 
             TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
@@ -516,6 +541,8 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("DISMISSSSSIIIING");
                 dialog.dismiss();
                 dialog.closeOptionsMenu();
+                startGame();
+
             }
         }
 
@@ -554,48 +581,58 @@ public class MainActivity extends AppCompatActivity {
                 TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.WRAP_CONTENT));
 
-        // Player Header
-        TextView playerHeader = new TextView(this);
-        playerHeader.setText("Player");
-        playerHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-        headerRow.addView(playerHeader);
+        // Empty cell for the top-left corner
+        TextView emptyHeader = new TextView(this);
+        emptyHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+        headerRow.addView(emptyHeader);
 
-        // Dynamic Frame Headers
-        for (int i = 1; i < numColumns; i++) {
-            TextView frameHeader = new TextView(this);
-            frameHeader.setText("Player " + i);
-            frameHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            headerRow.addView(frameHeader);
+        // Player Headers
+        for (int player = 1; player <= 4; player++) {
+            TextView playerHeader = new TextView(this);
+            playerHeader.setText("Player " + player);
+            playerHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+            headerRow.addView(playerHeader);
         }
 
         // Add Header Row to the TableLayout
         tableLayout.addView(headerRow);
 
-        // Create Player Rows
-        for (int player = 1; player <= 5; player++) {
-            TableRow playerRow = new TableRow(this);
-            playerRow.setLayoutParams(new TableLayout.LayoutParams(
+        // Dynamic Frame Headers
+        for (int round = 1; round <= numberOfRounds; round++) {
+            TableRow roundRow = new TableRow(this);
+            roundRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT));
 
-            // Player Name
-            TextView playerName = new TextView(this);
-            playerName.setText("R " + player);
-            playerName.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            playerRow.addView(playerName);
+            // Round Header
+            TextView roundHeader = new TextView(this);
+            roundHeader.setText("Round " + round);
+            roundHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+            roundRow.addView(roundHeader);
 
-            // Dynamic Frame Cells
-            for (int frame = 1; frame <= numColumns; frame++) {
+            // Create Player Cells for the Current Round
+            for (int player = 1; player <= 4; player++) {
                 TextView frameCell = new TextView(this);
-                frameCell.setText(" "); // Empty cell
-                frameCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-                playerRow.addView(frameCell);
+                // Get the score from the game.scores array
+                System.out.println("round num is " + round);
+
+                // Adjust the conditions here to match your array size
+                if (round - 1 < game.scores.length && player - 1 < game.scores[round - 1].length) {
+                    int score = game.scores[round - 1][player - 1];
+                    frameCell.setText(Integer.toString(score));
+                    frameCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+                    roundRow.addView(frameCell);
+                } else {
+                    // Handle the case where the array bounds are exceeded
+                    System.out.println("Array index out of bounds.");
+                }
             }
 
-            // Add Player Row to the TableLayout
-            tableLayout.addView(playerRow);
+            // Add Round Row to the TableLayout
+            tableLayout.addView(roundRow);
         }
     }
+
 
     public void greedyAI(int j){
         ImageView drop = null;

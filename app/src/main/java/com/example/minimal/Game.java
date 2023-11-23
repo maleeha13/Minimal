@@ -8,7 +8,9 @@ import java.util.ArrayList;
 public class Game {
 
     int[] turns = {1, 2, 3, 4};
-    Integer[] scores = new Integer[4];
+//    Integer[] scores = new Integer[4];
+    static int[][] scores; // Array to store scores for each player and round
+
     boolean begin = true;
     int current_player=0;
     boolean dropped = false;
