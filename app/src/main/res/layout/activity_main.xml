@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:id="@+id/main"
     >
 
 
@@ -126,8 +127,8 @@
 
         <ImageView
             android:id="@+id/iv_p4c1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -138,8 +139,8 @@
 
         <ImageView
             android:id="@+id/iv_p4c2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -150,8 +151,8 @@
 
         <ImageView
             android:id="@+id/iv_p4c3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -162,8 +163,8 @@
 
         <ImageView
             android:id="@+id/iv_p4c4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -174,8 +175,8 @@
 
         <ImageView
             android:id="@+id/iv_p4c5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -255,6 +256,9 @@
 
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="100dp"
@@ -274,8 +278,8 @@
             android:id="@+id/iv_p2c1"
             android:layout_weight="1"
 
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -287,8 +291,8 @@
             android:id="@+id/iv_p2c2"
             android:layout_weight="1"
 
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -299,8 +303,8 @@
 
         <ImageView
             android:id="@+id/iv_p2c3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -313,9 +317,8 @@
         <ImageView
             android:id="@+id/iv_p2c4"
             android:layout_weight="1"
-
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -326,9 +329,8 @@
         <ImageView
             android:id="@+id/iv_p2c5"
             android:layout_weight="1"
-
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -406,9 +408,11 @@
 
         <!-- Add more new images here -->
     </LinearLayout>
+    </RelativeLayout>
 
-
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -421,8 +425,8 @@
 
         <ImageView
             android:id="@+id/iv_p3c1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -433,9 +437,8 @@
 
         <ImageView
             android:id="@+id/iv_p3c2"
-            android:layout_width="0dp"
-
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -446,9 +449,8 @@
 
         <ImageView
             android:id="@+id/iv_p3c3"
-            android:layout_width="0dp"
-
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -459,9 +461,8 @@
 
         <ImageView
             android:id="@+id/iv_p3c4"
-            android:layout_width="0dp"
-
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -472,9 +473,8 @@
 
         <ImageView
             android:id="@+id/iv_p3c5"
-            android:layout_width="0dp"
-
-            android:layout_height="0dp"
+            android:layout_width= "match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -554,7 +554,7 @@
         <!-- Add more new images here -->
     </LinearLayout>
 
-
+    </RelativeLayout>
     <Button
         android:id="@+id/drop"
         android:layout_width="wrap_content"
