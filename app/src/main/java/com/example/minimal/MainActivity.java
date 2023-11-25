@@ -560,10 +560,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             displayWinner();
 
-            Intent intent=new Intent(MainActivity.this, StartScreen.class);
 
-
-//            startActivity(intent);
         }
 
 
@@ -780,6 +777,19 @@ public class MainActivity extends AppCompatActivity {
         // Show the AlertDialog
         AlertDialog winnerDialog = builder.create();
         winnerDialog.show();
+        Button finishButton = winnerView.findViewById(R.id.finishButton);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, StartScreen.class);
+
+
+            startActivity(intent);
+                // Add any actions you want to perform when the "Finish" button is clicked
+                // This will close the activity
+            }
+        });
+
 
     }
 
