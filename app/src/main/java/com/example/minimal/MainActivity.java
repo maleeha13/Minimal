@@ -501,9 +501,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             String beforelayout = "lay" + 1;
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-
             LinearLayout linearLayoutold = findViewById(resID);
-
             linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
 
             linearLayoutold.setBackground(null);
@@ -597,6 +595,18 @@ public class MainActivity extends AppCompatActivity {
     public void showScores(View v){
 
         int win = calculateScores();
+        if(win!=game.current_player){
+            for(int i=0; i<4; i++){
+                if(i==game.current_player){
+                    game.scores[currentRound][game.current_player] = 20;
+
+                }
+                else{
+                    game.scores[currentRound][i] = 0;
+
+                }
+            }
+        }
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
         showScoreboardPopup(5);
 
