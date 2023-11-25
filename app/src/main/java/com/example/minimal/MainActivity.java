@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -173,7 +174,15 @@ public class MainActivity extends AppCompatActivity {
         ImageView stack = (ImageView) findViewById(R.id.stack);
         game.iv_deck.setVisibility(View.VISIBLE);
 
+        LinearLayout linearLayout = findViewById(R.id.lay1);
 
+        // Create a GradientDrawable
+        GradientDrawable border = new GradientDrawable();
+        border.setColor(0xFFFFFFFF); // White background
+        border.setStroke(8, Color.RED); // Black border with width 2
+
+        // Set the background drawable for your LinearLayout
+        linearLayout.setBackground(border);
         game.iv_deck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -442,13 +451,52 @@ public class MainActivity extends AppCompatActivity {
 //        game.x++;
 
 
+        if(game.current_player!=0){
+            String beforelayout = "lay" + (game.current_player + 1);
+            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+
+            LinearLayout linearLayoutold = findViewById(resID);
+
+            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+
+            linearLayoutold.setBackground(null);
+        }
+        else{
+            String beforelayout = "lay" + 4;
+            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+
+            LinearLayout linearLayoutold = findViewById(resID);
+
+            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+
+            linearLayoutold.setBackground(null);
+        }
+
+
+
         if (game.current_player == 3) {
             game.current_player=0;
         }
         else{
+
+
+
+
+
+
             game.current_player = game.current_player+1;
 
         }
+
+        String layout = "lay" + (game.current_player + 1);
+        int resID = getResources().getIdentifier(layout, "id", getPackageName());
+
+        LinearLayout linearLayout = findViewById(resID);
+        // Create a GradientDrawable
+        GradientDrawable border = new GradientDrawable();
+        border.setColor(0xFFFFFFFF); // White background
+        border.setStroke(8, Color.RED); // Black border with width 2
+        linearLayout.setBackground(border);
 //
 //        if (game.x >= Card.getCards().size()-1) {
 //

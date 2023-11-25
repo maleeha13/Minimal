@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/lay"
+        android:id="@+id/lay1"
             android:layout_alignParentBottom="true"
         android:weightSum="5"
         android:orientation="horizontal"
