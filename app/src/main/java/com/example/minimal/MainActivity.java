@@ -43,8 +43,8 @@ import nl.dionsegijn.konfetti.models.Size;
 
 public class MainActivity extends AppCompatActivity {
 
- Game game;
- public static AlertDialog dialog;
+    Game game;
+    public static AlertDialog dialog;
     CountDownTimer countDownTimer;
 
 
@@ -73,23 +73,23 @@ public class MainActivity extends AppCompatActivity {
 //                }
 
 //                else{
-                    int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
-                    ImageView imageView = findViewById(imageViewId);
+            int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
+            ImageView imageView = findViewById(imageViewId);
             System.out.println("here is assign card it is " + game.x);
-                    Card.assignImages(Card.getCards().get(game.x), imageView);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int cardValue = Card.getCards().get(game.x);
-                            onCardClicked(cardValue, imageView, start);
-                        }
-                    });
-                    game.x++;
+            Card.assignImages(Card.getCards().get(game.x), imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int cardValue = Card.getCards().get(game.x);
+                    onCardClicked(cardValue, imageView, start);
+                }
+            });
+            game.x++;
 
 //                }
 
 
-            }
+        }
 
 
 
@@ -111,16 +111,16 @@ public class MainActivity extends AppCompatActivity {
         Card.assignImages(Card.getCards().get(game.x), imageView);
         int store = game.x;
 
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Get the card value based on the clicked ImageView
-                    int cardValue = Card.getCards().get(store);
-                    System.out.println("it is"+ store);
-                    // Call the method to handle the card click event
-                    onCardClicked(cardValue, imageView, player);
-                }
-            });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the card value based on the clicked ImageView
+                int cardValue = Card.getCards().get(store);
+                System.out.println("it is"+ store);
+                // Call the method to handle the card click event
+                onCardClicked(cardValue, imageView, player);
+            }
+        });
 
 //        }
 
@@ -301,60 +301,60 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 //        else{
-            if(game.picked && !(game.cardsSelected.isEmpty())){
+        if(game.picked && !(game.cardsSelected.isEmpty())){
 
-                ImageView selectedCard = findViewById(game.selectedCardId);
+            ImageView selectedCard = findViewById(game.selectedCardId);
 
-                ImageView stackImageView = findViewById(R.id.stack);
-
-
-                game.dropped=true;
-                game.picked=false;
-                game.previous =stackImageView.getDrawable();
-
-                game.pre = selectedCard;
-                game.check= (int) selectedCard.getTag();
-
-                Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
+            ImageView stackImageView = findViewById(R.id.stack);
 
 
+            game.dropped=true;
+            game.picked=false;
+            game.previous =stackImageView.getDrawable();
 
-                if (stackImageView.getVisibility() == View.VISIBLE) {
-                    stackImageView.setImageDrawable(game.previous);
+            game.pre = selectedCard;
+            game.check= (int) selectedCard.getTag();
+
+            Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
 
 
-                }
-                else {
+            if (stackImageView.getVisibility() == View.VISIBLE) {
+                stackImageView.setImageDrawable(game.previous);
 
-                    stackImageView.setImageDrawable(cardDrawable);
-
-                }
-
-                game.current = cardDrawable;
-
-                for (ImageView img_view : game.cardsSelected) {
-                    img_view.setVisibility(View.INVISIBLE);
-                    game.droppedCard= img_view;
-
-
-                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
-
-                    params.topMargin += 50;
-                    img_view.setLayoutParams(params);
-                }
-
-
-
-                stackImageView.setVisibility(View.VISIBLE);
 
 
             }
+            else {
 
-            else{
-                Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
+                stackImageView.setImageDrawable(cardDrawable);
 
             }
+
+            game.current = cardDrawable;
+
+            for (ImageView img_view : game.cardsSelected) {
+                img_view.setVisibility(View.INVISIBLE);
+                game.droppedCard= img_view;
+
+
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
+
+                params.topMargin += 50;
+                img_view.setLayoutParams(params);
+            }
+
+
+
+            stackImageView.setVisibility(View.VISIBLE);
+
+
+        }
+
+        else{
+            Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
+
+        }
 
 //        }
 
@@ -365,61 +365,61 @@ public class MainActivity extends AppCompatActivity {
         ImageView stackImageView = findViewById(R.id.stack);
 
 
-            if(game.dropped && !game.begin){
+        if(game.dropped && !game.begin){
 
 
-                for (int i = 1; i <= 5; i++) {
-                    int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
-                    ImageView imageView = findViewById(imageViewId);
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
+                ImageView imageView = findViewById(imageViewId);
 
 
-                    if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
 
-                        imageView.setImageDrawable(game.previous);
+                    imageView.setImageDrawable(game.previous);
 
-                        imageView.setTag(game.second);
-
-
-                        imageView.setTag(game.second);
-                        stackImageView.setImageDrawable(game.current);
-
-                        if(game.turns[game.current_player]!=0){
-                            imageView.setVisibility(View.VISIBLE);
-
-                        }
+                    imageView.setTag(game.second);
 
 
-                        break;
+                    imageView.setTag(game.second);
+                    stackImageView.setImageDrawable(game.current);
 
+                    if(game.turns[game.current_player]!=0){
+                        imageView.setVisibility(View.VISIBLE);
 
                     }
+
+
+                    break;
+
+
                 }
+            }
 
-                game.second =game.check;
+            game.second =game.check;
 
-                game.dropped=false;
-                game.picked=true;
-                if (game.x > Card.getCards().size() -1) {
+            game.dropped=false;
+            game.picked=true;
+            if (game.x > Card.getCards().size() -1) {
 
-            Button showButton = findViewById(R.id.show);
-            showButton.performClick();
+                Button showButton = findViewById(R.id.show);
+                showButton.performClick();
+            }
+            nextTurn();
+
+
+
+
         }
-                nextTurn();
 
+        else if(!game.dropped){
+            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
 
+        }
+        else if(game.begin){
+            Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
 
-
-            }
-
-            else if(!game.dropped){
-                Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
-
-            }
-            else if(game.begin){
-                Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
-
-            }
+        }
 
 
 
@@ -431,53 +431,53 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("it is "+ game.x);
 
 
-            if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
+        if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
 
-                if (game.x > Card.getCards().size() -1) {
-                    System.out.println("the game will end here");
-                    game.iv_deck.setVisibility(View.INVISIBLE);
+            if (game.x > Card.getCards().size() -1) {
+                System.out.println("the game will end here");
+                game.iv_deck.setVisibility(View.INVISIBLE);
 //            Button showButton = findViewById(R.id.show);
 //            showButton.performClick();
-                }
+            }
 
-                else{
-                    for (int i = 1; i <= 5; i++) {
-                        int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
-                        ImageView imageView = findViewById(imageViewId);
+            else{
+                for (int i = 1; i <= 5; i++) {
+                    int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
+                    ImageView imageView = findViewById(imageViewId);
 
 
-                        game.new_pr =game.pre;
-                        if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                    game.new_pr =game.pre;
+                    if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
-                            assign(imageView, game.turns[game.current_player]);
-                            System.out.println("assign card");
+                        assign(imageView, game.turns[game.current_player]);
+                        System.out.println("assign card");
 
-                            game.x++;
+                        game.x++;
 
-                            imageView.setVisibility(View.VISIBLE);
+                        imageView.setVisibility(View.VISIBLE);
 
-                            break;
-                        }
+                        break;
                     }
-                    ImageView stackImageView = findViewById(R.id.stack);
+                }
+                ImageView stackImageView = findViewById(R.id.stack);
 
-                    stackImageView.setImageDrawable(game.current);
+                stackImageView.setImageDrawable(game.current);
 //            new_pr = pre;
-                    game.second =game.check;
-                    game.dropped=false;
-                    game.picked=true;
-                    nextTurn();
+                game.second =game.check;
+                game.dropped=false;
+                game.picked=true;
+                nextTurn();
 
-
-                }
-                }
-
-
-
-            else {
-                Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
 
             }
+        }
+
+
+
+        else {
+            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+
+        }
 
 
 
@@ -684,7 +684,7 @@ public class MainActivity extends AppCompatActivity {
                 // Add any additional customization or buttons to the AlertDialog if needed
 
                 // Show the AlertDialog
-                 dialog = builder.create();
+                dialog = builder.create();
                 dialog.show();
             }
         }, delayInSeconds * 1000); // Convert seconds to milliseconds
@@ -798,11 +798,11 @@ public class MainActivity extends AppCompatActivity {
 
             ImageView img = findViewById(imageViewId);
 
-                int cardNumber = (int) img.getTag();
-                if((cardNumber % 100)>largest){
-                    largest=cardNumber % 100;
-                    drop=img;
-                }
+            int cardNumber = (int) img.getTag();
+            if((cardNumber % 100)>largest){
+                largest=cardNumber % 100;
+                drop=img;
+            }
 
         }
         drop.performClick();
@@ -883,7 +883,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent=new Intent(MainActivity.this, StartScreen.class);
 
 
-            startActivity(intent);
+                startActivity(intent);
                 // Add any actions you want to perform when the "Finish" button is clicked
                 // This will close the activity
             }
@@ -923,7 +923,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Create a CountDownTimer with the specified duration and interval
-         countDownTimer = new CountDownTimer(durationInMillis, 1000) {
+        countDownTimer = new CountDownTimer(durationInMillis, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -934,7 +934,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 System.out.println("the time is up rn");
                 // The timer has finished; perform the desired action here
-                nextTurn();
+                timerUp();
+//                nextTurn();
                 // Add code here to execute after the timer finishes
             }
         };
@@ -942,5 +943,50 @@ public class MainActivity extends AppCompatActivity {
         // Start the timer
         countDownTimer.start();
     }
+
+
+
+    public void timerUp() {
+        Log.d("MyApp", "Handler is running on thread in timer up: " + Thread.currentThread().getName());
+//                countDownTimer.cancel();
+
+        // Your UI-related code here, including the existing content of timerUp
+        System.out.println("testing" + game.cardsSelected.isEmpty());
+        if (game.picked && !(game.cardsSelected.isEmpty())) {
+            System.out.println("card is picked but not dropped");
+            Button dropButton = findViewById(R.id.drop);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Perform the second click after a 2-second delay
+                    dropButton.performClick();
+                }
+            }, 500); // 2000 milliseconds = 2 seconds
+
+// Delay between the second and third clicks
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Perform the third click after a 2-second delay
+                    game.iv_deck.performClick();
+                }
+            }, 1000);
+
+
+        } else if (!game.dropped && game.cardsSelected.isEmpty()) {
+            // Call greedyAI immediately
+            greedyAI(1);
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Perform the third click after a 2-second delay
+                    game.iv_deck.performClick();
+                }
+            }, 1000);
+        }
+    }
+
+
 
 }
