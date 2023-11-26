@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static AlertDialog dialog;
     CountDownTimer countDownTimer;
+    private long remainingTime; // Add this line
+
 
 
     private void hideImageViewsRange(int start, String pre, int visibility) {
@@ -77,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 //                else{
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
             ImageView imageView = findViewById(imageViewId);
-            System.out.println("here is assign card it is " + game.x);
             Card.assignImages(Card.getCards().get(game.x), imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        else{
 
-        System.out.println("here is assign it is " + game.x);
 
         Card.assignImages(Card.getCards().get(game.x), imageView);
         int store = game.x;
@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Get the card value based on the clicked ImageView
                 int cardValue = Card.getCards().get(store);
-                System.out.println("it is"+ store);
                 // Call the method to handle the card click event
                 onCardClicked(cardValue, imageView, player);
             }
@@ -457,16 +456,14 @@ public class MainActivity extends AppCompatActivity {
     }
     private void onDeckClick() {
 
-        System.out.println("it is "+ game.x);
 
 
         if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
 
             if (game.x > Card.getCards().size() -1) {
-                System.out.println("the game will end here");
                 game.iv_deck.setVisibility(View.INVISIBLE);
-//            Button showButton = findViewById(R.id.show);
-//            showButton.performClick();
+            Button showButton = findViewById(R.id.show);
+            showButton.performClick();
             }
 
             else{
@@ -479,7 +476,6 @@ public class MainActivity extends AppCompatActivity {
                     if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
 
                         assign(imageView, game.turns[game.current_player]);
-                        System.out.println("assign card");
 
                         game.x++;
 
@@ -520,50 +516,47 @@ public class MainActivity extends AppCompatActivity {
     private void nextTurn(){
 
 
+            System.out.println("the player is "+ game.current_player);
+            if(game.current_player!=0){
+                System.out.println("make it invisible ");
+                String beforelayout = "lay" + (game.current_player + 1);
+                int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+
+                LinearLayout linearLayoutold = findViewById(resID);
+
+                linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+
+                linearLayoutold.setBackground(null);
+            }
+            else{
+                String beforelayout = "lay" + 1;
+                int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+                LinearLayout linearLayoutold = findViewById(resID);
+                linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+
+                linearLayoutold.setBackground(null);
+            }
 
 
 
-        System.out.println("the player is "+ game.current_player);
-        if(game.current_player!=0){
-            System.out.println("make it invisible ");
-            String beforelayout = "lay" + (game.current_player + 1);
-            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+            if (game.current_player == 3) {
+                game.current_player=0;
+            }
+            else{
 
-            LinearLayout linearLayoutold = findViewById(resID);
+                game.current_player = game.current_player+1;
 
-            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+            }
 
-            linearLayoutold.setBackground(null);
-        }
-        else{
-            String beforelayout = "lay" + 1;
-            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-            LinearLayout linearLayoutold = findViewById(resID);
-            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+            String layout = "lay" + (game.current_player + 1);
+            int resID = getResources().getIdentifier(layout, "id", getPackageName());
 
-            linearLayoutold.setBackground(null);
-        }
-
-
-
-        if (game.current_player == 3) {
-            game.current_player=0;
-        }
-        else{
-
-            game.current_player = game.current_player+1;
-
-        }
-
-        String layout = "lay" + (game.current_player + 1);
-        int resID = getResources().getIdentifier(layout, "id", getPackageName());
-
-        LinearLayout linearLayout = findViewById(resID);
-        // Create a GradientDrawable
-        GradientDrawable border = new GradientDrawable();
-        border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(8, Color.RED); // Black border with width 2
-        linearLayout.setBackground(border);
+            LinearLayout linearLayout = findViewById(resID);
+            // Create a GradientDrawable
+            GradientDrawable border = new GradientDrawable();
+            border.setColor(0xFFFFFFFF); // White background
+            border.setStroke(8, Color.RED); // Black border with width 2
+            linearLayout.setBackground(border);
 //
 //        if (game.x >= Card.getCards().size()-1) {
 //
@@ -572,29 +565,42 @@ public class MainActivity extends AppCompatActivity {
 //            showButton.performClick();
 //        }
 
-        Button showButton = findViewById(R.id.show);
-        game.cardsSelected.clear();
-        int min = calculateScores();
+            Button showButton = findViewById(R.id.show);
+            game.cardsSelected.clear();
+            int min = calculateScores();
 
 
 
-        if(game.current_player!=0){
-            greedyAI(game.current_player+1);
-        }
-        else{
-            timer();
+            if(game.current_player!=0){
+                TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
 
-        }
-        if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
+                timerTextView.setText("Time left: " +   "- seconds");
+                greedyAI(game.current_player+1);
+            }
+            else{
+                if (countDownTimer != null) {
+                    System.out.println("cancel it ");
 
-            showButton.setVisibility(View.VISIBLE);
-        }
-        else{
+                    countDownTimer.cancel();
+                    countDownTimer=null;
+                }
+                timer();
+
+            }
+            if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
+
+                showButton.setVisibility(View.VISIBLE);
+            }
+            else{
 
 
-            showButton.setVisibility(View.INVISIBLE);
-        }
-        game.begin =false;
+                showButton.setVisibility(View.INVISIBLE);
+            }
+            game.begin =false;
+
+
+
+
 
 
 
@@ -845,8 +851,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Perform the second click after a 2-second delay
-                dropButton.performClick();
-            }
+
+                    dropButton.performClick();
+                }
+
         }, 500); // 2000 milliseconds = 2 seconds
 
         // Delay between the second and third clicks
@@ -854,9 +862,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Check if the game is paused before performing the third click
-                if (!isPaused) {
                     game.iv_deck.performClick();
-                }
+
             }
         }, 1000);
     }
@@ -951,23 +958,34 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void timer() {
-        long durationInMillis = 10000;
+        long durationInMillis;
 
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
+        if (remainingTime > 0 && countDownTimer != null) {
+            // If there is remaining time and a valid timer, resume from the remaining time
+            durationInMillis = remainingTime;
+            System.out.println("Resuming from previous duration: " + durationInMillis);
+        } else {
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
+            // If there is no remaining time or no valid timer, start a new timer with the default duration
+            durationInMillis = 10000; // Default duration
+            System.out.println("Resetting timer with duration: " + durationInMillis);
         }
 
         // Create a CountDownTimer with the specified duration and interval
-        countDownTimer = new CountDownTimer(durationInMillis, 1000) {
+        countDownTimer = new CountDownTimer(durationInMillis, 500) {
 
             @Override
             public void onTick(long millisUntilFinished) {
+                if (!isPaused) {
+                    // Update the TextView with the remaining time
+                    TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+                    remainingTime = millisUntilFinished;
+                    System.out.println("Remaining time is " + millisUntilFinished);
 
-                // Update the TextView with the remaining time
-                TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
-
-                long secondsLeft = millisUntilFinished / 1000;
-                timerTextView.setText("Time left: " + secondsLeft + " seconds");
+                    timerTextView.setText("Time left: " + (millisUntilFinished / 1000) + " seconds");
+                }
             }
 
             @Override
@@ -984,14 +1002,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void timerUp() {
-        Log.d("MyApp", "Handler is running on thread in timer up: " + Thread.currentThread().getName());
 //                countDownTimer.cancel();
 
+        System.out.println("TIME IS UPPPPPPPPPPP");
         // Your UI-related code here, including the existing content of timerUp
-        System.out.println("testing" + game.cardsSelected.isEmpty());
         if (game.picked && !(game.cardsSelected.isEmpty())) {
-            System.out.println("card is picked but not dropped");
             Button dropButton = findViewById(R.id.drop);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1025,33 +1042,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void pauseGame() {
-        // Pause the game logic
-        isPaused = true;
-        RelativeLayout mainLayout = findViewById(R.id.main);
-        mainLayout.setBackgroundColor(Color.GRAY);
-
-
-
-
-        // Cancel the CountDownTimer
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
-
-        // Add any other logic needed to pause the game
-    }
-
     private void resumeGame() {
-        RelativeLayout mainLayout = findViewById(R.id.main);
-        mainLayout.setBackgroundColor(Color.WHITE);
         // Resume the game logic
         isPaused = false;
 
         // Restart the CountDownTimer if needed
         timer();
 
-        // Add any other logic needed to resume the game
+        RelativeLayout mainLayout = findViewById(R.id.main);
+        mainLayout.setBackgroundColor(Color.WHITE);
+
+        // Continue with any other logic needed for resuming the game
+    }
+
+    private void pauseGame() {
+        // Pause the game logic
+        isPaused = true;
+
+        // Cancel the CountDownTimer
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        RelativeLayout mainLayout = findViewById(R.id.main);
+        mainLayout.setBackgroundColor(Color.GRAY);
+
+        // Add any other logic needed to pause the game
     }
 
 

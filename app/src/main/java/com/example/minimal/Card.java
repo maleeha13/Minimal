@@ -73,7 +73,6 @@ public class Card {
     }
 
     public static void assignImages(int card, ImageView image) {
-        Log.d("tetststts", String.valueOf(card));
 
         image.setTag(card);
         switch (card) {
