@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onCardDrop(View v){
+
 //        if (game.x > Card.getCards().size() -1) {
 //            System.out.println("DECK IS OVER");
 //            game.iv_deck.setVisibility(View.INVISIBLE);
@@ -460,13 +461,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
 
-            if (game.x > Card.getCards().size() -1) {
-                game.iv_deck.setVisibility(View.INVISIBLE);
-            Button showButton = findViewById(R.id.show);
-            showButton.performClick();
-            }
 
-            else{
+
                 for (int i = 1; i <= 5; i++) {
                     int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
                     ImageView imageView = findViewById(imageViewId);
@@ -495,13 +491,19 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        }
+
 
 
 
         else {
             Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
 
+        }
+
+        if (game.x > Card.getCards().size() -1) {
+            game.iv_deck.setVisibility(View.INVISIBLE);
+            Button showButton = findViewById(R.id.show);
+            showButton.performClick();
         }
 
 
