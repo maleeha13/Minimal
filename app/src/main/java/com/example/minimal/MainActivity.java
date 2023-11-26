@@ -44,6 +44,8 @@ import nl.dionsegijn.konfetti.models.Size;
 public class MainActivity extends AppCompatActivity {
 
     Game game;
+    private boolean isPaused = false;
+
     public static AlertDialog dialog;
     CountDownTimer countDownTimer;
 
@@ -148,6 +150,24 @@ public class MainActivity extends AppCompatActivity {
         hideImageViewsRange(2, "iv_p", View.INVISIBLE);
         hideImageViewsRange(3, "iv_p", View.INVISIBLE);
         hideImageViewsRange(4, "iv_p", View.INVISIBLE);
+
+// Add this to your onCreate or any appropriate method
+        Button pauseButton = findViewById(R.id.pauseButton);
+        Button resumeButton = findViewById(R.id.resumeButton);
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseGame();
+            }
+        });
+
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resumeGame();
+            }
+        });
 
         startGame();
 
@@ -789,22 +809,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void greedyAI(int j){
+    public void greedyAI(int j) {
         ImageView drop = null;
-        int largest=0;
+        int largest = 0;
+
+        // Check if the game is paused
+        if (isPaused) {
+            return; // Exit the method if the game is paused
+        }
+
         for (int i = 1; i <= 5; i++) {
-
             int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
-
             ImageView img = findViewById(imageViewId);
 
             int cardNumber = (int) img.getTag();
-            if((cardNumber % 100)>largest){
-                largest=cardNumber % 100;
-                drop=img;
+            if ((cardNumber % 100) > largest) {
+                largest = cardNumber % 100;
+                drop = img;
             }
-
         }
+
         drop.performClick();
         Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
 
@@ -816,17 +840,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 500); // 2000 milliseconds = 2 seconds
 
-// Delay between the second and third clicks
+        // Delay between the second and third clicks
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Perform the third click after a 2-second delay
-                game.iv_deck.performClick();
+                // Check if the game is paused before performing the third click
+                if (!isPaused) {
+                    game.iv_deck.performClick();
+                }
             }
         }, 1000);
-
-
     }
+
 
     private void displayWinner() {
 
@@ -915,7 +940,8 @@ public class MainActivity extends AppCompatActivity {
         return totalScores;
     }
 
-    private void timer(){
+
+    private void timer() {
         long durationInMillis = 10000;
 
         if (countDownTimer != null) {
@@ -932,18 +958,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                System.out.println("the time is up rn");
                 // The timer has finished; perform the desired action here
                 timerUp();
-//                nextTurn();
-                // Add code here to execute after the timer finishes
             }
         };
 
-        // Start the timer
-        countDownTimer.start();
+        // Start the timer only if it's not paused
+        if (!isPaused) {
+            countDownTimer.start();
+        }
     }
-
 
 
     public void timerUp() {
@@ -987,6 +1011,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void pauseGame() {
+        // Pause the game logic
+        isPaused = true;
+        RelativeLayout mainLayout = findViewById(R.id.main);
+        mainLayout.setBackgroundColor(Color.GRAY);
+
+
+
+
+        // Cancel the CountDownTimer
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        // Add any other logic needed to pause the game
+    }
+
+    private void resumeGame() {
+        RelativeLayout mainLayout = findViewById(R.id.main);
+        mainLayout.setBackgroundColor(Color.WHITE);
+        // Resume the game logic
+        isPaused = false;
+
+        // Restart the CountDownTimer if needed
+        timer();
+
+        // Add any other logic needed to resume the game
+    }
 
 
 }
