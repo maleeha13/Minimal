@@ -154,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
 // Add this to your onCreate or any appropriate method
         Button pauseButton = findViewById(R.id.pauseButton);
         Button resumeButton = findViewById(R.id.resumeButton);
+        Button exitButton = findViewById(R.id.exitButton);
+
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        resumeButton.setOnClickListener(new View.OnClickListener() {
+        exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exitGame();
@@ -960,7 +962,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTick(long millisUntilFinished) {
+
                 // Update the TextView with the remaining time
+                TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+
+                long secondsLeft = millisUntilFinished / 1000;
+                timerTextView.setText("Time left: " + secondsLeft + " seconds");
             }
 
             @Override
