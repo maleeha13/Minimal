@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 
 import android.os.Looper;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
  Game game;
  public static AlertDialog dialog;
+    CountDownTimer countDownTimer;
 
 
     private void hideImageViewsRange(int start, String pre, int visibility) {
@@ -205,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         stack.setVisibility(View.INVISIBLE);
+        timer();
+
 
 
 
@@ -214,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void onCardClicked(int cardValue, ImageView imageView, int player) {
+
+
         int tag = (int) imageView.getTag();
 
 
@@ -483,7 +489,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void nextTurn(){
-//        game.x++;
+
+
+
 
 
         System.out.println("the player is "+ game.current_player);
@@ -544,6 +552,10 @@ public class MainActivity extends AppCompatActivity {
         if(game.current_player!=0){
             greedyAI(game.current_player+1);
         }
+        else{
+            timer();
+
+        }
         if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
 
             showButton.setVisibility(View.VISIBLE);
@@ -554,6 +566,9 @@ public class MainActivity extends AppCompatActivity {
             showButton.setVisibility(View.INVISIBLE);
         }
         game.begin =false;
+
+
+
     }
 
 
@@ -898,6 +913,34 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return totalScores;
+    }
+
+    private void timer(){
+        long durationInMillis = 10000;
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        // Create a CountDownTimer with the specified duration and interval
+         countDownTimer = new CountDownTimer(durationInMillis, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // Update the TextView with the remaining time
+            }
+
+            @Override
+            public void onFinish() {
+                System.out.println("the time is up rn");
+                // The timer has finished; perform the desired action here
+                nextTurn();
+                // Add code here to execute after the timer finishes
+            }
+        };
+
+        // Start the timer
+        countDownTimer.start();
     }
 
 }
