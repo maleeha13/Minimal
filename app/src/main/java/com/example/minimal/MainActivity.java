@@ -169,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exitGame();
+            }
+        });
+
         startGame();
 
 
@@ -1040,5 +1047,12 @@ public class MainActivity extends AppCompatActivity {
         // Add any other logic needed to resume the game
     }
 
+
+    private void exitGame() {
+        Intent intent=new Intent(MainActivity.this, StartScreen.class);
+
+
+        startActivity(intent);
+    }
 
 }
