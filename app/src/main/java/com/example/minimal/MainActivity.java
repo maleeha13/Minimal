@@ -12,17 +12,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,16 +28,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements gameController.GameUIListener {
 
     Game game;
     private boolean isPaused = false;
@@ -49,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public static AlertDialog dialog;
     CountDownTimer countDownTimer;
     private long remainingTime; // Add this line
+    gameController gameController ;
+
 
 
 
@@ -68,15 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i=1; i<=5; i++){
 
-
-//
-//                if (game.x > Card.getCards().size() -2) {
-//                    game.iv_deck.setVisibility(View.INVISIBLE);
-//                    Button showButton = findViewById(R.id.show);
-//                    showButton.performClick();
-//                }
-
-//                else{
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
             ImageView imageView = findViewById(imageViewId);
             Card.assignImages(Card.getCards().get(game.x), imageView);
@@ -89,25 +75,11 @@ public class MainActivity extends AppCompatActivity {
             });
             game.x++;
 
-//                }
-
-
         }
-
-
-
-
 
     }
 
     private void assign(ImageView imageView, int player){
-
-//        if (game.x > Card.getCards().size()-2) {
-//            game.iv_deck.setVisibility(View.INVISIBLE);
-//            Button showButton = findViewById(R.id.show);
-//            showButton.performClick();
-//        }
-//        else{
 
 
         Card.assignImages(Card.getCards().get(game.x), imageView);
@@ -177,15 +149,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button showButton = findViewById(R.id.show);
+
+        gameController = new gameController(this, game, this);
         startGame();
 
 
 
     }
 
-
     public void startGame() {
         game = new Game();
+        gameController = new gameController(this, game, this);
+
         game.x=0;
 
         Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
@@ -237,85 +213,45 @@ public class MainActivity extends AppCompatActivity {
         stack.setVisibility(View.INVISIBLE);
         timer();
 
-
-
-
-
     }
 
 
 
-    private void onCardClicked(int cardValue, ImageView imageView, int player) {
 
 
-        int tag = (int) imageView.getTag();
 
+    @Override
+    public void onCardClicked(int cardValue, ImageView imageView, int player) {
 
         if ( game.cardsSelected.contains(imageView)) {
-            game.cardsSelected.remove(imageView);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-
-            params.topMargin += 50;
-            imageView.setLayoutParams(params);
-            game.currentCard=null;
-
-
+            System.out.println("POSITIVE");
         }
-
-
-
-        else{
+        if (gameController != null) {
+            gameController.onCardClicked(cardValue, imageView, player);
+        }
+            int tag = (int) imageView.getTag();
             int cardNumber = (int) imageView.getTag();
             int lastDigit = cardNumber % 100;
-
             ImageView v = null;
             int existing =-1;
-
             if(!game.cardsSelected.isEmpty()){
                 v = game.cardsSelected.get(0);
                 int x = (int) v.getTag();
                 existing = x % 100;
 
             }
-
-
-            if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
-
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-
-
-                game.cardsSelected.add(imageView);
-
-                params.topMargin -= 50;
-                imageView.setLayoutParams(params);
-
-                ImageView selectedCard = imageView;
-
-                game.selectedCardId = imageView.getId();
-
-            }
-            else if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
+            if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
                 Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
 
             } else if (player!=game.turns[game.current_player]) {
                 Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
 
             }
-
-
-//
             else if((game.turns[game.current_player])==tag){
                 Toast.makeText(this, "Thats not your card! " , Toast.LENGTH_LONG).show();
 
             }
-
             game.currentCard = findViewById(game.selectedCardId);
-
-
-        }
-
-
-
 
     }
 

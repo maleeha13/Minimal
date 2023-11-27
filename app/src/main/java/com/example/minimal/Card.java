@@ -10,6 +10,7 @@ public class Card {
     public static ArrayList<Integer> getCards() {
         return cards;
     }
+
     public static ArrayList<Integer> makeCardList() {
 
         cards = new ArrayList<>();
