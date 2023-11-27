@@ -37,7 +37,7 @@ import nl.dionsegijn.konfetti.models.Size;
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener {
 
     Game game;
-    private boolean isPaused = false;
+    private static boolean isPaused = false;
 
     public static AlertDialog dialog;
     CountDownTimer countDownTimer;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
-    private void assign(ImageView imageView, int player){
+    public void assign(ImageView imageView, int player){
 
 
         Card.assignImages(Card.getCards().get(game.x), imageView);
@@ -223,9 +223,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     @Override
     public void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        if ( game.cardsSelected.contains(imageView)) {
-            System.out.println("POSITIVE");
-        }
+
         if (gameController != null) {
             gameController.onCardClicked(cardValue, imageView, player);
         }
@@ -391,117 +389,79 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     }
-    private void onDeckClick() {
 
-
-
-        if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
-
-
-
-                for (int i = 1; i <= 5; i++) {
-                    int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
-                    ImageView imageView = findViewById(imageViewId);
-
-
-                    game.new_pr =game.pre;
-                    if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-
-                        assign(imageView, game.turns[game.current_player]);
-
-                        game.x++;
-
-                        imageView.setVisibility(View.VISIBLE);
-
-                        break;
-                    }
+    @Override
+    public void onDeckClick() {
+        ImageView imageView = null;
+        if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
+            System.out.println("ENTER HERE???");
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] + "c" + i, "id", getPackageName());
+                 imageView = findViewById(imageViewId);
+                game.new_pr = game.pre;
+                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                    break;
                 }
-                ImageView stackImageView = findViewById(R.id.stack);
-
-                stackImageView.setImageDrawable(game.current);
-//            new_pr = pre;
-                game.second =game.check;
-                game.dropped=false;
-                game.picked=true;
-                nextTurn();
 
 
             }
 
+            if (gameController != null) {
+                gameController.onDeckClick(imageView);
+            }
 
-
-
-        else {
-            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+            if (game.x > Card.getCards().size() - 1) {
+                game.iv_deck.setVisibility(View.INVISIBLE);
+                Button showButton = findViewById(R.id.show);
+                showButton.performClick();
+            }
 
         }
-
-        if (game.x > Card.getCards().size() -1) {
-            game.iv_deck.setVisibility(View.INVISIBLE);
-            Button showButton = findViewById(R.id.show);
-            showButton.performClick();
+        else{
+            Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
         }
-
-
-
-
-
-
-
-
     }
 
-    private void nextTurn(){
+    @Override
+    public void nextTurn(){
+
+        calculateScores();
+        if(game.current_player!=0){
+            System.out.println("make it invisible ");
+            String beforelayout = "lay" + (game.current_player + 1);
+            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+
+            LinearLayout linearLayoutold = findViewById(resID);
+
+            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+
+            linearLayoutold.setBackground(null);
+        }
+        else{
+            String beforelayout = "lay" + 1;
+            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+            LinearLayout linearLayoutold = findViewById(resID);
+            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+
+            linearLayoutold.setBackground(null);
+        }
+
+        if (gameController != null) {
+            gameController.nextTurn();
+        }
 
 
-            System.out.println("the player is "+ game.current_player);
-            if(game.current_player!=0){
-                System.out.println("make it invisible ");
-                String beforelayout = "lay" + (game.current_player + 1);
-                int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-
-                LinearLayout linearLayoutold = findViewById(resID);
-
-                linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
-
-                linearLayoutold.setBackground(null);
-            }
-            else{
-                String beforelayout = "lay" + 1;
-                int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-                LinearLayout linearLayoutold = findViewById(resID);
-                linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
-
-                linearLayoutold.setBackground(null);
-            }
 
 
-
-            if (game.current_player == 3) {
-                game.current_player=0;
-            }
-            else{
-
-                game.current_player = game.current_player+1;
-
-            }
 
             String layout = "lay" + (game.current_player + 1);
             int resID = getResources().getIdentifier(layout, "id", getPackageName());
 
             LinearLayout linearLayout = findViewById(resID);
-            // Create a GradientDrawable
             GradientDrawable border = new GradientDrawable();
             border.setColor(0xFFFFFFFF); // White background
             border.setStroke(8, Color.RED); // Black border with width 2
             linearLayout.setBackground(border);
-//
-//        if (game.x >= Card.getCards().size()-1) {
-//
-//            game.iv_deck.setVisibility(View.INVISIBLE);
-//            Button showButton = findViewById(R.id.show);
-//            showButton.performClick();
-//        }
 
             Button showButton = findViewById(R.id.show);
             game.cardsSelected.clear();
@@ -509,32 +469,32 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
 
-            if(game.current_player!=0){
-                TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
-
-                timerTextView.setText("Time left: " +   "- seconds");
-                greedyAI(game.current_player+1);
-            }
-            else{
-                if (countDownTimer != null) {
-                    System.out.println("cancel it ");
-
-                    countDownTimer.cancel();
-                    countDownTimer=null;
-                }
-                timer();
-
-            }
-            if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
-
-                showButton.setVisibility(View.VISIBLE);
-            }
-            else{
-
-
-                showButton.setVisibility(View.INVISIBLE);
-            }
-            game.begin =false;
+//            if(game.current_player!=0){
+//                TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+//
+//                timerTextView.setText("Time left: " +   "- seconds");
+//                greedyAI(game.current_player+1);
+//            }
+//            else{
+//                if (countDownTimer != null) {
+//                    System.out.println("cancel it ");
+//
+//                    countDownTimer.cancel();
+//                    countDownTimer=null;
+//                }
+//                timer();
+//
+//            }
+//            if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
+//
+//                showButton.setVisibility(View.VISIBLE);
+//            }
+//            else{
+//
+//
+//                showButton.setVisibility(View.INVISIBLE);
+//            }
+//            game.begin =false;
 
 
 

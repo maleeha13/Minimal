@@ -1,5 +1,8 @@
 package com.example.minimal;
 
+import static com.example.minimal.Game.scores;
+import static com.example.minimal.StartScreen.currentRound;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -8,9 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import java.util.Collections;
 
 public class gameController {
 
@@ -29,7 +29,101 @@ public class gameController {
     public interface GameUIListener {
 
         void onCardClicked(int cardValue, ImageView imageView, int player);
+
+        void onDeckClick();
+
+        void nextTurn();
     }
+
+
+    public void onDeckClick(ImageView imageView) {
+
+        if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
+
+
+            if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
+                assign(imageView, game.turns[game.current_player]);
+                game.x++;
+                imageView.setVisibility(View.VISIBLE);
+            }
+            ImageView stackImageView = ((Activity) context).findViewById(R.id.stack);
+
+            stackImageView.setImageDrawable(game.current);
+            game.second =game.check;
+            game.dropped=false;
+            game.picked=true;
+            nextTurn();
+        }
+
+
+    }
+
+    public void nextTurn(){
+
+        if (game.current_player == 3) {
+            game.current_player=0;
+        }
+        else{
+            game.current_player = game.current_player+1;
+
+        }
+
+        Button showButton = ((Activity) context).findViewById(R.id.show);
+        game.cardsSelected.clear();
+//        int min = calculateScores();
+
+
+//
+//        if(game.current_player!=0){
+//            TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+//
+//            timerTextView.setText("Time left: " +   "- seconds");
+//            MainActivity.greedyAI(game.current_player+1);
+//        }
+//        else{
+//            if (countDownTimer != null) {
+//                System.out.println("cancel it ");
+//
+//                countDownTimer.cancel();
+//                countDownTimer=null;
+//            }
+//            timer();
+//
+//        }
+        if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
+
+            showButton.setVisibility(View.VISIBLE);
+        }
+        else{
+
+
+            showButton.setVisibility(View.INVISIBLE);
+        }
+        game.begin =false;
+
+    }
+
+    public void assign(ImageView imageView, int player){
+
+
+        Card.assignImages(Card.getCards().get(game.x), imageView);
+        int store = game.x;
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the card value based on the clicked ImageView
+                int cardValue = Card.getCards().get(store);
+                // Call the method to handle the card click event
+                onCardClicked(cardValue, imageView, player);
+            }
+        });
+
+//        }
+
+
+    }
+
 
 
     public void onCardClicked(int cardValue, ImageView imageView, int player) {
