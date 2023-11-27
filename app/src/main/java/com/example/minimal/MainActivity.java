@@ -28,7 +28,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     CountDownTimer countDownTimer;
     private long remainingTime; // Add this line
     gameController gameController ;
+    List<List<ImageView>> imageViewsList = new ArrayList<>();
+
 
 
 
@@ -78,29 +82,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
     }
-
-    public void assign(ImageView imageView, int player){
-
-
-        Card.assignImages(Card.getCards().get(game.x), imageView);
-        int store = game.x;
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get the card value based on the clicked ImageView
-                int cardValue = Card.getCards().get(store);
-                // Call the method to handle the card click event
-                onCardClicked(cardValue, imageView, player);
-            }
-        });
-
-//        }
-
-
-    }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,23 +130,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         });
 
-        Button showButton = findViewById(R.id.show);
 
         gameController = new gameController(this, game, this);
         startGame();
-
-
 
     }
 
     public void startGame() {
         game = new Game();
         gameController = new gameController(this, game, this);
-
         game.x=0;
-
         Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
-
         showButton.setVisibility(View.INVISIBLE);
 
         Card.makeCardList();
@@ -212,6 +187,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         stack.setVisibility(View.INVISIBLE);
         timer();
+        for (int j = 1; j <= 4; j++) {
+            List<ImageView> playerImageViews = new ArrayList<>();
+
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+                ImageView img = findViewById(imageViewId);
+
+                // Add the ImageView to the list
+                playerImageViews.add(img);
+            }
+
+            // Add the list of ImageViews for the current player to the main list
+            imageViewsList.add(playerImageViews);
+        }
 
     }
 
@@ -256,37 +245,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void onCardDrop(View v){
 
-//        if (game.x > Card.getCards().size() -1) {
-//            System.out.println("DECK IS OVER");
-//            game.iv_deck.setVisibility(View.INVISIBLE);
-////            Button showButton = findViewById(R.id.show);
-////            showButton.performClick();
-//        }
-
-//        else{
         if(game.picked && !(game.cardsSelected.isEmpty())){
 
             ImageView selectedCard = findViewById(game.selectedCardId);
-
             ImageView stackImageView = findViewById(R.id.stack);
-
-
             game.dropped=true;
             game.picked=false;
             game.previous =stackImageView.getDrawable();
 
             game.pre = selectedCard;
             game.check= (int) selectedCard.getTag();
-
             Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
-
-
 
             if (stackImageView.getVisibility() == View.VISIBLE) {
                 stackImageView.setImageDrawable(game.previous);
-
-
-
             }
             else {
 
@@ -324,53 +296,22 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
-    private void onPileClick() {
+    @Override
+    public void onPileClick() {
         ImageView stackImageView = findViewById(R.id.stack);
 
 
         if(game.dropped && !game.begin){
-
-
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
                 ImageView imageView = findViewById(imageViewId);
-
-
                 if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-
-
-                    imageView.setImageDrawable(game.previous);
-
-                    imageView.setTag(game.second);
-
-
-                    imageView.setTag(game.second);
-                    stackImageView.setImageDrawable(game.current);
-
-                    if(game.turns[game.current_player]!=0){
-                        imageView.setVisibility(View.VISIBLE);
-
+                    if (gameController != null) {
+                        gameController.onPileClick(imageView, stackImageView);
                     }
-
-
                     break;
-
-
                 }
             }
-
-            game.second =game.check;
-
-            game.dropped=false;
-            game.picked=true;
-            if (game.x > Card.getCards().size() -1) {
-
-                Button showButton = findViewById(R.id.show);
-                showButton.performClick();
-            }
-            nextTurn();
-
-
 
 
         }
@@ -394,7 +335,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void onDeckClick() {
         ImageView imageView = null;
         if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
-            System.out.println("ENTER HERE???");
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] + "c" + i, "id", getPackageName());
                  imageView = findViewById(imageViewId);
