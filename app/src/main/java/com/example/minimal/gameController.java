@@ -39,27 +39,18 @@ public class gameController {
     }
 
 
-    public void onDeckClick(ImageView imageView) {
-
-        if(game.dropped &&  game.iv_deck.getVisibility()==View.VISIBLE ){
-
-
-            if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-                assign(imageView, game.turns[game.current_player]);
-                game.x++;
-                imageView.setVisibility(View.VISIBLE);
+    public void onDeckClick(ImageView img) {
+        if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
+            ImageView imageView = img;
+            if (imageView != null) {
+                game.second = game.check;
+                game.dropped = false;
+                game.picked = true;
+                nextTurn();
             }
-            ImageView stackImageView = ((Activity) context).findViewById(R.id.stack);
-
-            stackImageView.setImageDrawable(game.current);
-            game.second =game.check;
-            game.dropped=false;
-            game.picked=true;
-            nextTurn();
         }
-
-
     }
+
 
     public void onPileClick(ImageView imageView, ImageView stackImageView) {
         imageView.setImageDrawable(game.previous);

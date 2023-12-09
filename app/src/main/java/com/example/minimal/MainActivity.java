@@ -8,6 +8,7 @@ import static com.example.minimal.StartScreen.numberOfRounds;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -131,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         });
 
 
+
         gameController = new gameController(this, game, this);
         startGame();
-
     }
 
     public void startGame() {
@@ -333,34 +334,40 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     @Override
     public void onDeckClick() {
-        ImageView imageView = null;
         if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
-            for (int i = 1; i <= 5; i++) {
-                int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] + "c" + i, "id", getPackageName());
-                 imageView = findViewById(imageViewId);
-                game.new_pr = game.pre;
-                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-                    break;
-                }
-
-
-            }
-
-            if (gameController != null) {
-                gameController.onDeckClick(imageView);
-            }
 
             if (game.x > Card.getCards().size() - 1) {
                 game.iv_deck.setVisibility(View.INVISIBLE);
                 Button showButton = findViewById(R.id.show);
                 showButton.performClick();
             }
+            ImageView img = findEmptyImageView();
+            if (img != null) {
+                game.x++;
+                img.setVisibility(View.VISIBLE);
+                ImageView stackImageView = findViewById(R.id.stack);
+                stackImageView.setImageDrawable(game.current);
 
-        }
-        else{
+            }
+            gameController.onDeckClick(img);
+
+        } else {
             Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
         }
     }
+
+
+    private ImageView findEmptyImageView() {
+        for (int i = 1; i <= 5; i++) {
+            int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] + "c" + i, "id", getPackageName());
+            ImageView imageView = findViewById(imageViewId);
+            if (imageView.getVisibility() == View.INVISIBLE) {
+                return imageView;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public void nextTurn(){
