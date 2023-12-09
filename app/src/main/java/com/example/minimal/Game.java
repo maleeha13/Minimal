@@ -12,7 +12,7 @@ public class Game {
     static int[][] scores; // Array to store scores for each player and round
 
     boolean begin = true;
-    int current_player=0;
+     int current_player=0;
     boolean dropped = false;
     boolean picked = true;
     int selectedCardId;

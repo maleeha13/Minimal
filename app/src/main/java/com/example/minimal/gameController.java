@@ -15,13 +15,16 @@ import android.widget.LinearLayout;
 public class gameController {
 
     private GameUIListener gameUIListener;
-    private Game game;
+    Game game;
     private Context context;
 
-    public gameController(GameUIListener gameUIListener, Game game, Context context) {
+    public gameController(GameUIListener gameUIListener, Context context) {
         this.gameUIListener = gameUIListener;
-        this.game = game;
+        this.game = new Game();
         this.context = context;
+        if (context==null){
+            System.out.println("%%%%%%%%");
+        }
     }
 
 
@@ -36,6 +39,8 @@ public class gameController {
         void onDeckClick();
 
         void nextTurn();
+
+
     }
 
 
@@ -46,7 +51,6 @@ public class gameController {
                 game.second = game.check;
                 game.dropped = false;
                 game.picked = true;
-                nextTurn();
             }
         }
     }
@@ -63,51 +67,20 @@ public class gameController {
         game.dropped=false;
         game.picked=true;
 
-        nextTurn();
     }
+
 
     public void nextTurn(){
 
         if (game.current_player == 3) {
-            game.current_player=0;
-        }
-        else{
-            game.current_player = game.current_player+1;
+            game.current_player = 0;
+        } else {
+
+            game.current_player = game.current_player + 1;
 
         }
-
-        Button showButton = ((Activity) context).findViewById(R.id.show);
         game.cardsSelected.clear();
-//        int min = calculateScores();
-
-
-//
-//        if(game.current_player!=0){
-//            TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
-//
-//            timerTextView.setText("Time left: " +   "- seconds");
-//            MainActivity.greedyAI(game.current_player+1);
-//        }
-//        else{
-//            if (countDownTimer != null) {
-//                System.out.println("cancel it ");
-//
-//                countDownTimer.cancel();
-//                countDownTimer=null;
-//            }
-//            timer();
-//
-//        }
-        if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
-
-            showButton.setVisibility(View.VISIBLE);
-        }
-        else{
-
-
-            showButton.setVisibility(View.INVISIBLE);
-        }
-        game.begin =false;
+        game.begin = false;
 
     }
 

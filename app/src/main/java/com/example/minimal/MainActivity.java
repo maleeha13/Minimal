@@ -39,13 +39,14 @@ import nl.dionsegijn.konfetti.models.Size;
 
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener {
 
-    Game game;
     private static boolean isPaused = false;
 
     public static AlertDialog dialog;
     CountDownTimer countDownTimer;
     private long remainingTime; // Add this line
     gameController gameController ;
+    Game game;
+
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
 
@@ -131,15 +132,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         });
 
-
-
-        gameController = new gameController(this, game, this);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@");
         startGame();
+
     }
 
     public void startGame() {
-        game = new Game();
-        gameController = new gameController(this, game, this);
+//        game = new Game();
+        if(this==null){
+            System.out.println("N U L LLLLLLLLLLLL");
+        }
+        gameController = new gameController(this, this);
+        game = gameController.game;
+
         game.x=0;
         Button showButton = findViewById(R.id.show); // Replace R.id.myButton with your actual button ID
         showButton.setVisibility(View.INVISIBLE);
@@ -315,6 +320,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             }
             gameController.onPileClick(img, stackImageView);
+            nextTurn();
 
         }
 
@@ -345,6 +351,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             }
             gameController.onDeckClick(img);
+            nextTurn();
 
         } else {
             Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
@@ -364,12 +371,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-    @Override
-    public void nextTurn(){
 
-        calculateScores();
-        if(game.current_player!=0){
-            System.out.println("make it invisible ");
+    public void nextTurn() {
+
+
+        if (game.current_player != 0) {
             String beforelayout = "lay" + (game.current_player + 1);
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
 
@@ -378,8 +384,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
 
             linearLayoutold.setBackground(null);
-        }
-        else{
+        } else {
             String beforelayout = "lay" + 1;
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
             LinearLayout linearLayoutold = findViewById(resID);
@@ -388,66 +393,53 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             linearLayoutold.setBackground(null);
         }
 
-        if (gameController != null) {
-            gameController.nextTurn();
+        gameController.nextTurn();
+
+
+        String layout = "lay" + (game.current_player + 1);
+        int resID = getResources().getIdentifier(layout, "id", getPackageName());
+
+        LinearLayout linearLayout = findViewById(resID);
+        // Create a GradientDrawable
+        GradientDrawable border = new GradientDrawable();
+        border.setColor(0xFFFFFFFF); // White background
+        border.setStroke(8, Color.RED); // Black border with width 2
+        linearLayout.setBackground(border);
+
+
+        Button showButton = findViewById(R.id.show);
+        calculateScores();
+
+
+        if (game.current_player != 0) {
+            TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+
+            timerTextView.setText("Time left: " + "- seconds");
+            greedyAI(game.current_player + 1);
+        } else {
+            if (countDownTimer != null) {
+                System.out.println("cancel it ");
+
+                countDownTimer.cancel();
+                countDownTimer = null;
+            }
+            timer();
+
         }
+        if (scores[currentRound][game.current_player] <= 5 && game.current_player == 0) {
+
+            showButton.setVisibility(View.VISIBLE);
+        } else {
 
 
-
-
-
-            String layout = "lay" + (game.current_player + 1);
-            int resID = getResources().getIdentifier(layout, "id", getPackageName());
-
-            LinearLayout linearLayout = findViewById(resID);
-            GradientDrawable border = new GradientDrawable();
-            border.setColor(0xFFFFFFFF); // White background
-            border.setStroke(8, Color.RED); // Black border with width 2
-            linearLayout.setBackground(border);
-
-            Button showButton = findViewById(R.id.show);
-            game.cardsSelected.clear();
-            int min = calculateScores();
-
-
-
-//            if(game.current_player!=0){
-//                TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
-//
-//                timerTextView.setText("Time left: " +   "- seconds");
-//                greedyAI(game.current_player+1);
-//            }
-//            else{
-//                if (countDownTimer != null) {
-//                    System.out.println("cancel it ");
-//
-//                    countDownTimer.cancel();
-//                    countDownTimer=null;
-//                }
-//                timer();
-//
-//            }
-//            if(scores[currentRound][game.current_player]<=5 && game.current_player==0 ) {
-//
-//                showButton.setVisibility(View.VISIBLE);
-//            }
-//            else{
-//
-//
-//                showButton.setVisibility(View.INVISIBLE);
-//            }
-//            game.begin =false;
-
-
-
-
-
+            showButton.setVisibility(View.INVISIBLE);
+        }
 
 
     }
 
 
-    private int calculateScores() {
+        private int calculateScores() {
         int currentRound = StartScreen.currentRound;
 
 
