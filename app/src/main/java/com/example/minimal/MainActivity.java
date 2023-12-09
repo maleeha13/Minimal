@@ -300,36 +300,31 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     @Override
     public void onPileClick() {
         ImageView stackImageView = findViewById(R.id.stack);
-
-
         if(game.dropped && !game.begin){
-            for (int i = 1; i <= 5; i++) {
-                int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] +"c" + i, "id", getPackageName());
-                ImageView imageView = findViewById(imageViewId);
-                if (imageView != null && imageView.getVisibility() == View.INVISIBLE) {
-                    if (gameController != null) {
-                        gameController.onPileClick(imageView, stackImageView);
-                    }
-                    break;
-                }
+            if (game.x > Card.getCards().size() - 1) {
+                game.iv_deck.setVisibility(View.INVISIBLE);
+                Button showButton = findViewById(R.id.show);
+                showButton.performClick();
             }
+            ImageView img = findEmptyImageView();
+            if (img != null) {
+                game.x++;
+                img.setVisibility(View.VISIBLE);
 
+                stackImageView.setImageDrawable(game.current);
+
+            }
+            gameController.onPileClick(img, stackImageView);
 
         }
 
         else if(!game.dropped){
             Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
-
         }
         else if(game.begin){
             Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
 
         }
-
-
-
-
-
     }
 
     @Override

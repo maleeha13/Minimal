@@ -54,27 +54,15 @@ public class gameController {
 
     public void onPileClick(ImageView imageView, ImageView stackImageView) {
         imageView.setImageDrawable(game.previous);
-
         imageView.setTag(game.second);
-
-
         imageView.setTag(game.second);
         stackImageView.setImageDrawable(game.current);
-
-        if(game.turns[game.current_player]!=0){
-            imageView.setVisibility(View.VISIBLE);
-
-        }
 
         game.second =game.check;
 
         game.dropped=false;
         game.picked=true;
-        if (game.x > Card.getCards().size() -1) {
 
-            Button showButton = ((Activity) context).findViewById(R.id.show);
-            showButton.performClick();
-        }
         nextTurn();
     }
 
