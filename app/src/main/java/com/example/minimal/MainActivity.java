@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     private static boolean isPaused = false;
 
-    public static AlertDialog dialog;
     CountDownTimer countDownTimer;
     private long remainingTime;
     gameController gameController ;
     ScoreController scoreController ;
+
 
     Game game;
 
@@ -428,8 +428,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         int win = scoreController.calculateMinScore();
         scoreController.showScores(win, game);
         Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
-        showScoreboardPopup(5);
+        scorecard scorecard = new scorecard(this);
+        scorecard.showScoreboardPopup(5);
     }
+
+
+
 
 
     public void nextRound(View v){
@@ -445,9 +449,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 tableLayout.setVisibility(View.INVISIBLE);
                 tableLayout.setVisibility(View.GONE);
             }
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
-                dialog.closeOptionsMenu();
+            if (scorecard.dialog != null && scorecard.dialog.isShowing()) {
+               scorecard.dialog.dismiss();
+                closeOptionsMenu();
                 startGame();
 
             }
@@ -455,129 +459,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         else{
             displayWinner();
         }
-
-    }
-
-    private void showScoreboardPopup(int delayInSeconds) {
-        // Delay the appearance of the scoreboard
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Inflate the layout for the popup
-                View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
-
-                // Create a TableLayout and add it to the popup
-                TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
-                createScoreboard(tableLayout, 5); // 5 columns, adjust as needed
-                // Build the AlertDialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setView(popupView);
-                builder.setTitle("Scoreboard"); // Set the title as needed
-
-                // Add any additional customization or buttons to the AlertDialog if needed
-
-                // Show the AlertDialog
-                dialog = builder.create();
-                dialog.show();
-            }
-        }, delayInSeconds * 1000); // Convert seconds to milliseconds
-    }
-
-    private void createScoreboard(TableLayout tableLayout, int numColumns) {
-        // Create Header Row
-        int totalScores[] = new int[4]; // Array to store total scores for each player
-
-        TableRow headerRow = new TableRow(this);
-        headerRow.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT));
-
-        // Empty cell for the top-left corner
-        TextView emptyHeader = new TextView(this);
-        emptyHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-        headerRow.addView(emptyHeader);
-
-        // Player Headers
-        for (int player = 1; player <= 4; player++) {
-            TextView playerHeader = new TextView(this);
-            playerHeader.setText("Player " + player);
-            playerHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            headerRow.addView(playerHeader);
-        }
-
-        // Add Header Row to the TableLayout
-        tableLayout.addView(headerRow);
-
-        // Dynamic Frame Headers
-        for (int round = 1; round <= numberOfRounds; round++) {
-            TableRow roundRow = new TableRow(this);
-            roundRow.setLayoutParams(new TableLayout.LayoutParams(
-                    TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.WRAP_CONTENT));
-
-            // Round Header
-            TextView roundHeader = new TextView(this);
-            roundHeader.setText("Round " + round);
-            roundHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            roundRow.addView(roundHeader);
-
-            // Create Player Cells for the Current Round
-            for (int player = 1; player <= 4; player++) {
-                TextView frameCell = new TextView(this);
-                // Get the score from the game.scores array
-
-                // Adjust the conditions here to match your array size
-                if (round - 1 < scores.length && player - 1 < scores[round - 1].length) {
-                    int score = scores[round - 1][player - 1];
-                    frameCell.setText(Integer.toString(score));
-                    frameCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-                    roundRow.addView(frameCell);
-                } else {
-                    // Handle the case where the array bounds are exceeded
-                    System.out.println("Array index out of bounds.");
-                }
-            }
-
-            // Add Round Row to the TableLayout
-            tableLayout.addView(roundRow);
-        }
-
-        tableLayout.addView(new TableRow(this));
-
-        // Add a row for total scores
-        TableRow totalRow = new TableRow(this);
-        totalRow.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT));
-        TextView totalHeader = new TextView(this);
-        totalHeader.setText("Total Scores");
-        totalHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-        totalRow.addView(totalHeader);
-
-        // Calculate and display the total score for each player
-        for (int player = 1; player <= 4; player++) {
-            int playerTotal = 0;
-
-            // Sum up the scores for the player across all rounds
-            for (int round = 1; round <= numberOfRounds; round++) {
-                // Adjust the conditions here to match your array size
-                if (round - 1 < scores.length && player - 1 < scores[round - 1].length) {
-                    playerTotal += scores[round - 1][player - 1];
-                } else {
-                    // Handle the case where the array bounds are exceeded
-                    System.out.println("Array index out of bounds.");
-                }
-            }
-
-            // Display the total score for the player
-            TextView totalCell = new TextView(this);
-            totalCell.setText(Integer.toString(playerTotal));
-            totalCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            totalRow.addView(totalCell);
-        }
-
-        // Add Total Row to the TableLayout
-        tableLayout.addView(totalRow);
 
     }
 

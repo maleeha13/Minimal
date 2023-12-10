@@ -4,13 +4,22 @@ import static com.example.minimal.Game.scores;
 import static com.example.minimal.StartScreen.currentRound;
 import static com.example.minimal.StartScreen.numberOfRounds;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class ScoreController {
 
-int calculateMinScore(){
+
+    int calculateMinScore(){
 
     int currentRound = StartScreen.currentRound;
 
@@ -66,5 +75,8 @@ int calculateMinScore(){
 
         return totalScores;
     }
+
+
+
 
 }
