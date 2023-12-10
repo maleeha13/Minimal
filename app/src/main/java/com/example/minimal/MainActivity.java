@@ -313,6 +313,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 gameController.onDeckClick(img);
                 game.x++;
                 img.setVisibility(View.VISIBLE);
+                ImageView stackImageView = findViewById(R.id.stack);
+                stackImageView.setImageDrawable(game.current);
             }
 
             nextTurn();
@@ -457,7 +459,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
         else{
-            displayWinner();
+            winner_popup popup = new winner_popup(MainActivity.this);
+            popup.displayWinner(scoreController);
         }
 
     }
@@ -508,67 +511,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-    private void displayWinner() {
 
-        int[] totalScores = scoreController.calculateTotalScores();
-
-        // Find the player with the lowest total score
-        int winnerPlayer = 1;
-        int winnerScore = totalScores[0];
-
-        for (int player = 2; player <= 4; player++) {
-            if (totalScores[player - 1] < winnerScore) {
-                winnerPlayer = player;
-                winnerScore = totalScores[player - 1];
-            }
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View winnerView = getLayoutInflater().inflate(R.layout.activity_winner_popup, null);
-
-        // Customize the winner message and score
-        TextView winnerMessageTextView = winnerView.findViewById(R.id.winnerMessageTextView);
-        winnerMessageTextView.setText("Player " + winnerPlayer + " wins!");
-
-        TextView winnerScoreTextView = winnerView.findViewById(R.id.winnerScoreTextView);
-        winnerScoreTextView.setText("Score: " + winnerScore);
-
-        // Get the KonfettiView reference
-        KonfettiView celeb = winnerView.findViewById(R.id.celeb);
-
-        // Trigger the confetti animation
-        celeb.build()
-                .addColors(Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(new Size(12, 5))
-                .setPosition(-50f, celeb.getWidth() + 50f, -50f, -50f)
-                .streamFor(300, 5000L);
-
-        builder.setView(winnerView);
-        builder.setTitle("Game Over");
-
-        // Show the AlertDialog
-        AlertDialog winnerDialog = builder.create();
-        winnerDialog.show();
-        Button finishButton = winnerView.findViewById(R.id.finishButton);
-        finishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this, StartScreen.class);
-
-
-                startActivity(intent);
-                // Add any actions you want to perform when the "Finish" button is clicked
-                // This will close the activity
-            }
-        });
-
-
-    }
 
 
 
