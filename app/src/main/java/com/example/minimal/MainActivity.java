@@ -275,21 +275,15 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void onPileClick() {
         ImageView stackImageView = findViewById(R.id.stack);
         if(game.dropped && !game.begin){
-            if (game.x > Card.getCards().size() - 1) {
-                game.iv_deck.setVisibility(View.INVISIBLE);
-                Button showButton = findViewById(R.id.show);
-                showButton.performClick();
-            }
+
             ImageView img = findEmptyImageView();
             if (img != null) {
                 game.x++;
                 img.setVisibility(View.VISIBLE);
-
                 stackImageView.setImageDrawable(game.current);
 
             }
             gameController.onPileClick(img, stackImageView);
-            nextTurn();
 
         }
 
@@ -300,6 +294,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
 
         }
+        if (game.x > Card.getCards().size() - 1) {
+            game.iv_deck.setVisibility(View.INVISIBLE);
+            Button showButton = findViewById(R.id.show);
+            showButton.performClick();
+        }
+        nextTurn();
+
     }
 
     @Override
@@ -309,13 +310,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             ImageView img = findEmptyImageView();
             if (img != null) {
+                gameController.onDeckClick(img);
                 game.x++;
                 img.setVisibility(View.VISIBLE);
-                ImageView stackImageView = findViewById(R.id.stack);
-                stackImageView.setImageDrawable(game.current);
-
             }
-            gameController.onDeckClick(img);
+
             nextTurn();
 
         } else {
@@ -435,8 +434,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void nextRound(View v){
         currentRound++;
-
-
         if(currentRound < StartScreen.numberOfRounds){
 
             View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
@@ -447,7 +444,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             if(tableLayout.getVisibility()==View.VISIBLE){
                 tableLayout.setVisibility(View.INVISIBLE);
                 tableLayout.setVisibility(View.GONE);
-
             }
             if (dialog != null && dialog.isShowing()) {
                 dialog.dismiss();
@@ -458,10 +454,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
         else{
             displayWinner();
-
-
         }
-
 
     }
 
@@ -636,7 +629,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     private void displayWinner() {
 
-        int[] totalScores = calculateTotalScores();
+        int[] totalScores = scoreController.calculateTotalScores();
 
         // Find the player with the lowest total score
         int winnerPlayer = 1;
@@ -696,28 +689,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
-    private int[] calculateTotalScores() {
-        int[] totalScores = new int[4];
 
-        for (int player = 1; player <= 4; player++) {
-            int playerTotal = 0;
-
-            // Sum up the scores for the player across all rounds
-            for (int round = 1; round <= numberOfRounds; round++) {
-                // Adjust the conditions here to match your array size
-                if (round - 1 < scores.length && player - 1 < scores[round - 1].length) {
-                    playerTotal += scores[round - 1][player - 1];
-                } else {
-                    // Handle the case where the array bounds are exceeded
-                    System.out.println("Array index out of bounds.");
-                }
-            }
-
-            totalScores[player - 1] = playerTotal;
-        }
-
-        return totalScores;
-    }
 
 
     private void timer() {

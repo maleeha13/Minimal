@@ -65,10 +65,7 @@ public class gameController {
         imageView.setTag(game.second);
         imageView.setTag(game.second);
         stackImageView.setImageDrawable(game.current);
-        assign(imageView, game.turns[game.current_player]);
-
         game.second =game.check;
-
         game.dropped=false;
         game.picked=true;
 
