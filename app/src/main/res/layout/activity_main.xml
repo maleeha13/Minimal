@@ -582,24 +582,29 @@
 
     <Button
         android:id="@+id/resumeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="350dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:onClick="resumeGame"
         android:text="Play" />
+
     <Button
         android:id="@+id/pauseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="180dp"
         android:layout_marginTop="350dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:onClick="pauseGame"
         android:text="Pause" />
+
     <Button
         android:id="@+id/exitButton"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="550dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="550dp"
+        android:onClick="exitGame"
         android:text="Exit" />
 
     <TextView

@@ -34,6 +34,7 @@ public class gameController {
 
         void onCardClicked(int cardValue, ImageView imageView, int player);
 
+
         void onPileClick();
 
         void onDeckClick();
@@ -47,7 +48,10 @@ public class gameController {
     public void onDeckClick(ImageView img) {
         if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
             ImageView imageView = img;
+
             if (imageView != null) {
+                assign(imageView, game.turns[game.current_player]);
+
                 game.second = game.check;
                 game.dropped = false;
                 game.picked = true;
@@ -61,6 +65,7 @@ public class gameController {
         imageView.setTag(game.second);
         imageView.setTag(game.second);
         stackImageView.setImageDrawable(game.current);
+        assign(imageView, game.turns[game.current_player]);
 
         game.second =game.check;
 
@@ -68,6 +73,7 @@ public class gameController {
         game.picked=true;
 
     }
+
 
 
     public void nextTurn(){
@@ -84,7 +90,7 @@ public class gameController {
 
     }
 
-    public void assign(ImageView imageView, int player){
+    public void assign(ImageView imageView, int player) {
 
 
         Card.assignImages(Card.getCards().get(game.x), imageView);
@@ -99,47 +105,40 @@ public class gameController {
                 onCardClicked(cardValue, imageView, player);
             }
         });
-
-//        }
-
-
     }
 
+        public void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-
-    public void onCardClicked(int cardValue, ImageView imageView, int player) {
-
-        // if the the card is already selected - unselect it
-        if ( game.cardsSelected.contains(imageView)) {
-            game.cardsSelected.remove(imageView);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-            params.topMargin += 50;
-            imageView.setLayoutParams(params);
-            game.currentCard=null;
-        }
-        else{
-            int cardNumber = (int) imageView.getTag();
-            int lastDigit = cardNumber % 100;
-            ImageView v = null;
-            int existing =-1;
-            if(!game.cardsSelected.isEmpty()){
-                v = game.cardsSelected.get(0);
-                int x = (int) v.getTag();
-                existing = x % 100;
-            }
-            // if its the players turn and theyve picked a card and its a new card or one w same value pick it
-            if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
-
+            // if the the card is already selected - unselect it
+            if ( game.cardsSelected.contains(imageView)) {
+                game.cardsSelected.remove(imageView);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-                game.cardsSelected.add(imageView);
-                params.topMargin -= 50;
+                params.topMargin += 50;
                 imageView.setLayoutParams(params);
-                game.selectedCardId = imageView.getId();
+                game.currentCard=null;
+            }
+            else{
+                int cardNumber = (int) imageView.getTag();
+                int lastDigit = cardNumber % 100;
+                ImageView v = null;
+                int existing =-1;
+                if(!game.cardsSelected.isEmpty()){
+                    v = game.cardsSelected.get(0);
+                    int x = (int) v.getTag();
+                    existing = x % 100;
+                }
+                // if its the players turn and theyve picked a card and its a new card or one w same value pick it
+                if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
 
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+                    game.cardsSelected.add(imageView);
+                    params.topMargin -= 50;
+                    imageView.setLayoutParams(params);
+                    game.selectedCardId = imageView.getId();
+
+                }
             }
         }
-    }
-
 
 
 
