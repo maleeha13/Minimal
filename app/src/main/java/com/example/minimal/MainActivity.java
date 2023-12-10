@@ -8,6 +8,7 @@ import static com.example.minimal.StartScreen.numberOfRounds;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -382,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
 
             timerTextView.setText("Time left: " + "- seconds");
-            greedyAI(game.current_player + 1);
+            callGreedy(game.current_player + 1);
         } else {
             if (countDownTimer != null) {
                 System.out.println("cancel it ");
@@ -466,14 +467,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-    public void greedyAI(int j) {
-        ImageView drop = null;
+    public void callGreedy(int j){
         int largest = 0;
-
-        // Check if the game is paused
+        ImageView drop = null;
         if (isPaused) {
             return; // Exit the method if the game is paused
         }
+        Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
 
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
@@ -486,32 +486,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
-        drop.performClick();
-        Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
+        GreedyAI greedy = new GreedyAI();
+        greedy.greedyAI(j, drop, game, dropButton);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Perform the second click after a 2-second delay
-
-                    dropButton.performClick();
-                }
-
-        }, 500); // 2000 milliseconds = 2 seconds
-
-        // Delay between the second and third clicks
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the game is paused before performing the third click
-                    game.iv_deck.performClick();
-
-            }
-        }, 1000);
     }
-
-
-
 
 
 
@@ -588,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         } else if (!game.dropped && game.cardsSelected.isEmpty()) {
             // Call greedyAI immediately
-            greedyAI(1);
+            callGreedy(1);
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
