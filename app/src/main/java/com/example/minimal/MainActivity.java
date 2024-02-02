@@ -31,7 +31,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -45,10 +47,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     private long remainingTime;
     gameController gameController ;
     ScoreController scoreController ;
-
-
+    protected static List<Integer> discardedCards;  // Replace String with the actual type of keys and values
     Game game;
-
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
 
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
     }
+
+
 
     private void assignCard(String pre, int start){
 
@@ -264,6 +266,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
 
             stackImageView.setVisibility(View.VISIBLE);
+            if((Integer) stackImageView.getTag()!=null){
+                discardedCards.add((Integer) stackImageView.getTag());
+
+            }
         }
 
         else{
@@ -282,6 +288,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 game.x++;
                 img.setVisibility(View.VISIBLE);
                 stackImageView.setImageDrawable(game.current);
+                discardedCards.remove((Integer) stackImageView.getTag());
+
 
             }
             gameController.onPileClick(img, stackImageView);
@@ -383,7 +391,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
 
             timerTextView.setText("Time left: " + "- seconds");
-            callGreedy(game.current_player + 1);
+//            callGreedy(game.current_player + 1);
+            callMinimize(game.current_player +1);
         } else {
             if (countDownTimer != null) {
                 System.out.println("cancel it ");
@@ -488,6 +497,78 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         GreedyAI greedy = new GreedyAI();
         greedy.greedyAI(j, drop, game, dropButton);
+
+    }
+
+    public void callMinimize(int j){
+        int largest = 0;
+        Boolean pickFromStack =false;
+        ImageView drop = null;
+        List<List<ImageView>> imageViewsList = new ArrayList<>();
+        Map<Integer, List<ImageView>> imageViewMap = new HashMap<>();
+
+        if (isPaused) {
+            return; // Exit the method if the game is paused
+        }
+        Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
+        ImageView stack = (ImageView) findViewById(R.id.stack);
+
+        int stackCardNumber ;
+        if(stack.getTag()!=null){
+             stackCardNumber = (int) stack.getTag();
+
+        }
+        else{
+             stackCardNumber = 0;
+        }
+
+        for (int i = 1; i <= 5; i++) {
+            int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+            ImageView img = findViewById(imageViewId);
+
+            int cardNumber = (int) img.getTag();
+            int remainder = cardNumber % 100;
+
+
+            if(cardNumber % 100 ==  stackCardNumber % 100){
+                pickFromStack =true;
+
+            }
+
+
+            if (imageViewMap.containsKey(remainder)) {
+                // Add the image view to the existing list
+                imageViewMap.get(remainder).add(img);
+            } else {
+                // Create a new list and add the image view to it
+                List<ImageView> imageViewList = new ArrayList<>();
+                imageViewList.add(img);
+                imageViewMap.put(remainder, imageViewList);
+            }
+
+            if ((cardNumber % 100) > largest) {
+                if(!(pickFromStack && remainder == stackCardNumber % 100))  {
+                    largest = cardNumber % 100;
+                    drop = img;
+                }
+
+            }
+        }
+
+
+        for (List<ImageView> imageViewList : imageViewMap.values()) {
+            if (imageViewList.size() > 1) {
+                imageViewsList.add(imageViewList);
+            }
+        }
+
+        MinimizeAI minimize = new MinimizeAI();
+        minimize.minimizeAI(imageViewsList, drop, pickFromStack, game, dropButton, stack);
+
+
+
+
+
 
     }
 

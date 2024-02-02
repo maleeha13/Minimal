@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
@@ -12,7 +13,7 @@ public class Game {
     static int[][] scores; // Array to store scores for each player and round
 
     boolean begin = true;
-     int current_player=0;
+    int current_player=0;
     boolean dropped = false;
     boolean picked = true;
     int selectedCardId;
@@ -27,6 +28,7 @@ public class Game {
     ImageView iv_deck;
     int x = 0;
     ImageView droppedCard;
+
 
 
 

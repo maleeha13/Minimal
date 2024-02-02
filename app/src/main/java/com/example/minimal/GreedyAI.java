@@ -14,8 +14,6 @@ public class GreedyAI {
 
         // Check if the game is paused
 
-
-
         drop.performClick();
 
         new Handler().postDelayed(new Runnable() {
