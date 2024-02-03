@@ -354,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void nextTurn() {
 
+        State s = new State(this, game.current_player+1);
         if (game.current_player != 0) {
             String beforelayout = "lay" + (game.current_player + 1);
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());

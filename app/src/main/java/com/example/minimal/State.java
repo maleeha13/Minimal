@@ -17,14 +17,19 @@ public class State implements Cloneable {
     private Context context;
     private Integer playerToMove;
 
-    public State(Context context){
+    public State(Context context, int player){
         this.context = context;
+        this.discardedCards = new ArrayList<>();
+        this.playerHand = new HashMap<>();
 
         discardedCards = MainActivity.discardedCards;
-        playerHand = getPlayersHand(1);
+        playerHand.put(player, getPlayersHand(player));
+        System.out.println(" it is player " + player);
+        List<Integer> hand = getPlayersHand(player);
+        System.out.println("Player " + player + "'s hand: " + handToString(hand));
+
         //retrieve and initialize values here
     }
-
 
 
     public State Clone(){
@@ -47,18 +52,26 @@ public class State implements Cloneable {
 
     public State CloneAndRandomize(int observer) throws CloneNotSupportedException {
         State st = (State) this.clone();
+
+        // gets the player's hand
         List<Integer> observerHand = st.playerHand.get(observer);
 
         // Create a new list for seenCards and add the observer's hand
         List<Integer> seenCards = new ArrayList<>(observerHand);
+
+        // seen cards = player's hand + discarded card
         seenCards.addAll(st.discardedCards);
+
 
 
 
         List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
         unseenCards.removeAll(seenCards);
+
+        // shuffles the other cards
         Collections.shuffle(unseenCards);
 
+        // deals the cards
         for (int p = 1; p <= 4; p++) {
             if (p != observer) {
                 // Deal cards to player p
@@ -89,16 +102,23 @@ public class State implements Cloneable {
 
     }
 
-    public  Map<Integer, List<Integer>> getPlayersHand(int player) {
-        Map<Integer, List<Integer>> playerHand; playerHand = null;
-        for (int i = 1; i < 5; i++) {
+    public List<Integer> getPlayersHand(int player) {
+        List<Integer> playerHand = new ArrayList<>(); // Initialize the list
+
+        for (int i = 1; i < 6; i++) {
             int imageViewId = context.getResources().getIdentifier("iv_p" + player + "c" + i, "id", context.getPackageName());
             ImageView imageView = ((Activity) context).findViewById(imageViewId);
 
-            if (imageView.getVisibility() == View.VISIBLE) {
-                playerHand.put(player, new ArrayList<>((Integer) imageView.getTag()));
+            if (imageView != null) {
+                System.out.println("ImageView ID: " + imageViewId + " found.");
+                if (imageView.getVisibility() == View.VISIBLE) {
+                    playerHand.add((Integer) imageView.getTag());
+                }
+            } else {
+                System.out.println("ImageView ID: " + imageViewId + " not found.");
             }
         }
+
 
         return playerHand;
     }
@@ -121,6 +141,18 @@ public class State implements Cloneable {
 
     public void getMoves(){
 
+    }
+
+    private String handToString(List<Integer> hand) {
+        StringBuilder sb = new StringBuilder("[");
+        for (Integer card : hand) {
+            sb.append(card).append(", ");
+        }
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 2); // Remove the trailing comma and space
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 }
