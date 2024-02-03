@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     private long remainingTime;
     gameController gameController ;
     ScoreController scoreController ;
-    protected static List<Integer> discardedCards;  // Replace String with the actual type of keys and values
+    protected static List<Integer> discardedCards = new ArrayList<>();  // Replace String with the actual type of keys and values
     Game game;
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
@@ -153,7 +153,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             @Override
             public void onClick(View v) {
 
-                onDeckClick();
+                try {
+                    onDeckClick();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -161,7 +165,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             @Override
             public void onClick(View v) {
 
-                onPileClick();
+                try {
+                    onPileClick();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -266,8 +274,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
 
             stackImageView.setVisibility(View.VISIBLE);
-            if((Integer) stackImageView.getTag()!=null){
-                discardedCards.add((Integer) stackImageView.getTag());
+            if(selectedCard.getTag()!=null){
+                System.out.println(" adding to disc view ");
+                discardedCards.add((Integer) selectedCard.getTag());
 
             }
         }
@@ -279,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
     @Override
-    public void onPileClick() {
+    public void onPileClick() throws CloneNotSupportedException {
         ImageView stackImageView = findViewById(R.id.stack);
         if(game.dropped && !game.begin){
 
@@ -313,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
     @Override
-    public void onDeckClick() {
+    public void onDeckClick() throws CloneNotSupportedException {
         if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
 
 
@@ -352,9 +361,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
 
-    public void nextTurn() {
+    public void nextTurn() throws CloneNotSupportedException {
 
         State s = new State(this, game.current_player+1);
+
+        s.CloneAndRandomize(game.current_player+1);
         if (game.current_player != 0) {
             String beforelayout = "lay" + (game.current_player + 1);
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());

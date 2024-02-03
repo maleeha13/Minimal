@@ -35,11 +35,11 @@ public class gameController {
         void onCardClicked(int cardValue, ImageView imageView, int player);
 
 
-        void onPileClick();
+        void onPileClick() throws CloneNotSupportedException;
 
-        void onDeckClick();
+        void onDeckClick() throws CloneNotSupportedException;
 
-        void nextTurn();
+        void nextTurn() throws CloneNotSupportedException;
 
 
     }

@@ -23,6 +23,7 @@ public class State implements Cloneable {
         this.playerHand = new HashMap<>();
 
         discardedCards = MainActivity.discardedCards;
+        System.out.println("dissscc " + discardedCards);
         playerHand.put(player, getPlayersHand(player));
         System.out.println(" it is player " + player);
         List<Integer> hand = getPlayersHand(player);
@@ -62,9 +63,6 @@ public class State implements Cloneable {
         // seen cards = player's hand + discarded card
         seenCards.addAll(st.discardedCards);
 
-
-
-
         List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
         unseenCards.removeAll(seenCards);
 
@@ -76,19 +74,28 @@ public class State implements Cloneable {
             if (p != observer) {
                 // Deal cards to player p
                 // Store the size of player p's hand
-                int numCards = st.playerHand.get(p).size();
+
                 // Give player p the first numCards unseen cards
-                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, numCards)));
+                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, 5)));
                 // Remove those cards from unseenCards
-                unseenCards.subList(0, numCards).clear();
+                unseenCards.subList(0, 5).clear();
             }
         }
 
+        // Print every player's hand
+        for (int p = 1; p <=4; p++) {
+            List<Integer> playerHand = st.playerHand.get(p);
+            System.out.println("Player " + p + "'s hand: " + handToString(playerHand));
+        }
+
+        // Print discarded cards
+        System.out.println("Discarded cards: " + handToString(MainActivity.discardedCards));
+
         return st;
-
-
-
     }
+
+
+
 
 
     public void dealCards(){
