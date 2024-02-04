@@ -28,7 +28,8 @@ public class State implements Cloneable {
         System.out.println(" it is player " + player);
         List<Integer> hand = getPlayersHand(player);
         System.out.println("Player " + player + "'s hand: " + handToString(hand));
-        getAllMoves(player);
+        List<Move> moves = getAllMoves(player);
+        applyMove(moves.get(1), player);
 
         //retrieve and initialize values here
     }
@@ -131,21 +132,21 @@ public class State implements Cloneable {
         return playerHand;
     }
 
-    public void doMove(int player, int drop, int pick){
-        List<Integer> hand = playerHand.get(player);
-
-        // Remove the drop value from the player's hand
-        hand.remove(Integer.valueOf(drop));
-        playerHand.put(player, hand);
-        hand = playerHand.get(player);
-        discardedCards.add(drop);
-
-        // Adds the pick value
-        hand.add(Integer.valueOf(pick));
-        playerHand.put(player, hand);
-
-
-    }
+//    public void doMove(int player, int drop, int pick){
+//        List<Integer> hand = playerHand.get(player);
+//
+//        // Remove the drop value from the player's hand
+//        hand.remove(Integer.valueOf(drop));
+//        playerHand.put(player, hand);
+//        hand = playerHand.get(player);
+//        discardedCards.add(drop);
+//
+//        // Adds the pick value
+//        hand.add(Integer.valueOf(pick));
+//        playerHand.put(player, hand);
+//
+//
+//    }
 
     public void getMoves(){
 
@@ -207,6 +208,64 @@ public class State implements Cloneable {
     }
 
 
+    public void applyMove(Move move, int player) {
+        System.out.println(move);
+        String source = move.getSource();
+        List<Integer> cardsPlayed = move.getCardsPlayed();
+
+
+        for (Integer card : cardsPlayed) {
+            discardedCards.add(card);
+        }
+
+        List<Integer> playerHandList = playerHand.get(player);
+        if (playerHandList != null && !playerHandList.isEmpty()) {
+            // Remove cards from the player's hand based on their indices
+            for (Integer card : cardsPlayed) {
+                // Remove the first occurrence of the card from the player's hand
+                System.out.println(card +" is removed");
+                playerHandList.remove(card);
+            }
+
+            // Update the player's hand in the playerHand map
+            playerHand.put(player, playerHandList);
+        } else {
+            // Handle the case when playerHandList is null or empty
+            System.out.println("Player's hand is empty or not found.");
+        }
+
+        if(source == "pile"){
+            if (!discardedCards.isEmpty()) {
+                // Remove the last added value from the discard pile
+                int lastAddedCard = discardedCards.remove(discardedCards.size() - 1);
+                playerHandList.add(lastAddedCard);
+                playerHand.put(player, playerHandList);
+                // You can use lastAddedCard as needed
+                System.out.println("Removed card from pile: " + lastAddedCard);
+            } else {
+
+                // Handle the case when the discard pile is empty
+                System.out.println("Discard pile is empty. Cannot remove card.");
+            }
+        }
+
+        else{
+            List<Integer> unseenCards = updateUnseenCards();
+            int firstUnseenCard = unseenCards.get(0);
+            playerHandList.add(firstUnseenCard);
+            playerHand.put(player, playerHandList);
+
+
+
+        }
+
+        System.out.println("players cards are : " + playerHandList);
+
+        System.out.println("dissscc " + discardedCards);
+
+        // Implement logic to apply the specified move to the current state and return the new state.
+        // Ensure that the move is valid before applying it.
+    }
     // Other methods for your game
 
     private List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
@@ -225,6 +284,27 @@ public class State implements Cloneable {
         return card % 100; // Assuming cards are represented as integers from 0 to 51
     }
 
+    private List<Integer> updateUnseenCards() {
+        // Clear the current unseenCards list
+        List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
+
+        // Add all cards to the unseenCards list
+        unseenCards.addAll(Card.makeCardList());
+
+        // Remove cards from players' hands
+        for (int playerIndex = 1; playerIndex <= 4; playerIndex++) {
+            List<Integer> playerHandList = playerHand.get(playerIndex);
+
+            if (playerHandList != null && !playerHandList.isEmpty()) {
+                // Remove cards from the unseenCards list
+                unseenCards.removeAll(playerHandList);
+            }
+        }
+
+        // Remove discarded cards from the unseenCards list
+        unseenCards.removeAll(discardedCards);
+        return unseenCards;
+    }
 
 
 }
