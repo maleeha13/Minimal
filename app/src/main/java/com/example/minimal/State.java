@@ -28,6 +28,7 @@ public class State implements Cloneable {
         System.out.println(" it is player " + player);
         List<Integer> hand = getPlayersHand(player);
         System.out.println("Player " + player + "'s hand: " + handToString(hand));
+        getAllMoves(player);
 
         //retrieve and initialize values here
     }
@@ -161,5 +162,69 @@ public class State implements Cloneable {
         sb.append("]");
         return sb.toString();
     }
+
+    public List<Move> getAllMoves(int player) {
+        List<Move> allMoves = new ArrayList<>();
+
+        // Get the current player's hand
+        List<Integer> currentPlayerHand = playerHand.get(player);
+
+        // Iterate over each card in the player's hand
+        for (int i = 0; i < currentPlayerHand.size(); i++) {
+            Integer card = currentPlayerHand.get(i);
+
+            // Check for other cards with the same rank
+            List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
+
+            // If there are cards with the same rank, create a move for playing them together with the pile
+            if (!cardsWithSameRank.isEmpty()) {
+                cardsWithSameRank.add(card);  // Add the current card to the list
+                Move movePile = new Move(cardsWithSameRank, "pile");
+                Move moveDeck = new Move(cardsWithSameRank, "deck");
+
+                allMoves.add(movePile);
+                allMoves.add(moveDeck);
+
+                // Remove the processed cards from the player's hand
+                currentPlayerHand.removeAll(cardsWithSameRank);
+            } else {
+                // If there is only one card with the same rank, add it to the "pile" move
+                Move movePileSingle = new Move(Collections.singletonList(card), "pile");
+                Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
+
+                allMoves.add(movePileSingle);
+                allMoves.add(moveDeckSingle);
+            }
+        }
+
+        System.out.println("Possible moves for Player " + player + ":");
+        for (Move move : allMoves) {
+            System.out.println(move);
+        }
+        // You can add more logic here to generate additional moves based on game rules
+
+        return allMoves;
+    }
+
+
+    // Other methods for your game
+
+    private List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
+        List<Integer> cardsWithSameRank = new ArrayList<>();
+        for (Integer card : hand) {
+            if (getRank(card) == getRank(targetCard) && !card.equals(targetCard)) {
+                cardsWithSameRank.add(card);
+            }
+        }
+        return cardsWithSameRank;
+    }
+
+    private int getRank(int card) {
+        // Implement logic to extract and return the rank of the card
+        // This depends on how your cards are represented, e.g., as integers where rank is a part of the integer
+        return card % 100; // Assuming cards are represented as integers from 0 to 51
+    }
+
+
 
 }
