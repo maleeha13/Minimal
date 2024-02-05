@@ -163,7 +163,6 @@ public class State implements Cloneable {
         // Iterate over each card in the player's hand
         for (int i = 0; i < currentPlayerHand.size(); i++) {
             Integer card = currentPlayerHand.get(i);
-            System.out.println("card is " + card);
 
             // Check for other cards with the same rank
             List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
@@ -180,7 +179,6 @@ public class State implements Cloneable {
                 // Remove the processed cards from the player's hand
                 currentPlayerHand.removeAll(cardsWithSameRank);
             } else {
-                System.out.println("adding singleton");
                 // If there is only one card with the same rank, add it to the "pile" move
                 Move movePileSingle = new Move(Collections.singletonList(card), "pile");
                 Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
@@ -218,7 +216,7 @@ public class State implements Cloneable {
             for (Integer card : cardsPlayed) {
                 // Remove the first occurrence of the card from the player's hand
                 System.out.println(card +" is removed");
-                playerHandList.remove(card);
+//                playerHandList.remove(card);
             }
 
             // Update the player's hand in the playerHand map

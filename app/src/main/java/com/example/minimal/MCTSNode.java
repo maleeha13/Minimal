@@ -5,17 +5,22 @@ import java.util.List;
 
 public class MCTSNode {
     private int visits;
+    private int wins;
     private double totalReward;
     private MCTSNode parent;
     private List<MCTSNode> children;
     private State gameState;  // Replace with your actual State class or type
+    private Move move;  // Replace with your actual State class or type
+    private int playerJustMoved;  // Replace with your actual State class or type
 
-    public MCTSNode(State gameState, MCTSNode parent) {
+    public MCTSNode(State gameState, MCTSNode parent, Integer playerJustMoved) {
         this.gameState = gameState;
         this.parent = parent;
         this.visits = 0;
+        this.wins = 0;
         this.totalReward = 0.0;
         this.children = new ArrayList<>();
+        this.playerJustMoved = playerJustMoved;
     }
 
     public void updateState(State newState) {
@@ -102,26 +107,60 @@ public class MCTSNode {
 
 
     public List<Move> getUntriedMoves() {
+
         if (children.isEmpty()) {
             // If the node has no children, all moves are untried
+            System.out.println("it is empty????");
             return gameState.getAllMoves(1);  // Implement this method in your State class
         } else {
+            System.out.println("notttttt????");
+
             // If the node has children, filter out moves that have already been tried
             List<Move> allMoves = gameState.getAllMoves(1);  // Implement this method in your State class
             List<Move> triedMoves = new ArrayList<>();
 
             for (MCTSNode child : children) {
                 // Collect moves from child nodes
+
                 triedMoves.add(child.getGameState().getLastMove());
+                System.out.println("the last move was "+ child.getGameState().getLastMove());
             }
 
             // Remove tried moves from the list of all moves
             allMoves.removeAll(triedMoves);
+            System.out.println("moves "+ allMoves);
 
             return allMoves;
         }
     }
 
+    public MCTSNode addChild(Move move, int playerJustMoved) {
+        MCTSNode childNode = new MCTSNode(null, this, playerJustMoved);  // Replace 'null' with the appropriate initial game state
+        childNode.move = move;
+        childNode.parent = this;
+        childNode.gameState = this.gameState;
+
+        // Additional initialization or updates based on the new child node
+
+        childNode.setParentPlayerJustMoved(playerJustMoved);
+        children.add(childNode);
+        System.out.println("adding .... " + children);
+        return childNode;
+    }
+
+    public void update(boolean terminalState) {
+        visits++;
+
+        if (playerJustMoved != 0) {
+            // Assuming your State class has a method GetResult(int player) to get the result for a player
+//            wins += gameState.getResult(playerJustMoved);
+        }
+    }
+
+    private void setParentPlayerJustMoved(int playerJustMoved) {
+        // Set the playerJustMoved value for the child node
+        // Additional logic as needed
+    }
 
     // Example method to calculate the UCT value for a child node
     public double calculateUCTValue(MCTSNode child, double explorationConstant) {

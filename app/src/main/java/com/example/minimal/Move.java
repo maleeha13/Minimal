@@ -1,6 +1,7 @@
 package com.example.minimal;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Move {
     private List<Integer> cardsPlayed;
@@ -39,5 +40,23 @@ public class Move {
         sb.append("from ").append(source);
         return sb.toString();
     }
+
+    // Inside the Move class
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Move otherMove = (Move) obj;
+        return Objects.equals(cardsPlayed, otherMove.cardsPlayed) &&
+                Objects.equals(source, otherMove.source);
+    }
+
+    // Optional: Override hashCode for consistency
+    @Override
+    public int hashCode() {
+        return Objects.hash(cardsPlayed, source);
+    }
+
 }
 
