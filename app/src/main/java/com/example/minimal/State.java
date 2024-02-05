@@ -16,20 +16,28 @@ public class State implements Cloneable {
     private Map<Integer, List<Integer>> playerHand;
     private Context context;
     private Integer playerToMove;
+    private Move lastMove;
+    private Map<Integer, List<Move>> triedMoves;
+
 
     public State(Context context, int player){
         this.context = context;
         this.discardedCards = new ArrayList<>();
         this.playerHand = new HashMap<>();
+        this.triedMoves = new HashMap<>();
+        this.lastMove = null;
+        playerToMove = player;
 
+//
+//
         discardedCards = MainActivity.discardedCards;
-        System.out.println("dissscc " + discardedCards);
+//        System.out.println("dissscc " + discardedCards);
         playerHand.put(player, getPlayersHand(player));
-        System.out.println(" it is player " + player);
+//        System.out.println(" it is player " + player);
         List<Integer> hand = getPlayersHand(player);
         System.out.println("Player " + player + "'s hand: " + handToString(hand));
-        List<Move> moves = getAllMoves(player);
-        applyMove(moves.get(1), player);
+//        List<Move> moves = getAllMoves(player);
+//        applyMove(moves.get(1), player);
 
         //retrieve and initialize values here
     }
@@ -132,25 +140,7 @@ public class State implements Cloneable {
         return playerHand;
     }
 
-//    public void doMove(int player, int drop, int pick){
-//        List<Integer> hand = playerHand.get(player);
-//
-//        // Remove the drop value from the player's hand
-//        hand.remove(Integer.valueOf(drop));
-//        playerHand.put(player, hand);
-//        hand = playerHand.get(player);
-//        discardedCards.add(drop);
-//
-//        // Adds the pick value
-//        hand.add(Integer.valueOf(pick));
-//        playerHand.put(player, hand);
-//
-//
-//    }
 
-    public void getMoves(){
-
-    }
 
     private String handToString(List<Integer> hand) {
         StringBuilder sb = new StringBuilder("[");
@@ -173,6 +163,7 @@ public class State implements Cloneable {
         // Iterate over each card in the player's hand
         for (int i = 0; i < currentPlayerHand.size(); i++) {
             Integer card = currentPlayerHand.get(i);
+            System.out.println("card is " + card);
 
             // Check for other cards with the same rank
             List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
@@ -189,6 +180,7 @@ public class State implements Cloneable {
                 // Remove the processed cards from the player's hand
                 currentPlayerHand.removeAll(cardsWithSameRank);
             } else {
+                System.out.println("adding singleton");
                 // If there is only one card with the same rank, add it to the "pile" move
                 Move movePileSingle = new Move(Collections.singletonList(card), "pile");
                 Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
@@ -212,8 +204,10 @@ public class State implements Cloneable {
         System.out.println(move);
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
-
-
+        List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
+        playerTriedMoves.add(move);
+        triedMoves.put(player, playerTriedMoves);
+        lastMove = move;
         for (Integer card : cardsPlayed) {
             discardedCards.add(card);
         }
@@ -268,6 +262,9 @@ public class State implements Cloneable {
     }
     // Other methods for your game
 
+
+
+
     private List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
         List<Integer> cardsWithSameRank = new ArrayList<>();
         for (Integer card : hand) {
@@ -282,6 +279,17 @@ public class State implements Cloneable {
         // Implement logic to extract and return the rank of the card
         // This depends on how your cards are represented, e.g., as integers where rank is a part of the integer
         return card % 100; // Assuming cards are represented as integers from 0 to 51
+    }
+
+    public State createNewStateAfterMove(State currentState, String source, List<Integer> cards) {
+        // Clone the current state to create a new state
+        State newState = currentState.Clone();
+
+        // Apply the move to the new state
+        newState.applyMove(new Move(cards, source), newState.playerToMove);
+
+        // Return the new state after the move
+        return newState;
     }
 
     private List<Integer> updateUnseenCards() {
@@ -305,6 +313,8 @@ public class State implements Cloneable {
         unseenCards.removeAll(discardedCards);
         return unseenCards;
     }
-
+    public Move getLastMove() {
+        return lastMove;
+    }
 
 }

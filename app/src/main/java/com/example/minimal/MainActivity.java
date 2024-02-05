@@ -74,7 +74,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         hideImageViewsRange(4, "iv_p", View.INVISIBLE);
 
 
-        startGame();
+        try {
+            startGame();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -113,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
-    public void startGame() {
+    public void startGame() throws CloneNotSupportedException {
 
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
@@ -174,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         });
 
         stack.setVisibility(View.INVISIBLE);
+
+
         timer();
         for (int j = 1; j <= 4; j++) {
             List<ImageView> playerImageViews = new ArrayList<>();
@@ -188,6 +194,37 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             // Add the list of ImageViews for the current player to the main list
             imageViewsList.add(playerImageViews);
         }
+
+        State s = new State(this, game.current_player+1);
+        s.CloneAndRandomize(game.current_player+1);
+
+        MCTSNode rootNode = new MCTSNode(s, null);
+
+
+// Test the getUntriedMoves method
+        List<Move> untriedMoves = rootNode.getUntriedMoves();
+
+// Print or assert the result
+        System.out.println("Untried Moves: " + untriedMoves);
+
+        if (!untriedMoves.isEmpty()) {
+            Move selectedMove = untriedMoves.get(1); // Select the first move for demonstration
+            System.out.println("Applying move: " + selectedMove);
+            s.applyMove(selectedMove, game.current_player+1);
+
+
+            rootNode.updateState(s);
+
+            // Now you can inspect the updated state or perform further testing
+
+            // Print or assert the updated untried moves
+            List<Move> updatedUntriedMoves = rootNode.getUntriedMoves();
+            System.out.println("Updated Untried Moves: " + updatedUntriedMoves);
+
+        } else {
+            System.out.println("No untried moves available.");
+        }
+
 
     }
 
@@ -363,9 +400,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void nextTurn() throws CloneNotSupportedException {
 
-        State s = new State(this, game.current_player+1);
 
-        s.CloneAndRandomize(game.current_player+1);
         if (game.current_player != 0) {
             String beforelayout = "lay" + (game.current_player + 1);
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
@@ -460,7 +495,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
 
-    public void nextRound(View v){
+    public void nextRound(View v) throws CloneNotSupportedException {
         currentRound++;
         if(currentRound < StartScreen.numberOfRounds){
 
