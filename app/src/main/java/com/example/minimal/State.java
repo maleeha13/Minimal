@@ -28,37 +28,30 @@ public class State implements Cloneable {
         this.lastMove = null;
         playerToMove = player;
 
-//
-//
         discardedCards = MainActivity.discardedCards;
-//        System.out.println("dissscc " + discardedCards);
         playerHand.put(player, getPlayersHand(player));
-//        System.out.println(" it is player " + player);
         List<Integer> hand = getPlayersHand(player);
         System.out.println("Player " + player + "'s hand: " + handToString(hand));
-//        List<Move> moves = getAllMoves(player);
-//        applyMove(moves.get(1), player);
 
-        //retrieve and initialize values here
     }
 
 
-    public State Clone(){
-        try {
-            State clonedState = (State) super.clone();
-
-            // Perform deep cloning for mutable objects
-            clonedState.discardedCards = new ArrayList<>(this.discardedCards);
-            clonedState.playerHand = new HashMap<>(this.playerHand);
-
-            // Additional deep cloning logic if needed
-
-            return clonedState;
-        } catch (CloneNotSupportedException e) {
-            // This should not happen since KnockoutWhistState implements Cloneable
-            throw new InternalError(e);
-        }
-    }
+//    public State Clone(){
+//        try {
+//            State clonedState = (State) super.clone();
+//
+//            // Perform deep cloning for mutable objects
+//            clonedState.discardedCards = new ArrayList<>(this.discardedCards);
+//            clonedState.playerHand = new HashMap<>(this.playerHand);
+//
+//            // Additional deep cloning logic if needed
+//
+//            return clonedState;
+//        } catch (CloneNotSupportedException e) {
+//            // This should not happen since KnockoutWhistState implements Cloneable
+//            throw new InternalError(e);
+//        }
+//    }
 
 
     public State CloneAndRandomize(int observer) throws CloneNotSupportedException {
@@ -99,25 +92,11 @@ public class State implements Cloneable {
         }
 
         // Print discarded cards
-        System.out.println("Discarded cards: " + handToString(MainActivity.discardedCards));
+//        System.out.println("Discarded cards: " + handToString(MainActivity.discardedCards));
 
         return st;
     }
 
-
-
-
-
-    public void dealCards(){
-        ArrayList<Integer> cards = (Card.getCards());
-        Collections.shuffle(cards);
-        discardedCards=  new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            List<Integer> hand = new ArrayList<>(cards.subList((i - 1) * 5, i * 5));
-            playerHand.put(i, hand);
-        }
-
-    }
 
     public List<Integer> getPlayersHand(int player) {
         List<Integer> playerHand = new ArrayList<>(); // Initialize the list
@@ -207,6 +186,7 @@ public class State implements Cloneable {
         triedMoves.put(player, playerTriedMoves);
         lastMove = move;
         for (Integer card : cardsPlayed) {
+            // UPDATES DISCARDED CARD
             discardedCards.add(card);
         }
 
@@ -216,7 +196,9 @@ public class State implements Cloneable {
             for (Integer card : cardsPlayed) {
                 // Remove the first occurrence of the card from the player's hand
                 System.out.println(card +" is removed");
-//                playerHandList.remove(card);
+                // UPDATES PLAYER CARD
+
+                playerHandList.remove(card);
             }
 
             // Update the player's hand in the playerHand map
@@ -255,10 +237,58 @@ public class State implements Cloneable {
 
         System.out.println("dissscc " + discardedCards);
 
+        this.playerToMove=getNextPlayer();
+
+
         // Implement logic to apply the specified move to the current state and return the new state.
         // Ensure that the move is valid before applying it.
     }
     // Other methods for your game
+
+    public Boolean isTerminal(){
+        List<Integer> card = updateUnseenCards();
+
+        if(card.isEmpty()){
+            return Boolean.TRUE;
+        }
+        else{
+            return Boolean.FALSE;
+        }
+    }
+
+    public Boolean getResult(int player) {
+        // Assuming playerHand is a Map<Integer, List<Integer>> where the key is the player index
+
+
+        int[] sums = new int[playerHand.size()];
+
+        // Calculate the sum of the last two digits for each player
+        int i = 0;
+        for (List<Integer> hand : playerHand.values()) {
+            int sum = hand.stream().mapToInt(card -> card % 100).sum();
+            sums[i++] = sum;
+        }
+
+        // Find the index with the lowest sum
+        int lowestIndex = -1;
+        int lowestSum = Integer.MAX_VALUE;
+
+        for (i = 0; i < sums.length; i++) {
+            System.out.println("sum of " + i+ " isss " + sums[i] );
+            if (sums[i] < lowestSum) {
+                lowestSum = sums[i];
+                lowestIndex = i + 1;  // Adding 1 to convert from 0-based index to 1-based index
+            }
+        }
+
+        if(player==lowestIndex){
+            return  Boolean.TRUE;
+        }
+
+        else{
+           return  Boolean.FALSE;
+        }
+    }
 
 
 
@@ -279,16 +309,7 @@ public class State implements Cloneable {
         return card % 100; // Assuming cards are represented as integers from 0 to 51
     }
 
-    public State createNewStateAfterMove(State currentState, String source, List<Integer> cards) {
-        // Clone the current state to create a new state
-        State newState = currentState.Clone();
 
-        // Apply the move to the new state
-        newState.applyMove(new Move(cards, source), newState.playerToMove);
-
-        // Return the new state after the move
-        return newState;
-    }
 
     private List<Integer> updateUnseenCards() {
         // Clear the current unseenCards list
@@ -313,6 +334,23 @@ public class State implements Cloneable {
     }
     public Move getLastMove() {
         return lastMove;
+    }
+
+    public int getNextPlayer(){
+        int next=0;
+        if(this.playerToMove==4){
+            next=1;
+        }
+
+        else{
+            next = this.playerToMove++;
+        }
+
+        return next;
+    }
+
+    public int getPlayerToMove(){
+         return playerToMove;
     }
 
 }
