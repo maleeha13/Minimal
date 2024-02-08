@@ -11,52 +11,82 @@ import java.util.Random;
 
 public class ISMCTS {
 
-    public static Move ISMCTS(State rootState, int itermax, boolean verbose) throws CloneNotSupportedException {
+    public static Move run(State rootState, int itermax) throws CloneNotSupportedException {
         MCTSNode rootNode = new MCTSNode(rootState, null, 0, null);
 
         for (int i = 0; i < itermax; i++) {
-            MCTSNode node = rootNode;
             State state = rootState.CloneAndRandomize(rootState.getPlayerToMove());
+            MCTSNode node = rootNode.cloneNode(); // Start each iteration from the root node
+
+            // Ensure root node is expanded initially
+            if (node.getChildren().isEmpty()) {
+                expandNode(node, state);
+            }
 
             // Select
-            while (!state.getAllMoves(rootState.getPlayerToMove()).isEmpty() && !node.getUntriedMoves().isEmpty()) {
+            while (!state.getAllMoves(rootState.getPlayerToMove()).isEmpty() && !node.getUntriedMoves().isEmpty() && !state.isTerminal()) {
                 node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
                 state.applyMove(node.getMove(), state.getPlayerToMove());
+
+                // Expand the selected node if it hasn't been visited yet
+                if (node.getVisits() == 0) {
+                    expandNode(node, state);
+                }
             }
 
-            // Expand
-            List<Move> untriedMoves = node.getUntriedMoves();
-            if (!untriedMoves.isEmpty()) {
-                Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
-                int player = state.getPlayerToMove();
-                state.applyMove(m, player);
-                node = node.addChild(m, player);
-            }
+            System.out.println("select = " + node.getMove());
 
             // Simulate
-            while (!state.getAllMoves(state.getPlayerToMove()).isEmpty()) {
+            while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() &&!state.isTerminal()) {
                 List<Move> legalMoves = state.getAllMoves(state.getPlayerToMove());
                 Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
                 state.applyMove(randomMove, state.getPlayerToMove());
+                System.out.println("applied move = " + randomMove);
+                boolean simulationResult = state.getResult(rootState.getPlayerToMove());
+
+                node.update(simulationResult);
+
+
             }
+
 
             // Backpropagate
             while (node != null) {
                 node.update(state.getResult(node.getPlayerJustMoved()));
                 node = node.getParent();
             }
+
         }
 
-//        // Output some information about the tree - can be omitted
-//        if (verbose) {
-//            System.out.println(rootNode.treeToString(0));
-//        } else {
-//            System.out.println(rootNode.childrenToString());
-//        }
 
+        if (!rootNode.getChildren().isEmpty()) {
+            System.out.println("EMPTY");
+            Move maxMove = Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
+            System.out.println("max move is " + maxMove);
+
+            return maxMove;
+        } else {
+            // Handle the case when the list of children is empty
+            // For example, return a default move or throw an exception
+            // For now, let's return null
+            return null;
+        }
         // Return the move that was most visited
-        return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
+//        return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
+    }
+
+
+    private static void expandNode(MCTSNode node, State state) {
+        List<Move> untriedMoves = node.getUntriedMoves();
+        if (!untriedMoves.isEmpty()) {
+            System.out.println("untried moce is not empty");
+            Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
+            int player = state.getPlayerToMove();
+//            state.applyMove(m, player);
+            node.addChild(m, player);
+            System.out.println(" children is in func" + node.getChildren());
+            return ;
+        }
+        return ; // If no untried moves, return the same node
     }
 }
-
-

@@ -88,7 +88,6 @@ public class State implements Cloneable {
         // Print every player's hand
         for (int p = 1; p <=4; p++) {
             List<Integer> playerHand = st.playerHand.get(p);
-            System.out.println("Player " + p + "'s hand: " + handToString(playerHand));
         }
 
         // Print discarded cards
@@ -106,12 +105,10 @@ public class State implements Cloneable {
             ImageView imageView = ((Activity) context).findViewById(imageViewId);
 
             if (imageView != null) {
-                System.out.println("ImageView ID: " + imageViewId + " found.");
                 if (imageView.getVisibility() == View.VISIBLE) {
                     playerHand.add((Integer) imageView.getTag());
                 }
             } else {
-                System.out.println("ImageView ID: " + imageViewId + " not found.");
             }
         }
 
@@ -144,27 +141,39 @@ public class State implements Cloneable {
             Integer card = currentPlayerHand.get(i);
 
             // Check for other cards with the same rank
-            List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
 
-            // If there are cards with the same rank, create a move for playing them together with the pile
-            if (!cardsWithSameRank.isEmpty()) {
-                cardsWithSameRank.add(card);  // Add the current card to the list
-                Move movePile = new Move(cardsWithSameRank, "pile");
-                Move moveDeck = new Move(cardsWithSameRank, "deck");
+            boolean cardNotInAllMoves = allMoves.stream()
+                    .flatMap(move -> move.getCardsPlayed().stream())
+                    .noneMatch(card::equals);
 
-                allMoves.add(movePile);
-                allMoves.add(moveDeck);
+            if(cardNotInAllMoves){
+                List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
 
-                // Remove the processed cards from the player's hand
-                currentPlayerHand.removeAll(cardsWithSameRank);
-            } else {
-                // If there is only one card with the same rank, add it to the "pile" move
-                Move movePileSingle = new Move(Collections.singletonList(card), "pile");
-                Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
+                System.out.println("the card  is " + card);
+                System.out.println("index is " + i);
+                // If there are cards with the same rank, create a move for playing them together with the pile
+                if (!cardsWithSameRank.isEmpty()) {
+                    System.out.println("adding to doubles");
+                    cardsWithSameRank.add(card);  // Add the current card to the list
+                    Move movePile = new Move(cardsWithSameRank, "pile");
+                    Move moveDeck = new Move(cardsWithSameRank, "deck");
 
-                allMoves.add(movePileSingle);
-                allMoves.add(moveDeckSingle);
+                    allMoves.add(movePile);
+                    allMoves.add(moveDeck);
+
+                    // Remove the processed cards from the player's hand
+                } else {
+                    System.out.println("adding to single");
+
+                    // If there is only one card with the same rank, add it to the "pile" move
+                    Move movePileSingle = new Move(Collections.singletonList(card), "pile");
+                    Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
+
+                    allMoves.add(movePileSingle);
+                    allMoves.add(moveDeckSingle);
+                }
             }
+
         }
 
         System.out.println("Possible moves for Player " + player + ":");
@@ -195,7 +204,6 @@ public class State implements Cloneable {
             // Remove cards from the player's hand based on their indices
             for (Integer card : cardsPlayed) {
                 // Remove the first occurrence of the card from the player's hand
-                System.out.println(card +" is removed");
                 // UPDATES PLAYER CARD
 
                 playerHandList.remove(card);
@@ -215,11 +223,9 @@ public class State implements Cloneable {
                 playerHandList.add(lastAddedCard);
                 playerHand.put(player, playerHandList);
                 // You can use lastAddedCard as needed
-                System.out.println("Removed card from pile: " + lastAddedCard);
             } else {
 
                 // Handle the case when the discard pile is empty
-                System.out.println("Discard pile is empty. Cannot remove card.");
             }
         }
 
@@ -274,7 +280,6 @@ public class State implements Cloneable {
         int lowestSum = Integer.MAX_VALUE;
 
         for (i = 0; i < sums.length; i++) {
-            System.out.println("sum of " + i+ " isss " + sums[i] );
             if (sums[i] < lowestSum) {
                 lowestSum = sums[i];
                 lowestIndex = i + 1;  // Adding 1 to convert from 0-based index to 1-based index
@@ -325,11 +330,14 @@ public class State implements Cloneable {
             if (playerHandList != null && !playerHandList.isEmpty()) {
                 // Remove cards from the unseenCards list
                 unseenCards.removeAll(playerHandList);
+
             }
         }
 
         // Remove discarded cards from the unseenCards list
         unseenCards.removeAll(discardedCards);
+
+
         return unseenCards;
     }
     public Move getLastMove() {

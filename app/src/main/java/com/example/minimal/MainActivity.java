@@ -195,36 +195,36 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             imageViewsList.add(playerImageViews);
         }
 
-        State s = new State(this, game.current_player+1);
-        s.CloneAndRandomize(game.current_player+1);
-
-        MCTSNode rootNode = new MCTSNode(s, null, game.current_player+1, null);
-
-
-// Test the getUntriedMoves method
-        List<Move> untriedMoves = rootNode.getUntriedMoves();
-
-// Print or assert the result
-        System.out.println("Untried Moves: " + untriedMoves);
-
-        if (!untriedMoves.isEmpty()) {
-            Move selectedMove = untriedMoves.get(1); // Select the first move for demonstration
-            System.out.println("Applying move: " + selectedMove);
-            s.applyMove(selectedMove, game.current_player + 1);
-
-            // Create a new child node with the selected move and the resulting state
-            MCTSNode newChildNode = rootNode.addChild(selectedMove, game.current_player + 1);
-
-            // Now you can inspect the updated state or perform further testing
-
-            // Print or assert the updated untried moves
-            List<Move> updatedUntriedMoves = rootNode.getUntriedMoves();
-            System.out.println("Updated Untried Moves: " + updatedUntriedMoves);
-//            System.out.println(s.getResult());
-
-        } else {
-            System.out.println("No untried moves available.");
-        }
+//        State s = new State(this, game.current_player+1);
+//        s.CloneAndRandomize(game.current_player+1);
+//
+//        MCTSNode rootNode = new MCTSNode(s, null, game.current_player+1, null);
+//
+//
+//// Test the getUntriedMoves method
+//        List<Move> untriedMoves = rootNode.getUntriedMoves();
+//
+//// Print or assert the result
+//        System.out.println("Untried Moves: " + untriedMoves);
+//
+//        if (!untriedMoves.isEmpty()) {
+//            Move selectedMove = untriedMoves.get(1); // Select the first move for demonstration
+//            System.out.println("Applying move: " + selectedMove);
+//            s.applyMove(selectedMove, game.current_player + 1);
+//
+//            // Create a new child node with the selected move and the resulting state
+//            MCTSNode newChildNode = rootNode.addChild(selectedMove, game.current_player + 1);
+//
+//            // Now you can inspect the updated state or perform further testing
+//
+//            // Print or assert the updated untried moves
+//            List<Move> updatedUntriedMoves = rootNode.getUntriedMoves();
+//            System.out.println("Updated Untried Moves: " + updatedUntriedMoves);
+////            System.out.println(s.getResult());
+//
+//        } else {
+//            System.out.println("No untried moves available.");
+//        }
 
     }
 
@@ -440,6 +440,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
             callMinimize(game.current_player +1);
+            State s = new State(this, game.current_player+1);
+
+            ISMCTS monte = new ISMCTS();
+            System.out.println(monte.run(s, 1000));
         } else {
             if (countDownTimer != null) {
                 System.out.println("cancel it ");
