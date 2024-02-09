@@ -34,14 +34,12 @@ public class ISMCTS {
                 }
             }
 
-            System.out.println("select = " + node.getMove());
 
             // Simulate
             while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() &&!state.isTerminal()) {
                 List<Move> legalMoves = state.getAllMoves(state.getPlayerToMove());
                 Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
                 state.applyMove(randomMove, state.getPlayerToMove());
-                System.out.println("applied move = " + randomMove);
                 boolean simulationResult = state.getResult(rootState.getPlayerToMove());
 
                 node.update(simulationResult);
@@ -60,7 +58,6 @@ public class ISMCTS {
 
 
         if (!rootNode.getChildren().isEmpty()) {
-            System.out.println("EMPTY");
             Move maxMove = Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
             System.out.println("max move is " + maxMove);
 
@@ -79,12 +76,10 @@ public class ISMCTS {
     private static void expandNode(MCTSNode node, State state) {
         List<Move> untriedMoves = node.getUntriedMoves();
         if (!untriedMoves.isEmpty()) {
-            System.out.println("untried moce is not empty");
             Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
             int player = state.getPlayerToMove();
 //            state.applyMove(m, player);
             node.addChild(m, player);
-            System.out.println(" children is in func" + node.getChildren());
             return ;
         }
         return ; // If no untried moves, return the same node

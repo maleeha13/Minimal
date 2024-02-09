@@ -155,7 +155,7 @@ public class MCTSNode {
 
             // Remove tried moves from the list of all moves
             allMoves.removeAll(triedMoves);
-            System.out.println("moves "+ allMoves);
+//            System.out.println("moves "+ allMoves);
 
             return allMoves;
         }
@@ -197,8 +197,7 @@ public class MCTSNode {
         // Filter the list of children by the list of legal moves
         List<MCTSNode> legalChildren = new ArrayList<>();
         for (MCTSNode child : children) {
-            System.out.println(" lms is " + legalMoves);
-            System.out.println("child is " + child.getMove());
+
             if (legalMoves.contains(child.getMove())) {
                 legalChildren.add(child);
 //                System.out.println(" adding legal children");

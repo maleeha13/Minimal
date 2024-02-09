@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     private long remainingTime;
     gameController gameController ;
     ScoreController scoreController ;
-    protected static List<Integer> discardedCards = new ArrayList<>();  // Replace String with the actual type of keys and values
+    protected static List<Integer> cards = new ArrayList<>();  // Replace String with the actual type of keys and values
     Game game;
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
@@ -313,7 +313,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             stackImageView.setVisibility(View.VISIBLE);
             if(selectedCard.getTag()!=null){
                 System.out.println(" adding to disc view ");
-                discardedCards.add((Integer) selectedCard.getTag());
+                cards.add((Integer) selectedCard.getTag());
+                System.out.println("disc main size " + cards.size());
+
 
             }
         }
@@ -322,6 +324,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
 
         }
+
+
     }
 
     @Override
@@ -334,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 game.x++;
                 img.setVisibility(View.VISIBLE);
                 stackImageView.setImageDrawable(game.current);
-                discardedCards.remove((Integer) stackImageView.getTag());
+                cards.remove((Integer) stackImageView.getTag());
 
 
             }
@@ -399,6 +403,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void nextTurn() throws CloneNotSupportedException {
+        System.out.println("discarded cards in next turn: " + cards.size());
+        System.out.println(cards);
 
 
         if (game.current_player != 0) {

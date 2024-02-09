@@ -28,10 +28,11 @@ public class State implements Cloneable {
         this.lastMove = null;
         playerToMove = player;
 
-        discardedCards = MainActivity.discardedCards;
+        this.discardedCards = new ArrayList<>(MainActivity.cards);
+        System.out.println("lallala" + MainActivity.cards.size());
         playerHand.put(player, getPlayersHand(player));
         List<Integer> hand = getPlayersHand(player);
-        System.out.println("Player " + player + "'s hand: " + handToString(hand));
+//        System.out.println("Player " + player + "'s hand: " + handToString(hand));
 
     }
 
@@ -62,12 +63,26 @@ public class State implements Cloneable {
 
         // Create a new list for seenCards and add the observer's hand
         List<Integer> seenCards = new ArrayList<>(observerHand);
+//        System.out.println("size of seen cards before " + seenCards.size());
+
 
         // seen cards = player's hand + discarded card
-        seenCards.addAll(st.discardedCards);
+        seenCards.addAll(discardedCards);
+        System.out.println("size of disc cards  " + discardedCards.size());
+        System.out.println("size of disc cards MAIN " + MainActivity.cards.size());
+
+//        System.out.println(discardedCards);
+//        System.out.println("size of disc cards MAIN ACT " + MainActivity.discardedCards.size());
+
+
 
         List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
+//        System.out.println("total " + unseenCards.size());
+
         unseenCards.removeAll(seenCards);
+//        System.out.println("size of seen cards " + seenCards.size());
+
+//        System.out.println("size of unseen cards " + unseenCards.size());
 
         // shuffles the other cards
         Collections.shuffle(unseenCards);
@@ -149,11 +164,9 @@ public class State implements Cloneable {
             if(cardNotInAllMoves){
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
 
-                System.out.println("the card  is " + card);
-                System.out.println("index is " + i);
+
                 // If there are cards with the same rank, create a move for playing them together with the pile
                 if (!cardsWithSameRank.isEmpty()) {
-                    System.out.println("adding to doubles");
                     cardsWithSameRank.add(card);  // Add the current card to the list
                     Move movePile = new Move(cardsWithSameRank, "pile");
                     Move moveDeck = new Move(cardsWithSameRank, "deck");
@@ -163,7 +176,6 @@ public class State implements Cloneable {
 
                     // Remove the processed cards from the player's hand
                 } else {
-                    System.out.println("adding to single");
 
                     // If there is only one card with the same rank, add it to the "pile" move
                     Move movePileSingle = new Move(Collections.singletonList(card), "pile");
@@ -175,11 +187,10 @@ public class State implements Cloneable {
             }
 
         }
-
-        System.out.println("Possible moves for Player " + player + ":");
-        for (Move move : allMoves) {
-            System.out.println(move);
-        }
+//
+//        for (Move move : allMoves) {
+//            System.out.println(move);
+//        }
         // You can add more logic here to generate additional moves based on game rules
 
         return allMoves;
@@ -187,7 +198,6 @@ public class State implements Cloneable {
 
 
     public void applyMove(Move move, int player) {
-        System.out.println(move);
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
         List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
@@ -196,7 +206,10 @@ public class State implements Cloneable {
         lastMove = move;
         for (Integer card : cardsPlayed) {
             // UPDATES DISCARDED CARD
+            System.out.println("cards are B4 " + MainActivity.cards.size());
+
             discardedCards.add(card);
+            System.out.println("cards are " + MainActivity.cards.size());
         }
 
         List<Integer> playerHandList = playerHand.get(player);
@@ -239,9 +252,8 @@ public class State implements Cloneable {
 
         }
 
-        System.out.println("players cards are : " + playerHandList);
 
-        System.out.println("dissscc " + discardedCards);
+//        System.out.println("dissscc " + discardedCards);
 
         this.playerToMove=getNextPlayer();
 
