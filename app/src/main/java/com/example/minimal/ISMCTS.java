@@ -15,6 +15,7 @@ public class ISMCTS {
         MCTSNode rootNode = new MCTSNode(rootState, null, 0, null);
 
         for (int i = 0; i < itermax; i++) {
+            System.out.println("ITER");
             State state = rootState.CloneAndRandomize(rootState.getPlayerToMove());
             MCTSNode node = rootNode.cloneNode(); // Start each iteration from the root node
 
@@ -24,7 +25,8 @@ public class ISMCTS {
             }
 
             // Select
-            while (!state.getAllMoves(rootState.getPlayerToMove()).isEmpty() && !node.getUntriedMoves().isEmpty() && !state.isTerminal()) {
+            while (!rootState.getAllMoves(rootState.getPlayerToMove()).isEmpty() && !node.getUntriedMoves(rootState).isEmpty() && !rootState.isTerminal()) {
+                System.out.println("SELECTION");
                 node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
                 state.applyMove(node.getMove(), state.getPlayerToMove());
 
@@ -35,8 +37,11 @@ public class ISMCTS {
             }
 
 
+
             // Simulate
-            while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() &&!state.isTerminal()) {
+            while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && !state.isTerminal()) {
+                System.out.println("SIMULATION");
+
                 List<Move> legalMoves = state.getAllMoves(state.getPlayerToMove());
                 Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
                 state.applyMove(randomMove, state.getPlayerToMove());
@@ -50,6 +55,8 @@ public class ISMCTS {
 
             // Backpropagate
             while (node != null) {
+                System.out.println("BACK PROP");
+
                 node.update(state.getResult(node.getPlayerJustMoved()));
                 node = node.getParent();
             }
@@ -74,7 +81,7 @@ public class ISMCTS {
 
 
     private static void expandNode(MCTSNode node, State state) {
-        List<Move> untriedMoves = node.getUntriedMoves();
+        List<Move> untriedMoves = node.getUntriedMoves(state);
         if (!untriedMoves.isEmpty()) {
             Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
             int player = state.getPlayerToMove();

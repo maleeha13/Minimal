@@ -133,17 +133,18 @@ public class MCTSNode {
 //            currentNode = currentNode.parent;
 //        }
 //    }
-    public List<Move> getUntriedMoves() {
+    public List<Move> getUntriedMoves(State state) {
 
         if (children.isEmpty()) {
             // If the node has no children, all moves are untried
 //            System.out.println("it is empty????");
-            return gameState.getAllMoves(gameState.getPlayerToMove());  // Implement this method in your State class
+            return state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
         } else {
 //            System.out.println("notttttt????");
+//            System.out.println("player innnnn untr is "+ state.getPlayerToMove());
 
             // If the node has children, filter out moves that have already been tried
-            List<Move> allMoves = gameState.getAllMoves(gameState.getPlayerToMove());  // Implement this method in your State class
+            List<Move> allMoves = state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
             List<Move> triedMoves = new ArrayList<>();
 
             for (MCTSNode child : children) {
@@ -197,7 +198,8 @@ public class MCTSNode {
         // Filter the list of children by the list of legal moves
         List<MCTSNode> legalChildren = new ArrayList<>();
         for (MCTSNode child : children) {
-
+//            System.out.println(" lms is " + legalMoves);
+//            System.out.println("child is " + child.getMove());
             if (legalMoves.contains(child.getMove())) {
                 legalChildren.add(child);
 //                System.out.println(" adding legal children");
@@ -216,7 +218,9 @@ public class MCTSNode {
                 // Use the standard UCB formula
                 UCB = (double) child.getWins() / child.getVisits()
                         + exploration * Math.sqrt(Math.log(child.getVisits()) / child.getVisits());
+
             }
+
 //            System.out.println("UCB is " + UCB);
 
             if (UCB > highestUCB) {

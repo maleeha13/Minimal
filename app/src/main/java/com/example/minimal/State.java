@@ -28,10 +28,14 @@ public class State implements Cloneable {
         this.lastMove = null;
         playerToMove = player;
 
-        this.discardedCards = new ArrayList<>(MainActivity.cards);
-        System.out.println("lallala" + MainActivity.cards.size());
+        discardedCards = new ArrayList<>(MainActivity.cards);
+//        System.out.println("lallala" + MainActivity.cards.size());
         playerHand.put(player, getPlayersHand(player));
         List<Integer> hand = getPlayersHand(player);
+//        System.out.println("Player " + player + "'s hand: " + handToString(hand));
+        System.out.println("making a new state ");
+        System.out.println("size of discareded cards us " + discardedCards.size());
+
 //        System.out.println("Player " + player + "'s hand: " + handToString(hand));
 
     }
@@ -69,7 +73,7 @@ public class State implements Cloneable {
         // seen cards = player's hand + discarded card
         seenCards.addAll(discardedCards);
         System.out.println("size of disc cards  " + discardedCards.size());
-        System.out.println("size of disc cards MAIN " + MainActivity.cards.size());
+//        System.out.println("size of disc cards MAIN " + MainActivity.cards.size());
 
 //        System.out.println(discardedCards);
 //        System.out.println("size of disc cards MAIN ACT " + MainActivity.discardedCards.size());
@@ -94,9 +98,10 @@ public class State implements Cloneable {
                 // Store the size of player p's hand
 
                 // Give player p the first numCards unseen cards
-                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, 5)));
+                int sublistEnd = Math.min(5, unseenCards.size());  // Determine the end index of the sublist
+                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, sublistEnd)));
                 // Remove those cards from unseenCards
-                unseenCards.subList(0, 5).clear();
+                unseenCards.subList(0, Math.min(5, unseenCards.size())).clear();
             }
         }
 
@@ -188,6 +193,11 @@ public class State implements Cloneable {
 
         }
 //
+
+//        System.out.println("Possible moves for Player " + player + ":");
+//        for (Move move : allMoves) {
+//            System.out.println(move);
+//        }
 //        for (Move move : allMoves) {
 //            System.out.println(move);
 //        }
@@ -198,6 +208,7 @@ public class State implements Cloneable {
 
 
     public void applyMove(Move move, int player) {
+        System.out.println("MOVE IS BEING APPLIED");
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
         List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
@@ -206,10 +217,10 @@ public class State implements Cloneable {
         lastMove = move;
         for (Integer card : cardsPlayed) {
             // UPDATES DISCARDED CARD
-            System.out.println("cards are B4 " + MainActivity.cards.size());
+//            System.out.println("cards are B4 " + MainActivity.cards.size());
 
             discardedCards.add(card);
-            System.out.println("cards are " + MainActivity.cards.size());
+//            System.out.println("cards are " + MainActivity.cards.size());
         }
 
         List<Integer> playerHandList = playerHand.get(player);
@@ -357,6 +368,7 @@ public class State implements Cloneable {
     }
 
     public int getNextPlayer(){
+        System.out.println("changing player.....");
         int next=0;
         if(this.playerToMove==4){
             next=1;
