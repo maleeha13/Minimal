@@ -27,7 +27,7 @@ public class ISMCTS {
             System.out.println("iter num " + i);
 //            System.out.println("cards are " + rootState.getDiscardedCards().size());
             State state = rootState.clone();
-             state = state.CloneAndRandomize(rootState.getPlayerToMove());
+            state = state.CloneAndRandomize(rootState.getPlayerToMove());
             MCTSNode node = rootNode.cloneNode(); // Start each iteration from the root node
 
 
@@ -78,13 +78,7 @@ public class ISMCTS {
 
         }
 
-//        List<MCTSNode> nodes = rootNode.getChildren();
-//        for (MCTSNode node : nodes) {
-//            System.out.println("moves are " + node.getMove());
-//
-//        }
-
-        System.out.println("children are " );
+        System.out.println("children are " + rootNode.getChildren());
 
         if (!rootNode.getChildren().isEmpty()) {
             Move maxMove = Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
@@ -100,6 +94,7 @@ public class ISMCTS {
         // Return the move that was most visited
 //        return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
     }
+
 
 
     public Move runAlg(State rootState, int itermax, List<ImageView> hand, Button dropButton, Game game) throws CloneNotSupportedException {
