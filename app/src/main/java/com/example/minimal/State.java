@@ -32,7 +32,7 @@ public class State implements Cloneable {
 //        System.out.println("lallala" + MainActivity.cards.size());
         playerHand.put(player, getPlayersHand(player));
         List<Integer> hand = getPlayersHand(player);
-//        System.out.println("Player " + player + "'s hand: " + handToString(hand));
+        System.out.println("Player " + player + "'s hand: " + handToString(hand));
         System.out.println("making a new state ");
         System.out.println("size of discareded cards us " + discardedCards.size());
 
@@ -41,27 +41,73 @@ public class State implements Cloneable {
     }
 
 
-//    public State Clone(){
+
+    public Context getContext(){
+        return this.context;
+    }
+
+
+//    @Override
+//    public State clone() {
 //        try {
-//            State clonedState = (State) super.clone();
-//
-//            // Perform deep cloning for mutable objects
-//            clonedState.discardedCards = new ArrayList<>(this.discardedCards);
-//            clonedState.playerHand = new HashMap<>(this.playerHand);
-//
-//            // Additional deep cloning logic if needed
-//
-//            return clonedState;
+//            return (State) super.clone();
 //        } catch (CloneNotSupportedException e) {
-//            // This should not happen since KnockoutWhistState implements Cloneable
-//            throw new InternalError(e);
+//            throw new AssertionError("Cloning not supported for State class", e);
 //        }
 //    }
+//
+
+
+    @Override
+    public State clone() {
+        try {
+            State clonedState = (State) super.clone();
+
+            // Deep copy the discarded cards list
+            clonedState.discardedCards = new ArrayList<>(this.discardedCards);
+
+            // Deep copy the player hand map
+            clonedState.playerHand = new HashMap<>();
+            for (Map.Entry<Integer, List<Integer>> entry : this.playerHand.entrySet()) {
+                clonedState.playerHand.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+            }
+
+//            System.out.println("player hand og is " + playerHand.);
+
+            // Deep copy the tried moves map
+            clonedState.triedMoves = new HashMap<>();
+            for (Map.Entry<Integer, List<Move>> entry : this.triedMoves.entrySet()) {
+                List<Move> moves = new ArrayList<>();
+                for (Move move : entry.getValue()) {
+                    moves.add(move.clone()); // Assuming Move class also implements Cloneable
+                }
+                clonedState.triedMoves.put(entry.getKey(), moves);
+            }
+
+            // Deep copy the last move
+            if (this.lastMove != null) {
+                clonedState.lastMove = this.lastMove.clone(); // Assuming Move class also implements Cloneable
+            }
+
+            // Retain the same context reference or clone it if necessary
+            clonedState.context = this.context;
+
+            return clonedState;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported for State class", e);
+        }
+    }
+
+
 
 
     public State CloneAndRandomize(int observer) throws CloneNotSupportedException {
-        State st = (State) this.clone();
+        State st = clone();
 
+
+        // Clear discarded cards
+
+        System.out.println("in clone + rand");
         // gets the player's hand
         List<Integer> observerHand = st.playerHand.get(observer);
 
@@ -73,6 +119,8 @@ public class State implements Cloneable {
         // seen cards = player's hand + discarded card
         seenCards.addAll(discardedCards);
         System.out.println("size of disc cards  " + discardedCards.size());
+        System.out.println( discardedCards);
+
 //        System.out.println("size of disc cards MAIN " + MainActivity.cards.size());
 
 //        System.out.println(discardedCards);
@@ -98,10 +146,9 @@ public class State implements Cloneable {
                 // Store the size of player p's hand
 
                 // Give player p the first numCards unseen cards
-                int sublistEnd = Math.min(5, unseenCards.size());  // Determine the end index of the sublist
-                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, sublistEnd)));
+                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, 5)));
                 // Remove those cards from unseenCards
-                unseenCards.subList(0, Math.min(5, unseenCards.size())).clear();
+                unseenCards.subList(0, 5).clear();
             }
         }
 
@@ -155,6 +202,8 @@ public class State implements Cloneable {
 
         // Get the current player's hand
         List<Integer> currentPlayerHand = playerHand.get(player);
+        System.out.println("player num is " + player);
+        System.out.println("played is " + playerHand.get(player) );
 
         // Iterate over each card in the player's hand
         for (int i = 0; i < currentPlayerHand.size(); i++) {
@@ -276,6 +325,7 @@ public class State implements Cloneable {
 
     public Boolean isTerminal(){
         List<Integer> card = updateUnseenCards();
+        System.out.println("CARD SIZE HERE  ====" + card.size());
 
         if(card.isEmpty()){
             return Boolean.TRUE;
@@ -339,12 +389,12 @@ public class State implements Cloneable {
 
 
 
-    private List<Integer> updateUnseenCards() {
+    List<Integer> updateUnseenCards() {
         // Clear the current unseenCards list
         List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
+        System.out.println("uneen cards og is " + unseenCards.size());
 
         // Add all cards to the unseenCards list
-        unseenCards.addAll(Card.makeCardList());
 
         // Remove cards from players' hands
         for (int playerIndex = 1; playerIndex <= 4; playerIndex++) {
@@ -359,6 +409,7 @@ public class State implements Cloneable {
 
         // Remove discarded cards from the unseenCards list
         unseenCards.removeAll(discardedCards);
+        System.out.println(" removing disared " + discardedCards.size());
 
 
         return unseenCards;
@@ -385,4 +436,7 @@ public class State implements Cloneable {
          return playerToMove;
     }
 
+    public List<Integer> getDiscardedCards() {
+        return discardedCards;
+    }
 }

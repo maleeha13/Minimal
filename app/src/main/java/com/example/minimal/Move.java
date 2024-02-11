@@ -1,15 +1,25 @@
 package com.example.minimal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Move {
+public class Move implements Cloneable{
     private List<Integer> cardsPlayed;
     private String source;  // Source can be "deck", "pile", or any other relevant identifier
 
     public Move(List<Integer> cardsPlayed, String source) {
         this.cardsPlayed = cardsPlayed;
         this.source = source;
+    }
+
+    @Override
+    public Move clone() {
+        try {
+            return (Move) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported for Move class", e);
+        }
     }
 
     // Add getters and setters as needed
@@ -40,6 +50,8 @@ public class Move {
         sb.append("from ").append(source);
         return sb.toString();
     }
+
+
 
     // Inside the Move class
     @Override

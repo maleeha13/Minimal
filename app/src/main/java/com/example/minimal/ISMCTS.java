@@ -1,6 +1,8 @@
 package com.example.minimal;
 
 
+import android.content.Context;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,13 +13,22 @@ import java.util.Random;
 
 public class ISMCTS {
 
-    public static Move run(State rootState, int itermax) throws CloneNotSupportedException {
+    private State rootState; // The current state of the real game from which the algorithm tries to find the optimal move
+
+    private MCTSNode currentNode; // The node currently
+
+
+
+    public Move run(State rootState, int itermax) throws CloneNotSupportedException {
         MCTSNode rootNode = new MCTSNode(rootState, null, 0, null);
 
         for (int i = 0; i < itermax; i++) {
-            System.out.println("ITER");
-            State state = rootState.CloneAndRandomize(rootState.getPlayerToMove());
+            System.out.println("iter num " + i);
+            System.out.println("cards are " + rootState.getDiscardedCards().size());
+            State state = rootState.clone();
+             state = state.CloneAndRandomize(rootState.getPlayerToMove());
             MCTSNode node = rootNode.cloneNode(); // Start each iteration from the root node
+
 
             // Ensure root node is expanded initially
             if (node.getChildren().isEmpty()) {
@@ -25,7 +36,7 @@ public class ISMCTS {
             }
 
             // Select
-            while (!rootState.getAllMoves(rootState.getPlayerToMove()).isEmpty() && !node.getUntriedMoves(rootState).isEmpty() && !rootState.isTerminal()) {
+            while (!rootState.getAllMoves(rootState.getPlayerToMove()).isEmpty() && !node.getUntriedMoves(rootState).isEmpty() && !state.isTerminal()) {
                 System.out.println("SELECTION");
                 node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
                 state.applyMove(node.getMove(), state.getPlayerToMove());

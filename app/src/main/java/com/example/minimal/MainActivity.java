@@ -449,7 +449,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             State s = new State(this, game.current_player+1);
 
             ISMCTS monte = new ISMCTS();
-            System.out.println(monte.run(s, 1000));
+            System.out.println(monte.run(s, 20));
         } else {
             if (countDownTimer != null) {
                 System.out.println("cancel it ");
