@@ -76,7 +76,7 @@ public class MinimizeAI {
             @Override
             public void run() {
                 // Check if the game is paused before performing the third click
-                game.iv_deck.performClick();
+                game.droppedCard.performClick();
 
             }
         }, 1000);

@@ -445,11 +445,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
-            callMinimize(game.current_player +1);
+//            callMinimize(game.current_player +1);
             State s = new State(this, game.current_player+1);
 
             ISMCTS monte = new ISMCTS();
-            System.out.println(monte.run(s, 20));
+            Button dropButton = findViewById(R.id.drop);
+            System.out.println(monte.run(s, 5, getHand(game.current_player+1), dropButton, game));
         } else {
             if (countDownTimer != null) {
                 System.out.println("cancel it ");
@@ -469,6 +470,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     }
+
+        public List<ImageView> getHand( int j) {
+            List<ImageView> imageViewList = null;
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+                ImageView img = findViewById(imageViewId);
+
+                imageViewList = new ArrayList<>();
+                imageViewList.add(img);
+            }
+
+            return imageViewList;
+        }
+
 
 
         private void  calculateScores() {

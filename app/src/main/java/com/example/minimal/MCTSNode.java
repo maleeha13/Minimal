@@ -193,16 +193,20 @@ public class MCTSNode {
     }
 
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
+        if (children.isEmpty()) {
+            System.out.println("is empt");
+            return this; // Return itself if there are no children
+        }
 
-//        System.out.println("entering ucb");
+
         // Filter the list of children by the list of legal moves
         List<MCTSNode> legalChildren = new ArrayList<>();
         for (MCTSNode child : children) {
-//            System.out.println(" lms is " + legalMoves);
-//            System.out.println("child is " + child.getMove());
+            System.out.println("lsmsmms " + legalMoves);
+            System.out.println("chielldld " + child.getMove());
             if (legalMoves.contains(child.getMove())) {
+
                 legalChildren.add(child);
-//                System.out.println(" adding legal children");
             }
         }
 
@@ -217,11 +221,8 @@ public class MCTSNode {
             } else {
                 // Use the standard UCB formula
                 UCB = (double) child.getWins() / child.getVisits()
-                        + exploration * Math.sqrt(Math.log(child.getVisits()) / child.getVisits());
-
+                        + exploration * Math.sqrt(Math.log(getVisits()) / child.getVisits());
             }
-
-//            System.out.println("UCB is " + UCB);
 
             if (UCB > highestUCB) {
                 highestUCB = UCB;
