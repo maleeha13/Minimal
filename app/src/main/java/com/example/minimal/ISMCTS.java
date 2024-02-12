@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -59,7 +60,7 @@ public class ISMCTS {
                 while (!state.isTerminal()) {
                     if (node.getUntriedMoves(state).isEmpty()) {
                         // If there are no untried moves, select the best child using UCB
-                        node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.5);
+                        node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
                         state.applyMove(node.getMove(), state.getPlayerToMove());
                     } else {
                         // If there are untried moves, randomly select one, apply it, and expand the node
@@ -156,5 +157,41 @@ public class ISMCTS {
                 }
             }
         });
+    }
+
+    public void show( List<ImageView> myCards, Game game, Button show) {
+        int val = 0;
+        for (ImageView imageView : myCards) {
+            int tag = (Integer) imageView.getTag();
+            val += tag % 100;
+        }
+
+        if (val < 6) {
+            System.out.println("lesser than 6 can show ");
+            show.performClick();
+        }
+        int[] handSums = new int[4]; // Create an array to store hand sums
+
+        int index = 0;
+
+        for (Map.Entry<Integer, List<Integer>> entry : game.playerHand.entrySet()) {
+            System.out.println(" enter");
+            List<Integer> hand = entry.getValue();
+            // Calculate sum of the player's hand
+            int sum = 0;
+            for (Integer card : hand) {
+                System.out.println("add");
+                sum += card % 100;
+            }
+
+            // Store the sum in the array
+            handSums[index] = sum;
+            index++;
+
+        }
+        System.out.println("Hand sums:");
+        for (int sum : handSums) {
+            System.out.println(sum);
+        }
     }
 }

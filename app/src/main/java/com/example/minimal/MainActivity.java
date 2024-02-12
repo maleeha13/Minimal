@@ -491,7 +491,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         ISMCTS monte = new ISMCTS();
         Button dropButton = findViewById(R.id.drop);
+        if(game.playerHand!=null){
+            Button showButton = findViewById(R.id.show);
+            showButton.setVisibility(View.INVISIBLE);
+            monte.show(getHand(game.current_player), game, showButton);
+
+        }
         monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+
     }
 
         public List<ImageView> getHand( int j) {
@@ -613,7 +620,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         int largest = 0;
         Boolean pickFromStack =false;
         ImageView drop = null;
-        List<List<ImageView>> imageViewsList = new ArrayList<>();
+        List<List<ImageView>> list = new ArrayList<>();
+
         Map<Integer, List<ImageView>> imageViewMap = new HashMap<>();
 
         if (isPaused) {
@@ -667,14 +675,26 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         for (List<ImageView> imageViewList : imageViewMap.values()) {
             if (imageViewList.size() > 1) {
-                imageViewsList.add(imageViewList);
+                list.add(imageViewList);
             }
         }
 
+        String source;
+
+        if(pickFromStack){
+            source = "pile";
+        }
+        else{
+            source="deck";
+        }
+
+
         MinimizeAI minimize = new MinimizeAI();
-        minimize.minimizeAI(imageViewsList, drop, pickFromStack, game, dropButton, stack);
+        minimize.minimizeAI(list, drop, pickFromStack, game, dropButton, stack, source);
         if(game.playerHand!=null){
-            minimize.show(getHand(game.current_player), game);
+            Button show = findViewById(R.id.show);
+            show.setVisibility(View.INVISIBLE);
+            minimize.show(getHand(game.current_player), game, show);
 
         }
 
