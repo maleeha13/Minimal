@@ -45,7 +45,6 @@ public class ISMCTS {
         protected Move doInBackground(Void... voids) {
             MCTSNode rootNode = new MCTSNode(rootState, null, 0, null);
             expandNode(rootNode, rootState);
-            System.out.println("THE THREAD IS HERE");
 
             for (int i = 0; i < itermax; i++) {
                 State state = rootState.clone();
@@ -57,7 +56,6 @@ public class ISMCTS {
                 }
                 MCTSNode node = rootNode.cloneNode();
 
-                int it =0;
                 while (!state.isTerminal()) {
                     if (node.getUntriedMoves(state).isEmpty()) {
                         // If there are no untried moves, select the best child using UCB
@@ -99,7 +97,6 @@ public class ISMCTS {
 
         @Override
         protected void onPostExecute(Move maxMove) {
-            System.out.println("max move is " + maxMove);
             if (maxMove != null) {
                 applyBest(maxMove, hand, dropButton, game, deck, stack);
             }
@@ -128,7 +125,6 @@ public class ISMCTS {
                     int tagValue = (Integer) imageView.getTag();
                     if (cards.contains(tagValue)) {
                         imageView.performClick();
-                        System.out.println("clicks the card");
 
 
                     }
@@ -138,7 +134,6 @@ public class ISMCTS {
                     @Override
                     public void run() {
                         dropButton.performClick();
-                        System.out.println("drops the card");
                     }
                 }, 1000);
 
@@ -147,7 +142,6 @@ public class ISMCTS {
                         @Override
                         public void run() {
                             deck.performClick();
-                            System.out.println("clicks teh deck");
                         }
                     }, 2000);
                 } else {
@@ -155,13 +149,7 @@ public class ISMCTS {
                         @Override
                         public void run() {
                             stack.performClick();
-                            System.out.println("PILE PILE PILE");
-                            System.out.println("PILE PILE PILE");
-                            System.out.println("PILE PILE PILE");
-                            System.out.println("PILE PILE PILE");
-                            System.out.println("PILE PILE PILE");
 
-                            System.out.println("PILE PILE PILE");
 
                         }
                     }, 1000);

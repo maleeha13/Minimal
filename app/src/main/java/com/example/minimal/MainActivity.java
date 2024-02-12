@@ -170,10 +170,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             @Override
             public void onClick(View v) {
 
-                System.out.println("listener trig");
 
                 try {
-                    System.out.println("try ");
                     onPileClick();
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
@@ -237,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     @Override
     public void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        System.out.println("onCardClick");
         int tag = (int) imageView.getTag();
         if (game.cardsSelected.contains(imageView)) {
             game.cardsSelected.remove(imageView);
@@ -261,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
 
 
-            System.out.println("the player is " + player + " " + game.turns[game.current_player] + "game picked is " + game.picked);
             if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
                 game.cardsSelected.add(imageView);
@@ -269,7 +265,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 imageView.setLayoutParams(params);
                 ImageView selectedCard = imageView;
                 game.selectedCardId = imageView.getId();
-                System.out.println("onCardClick2");
 
 
             }
@@ -325,7 +320,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
             }
-            System.out.println("dropping card......");
         }
 
         else{
@@ -338,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     @Override
     public void onPileClick() throws CloneNotSupportedException {
-        System.out.println("ON PILE CKICK ");
         ImageView stackImageView = findViewById(R.id.stack);
         if(game.dropped && !game.begin){
 
@@ -412,7 +405,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void nextTurn() throws CloneNotSupportedException {
-        System.out.println(cards);
 
 
         if (game.current_player != 0) {
@@ -453,12 +445,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
-//            callMinimize(game.current_player +1);
-            callMonte();
+            callMinimize(game.current_player +1);
+//            callMonte();
 
         } else {
             if (countDownTimer != null) {
-                System.out.println("cancel it ");
 
                 countDownTimer.cancel();
                 countDownTimer = null;
@@ -680,14 +671,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if (remainingTime > 0 && countDownTimer != null) {
             // If there is remaining time and a valid timer, resume from the remaining time
             durationInMillis = remainingTime;
-            System.out.println("Resuming from previous duration: " + durationInMillis);
         } else {
             if (countDownTimer != null) {
                 countDownTimer.cancel();
             }
             // If there is no remaining time or no valid timer, start a new timer with the default duration
             durationInMillis = 10000; // Default duration
-            System.out.println("Resetting timer with duration: " + durationInMillis);
         }
 
         // Create a CountDownTimer with the specified duration and interval
@@ -699,7 +688,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     // Update the TextView with the remaining time
                     TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
                     remainingTime = millisUntilFinished;
-                    System.out.println("Remaining time is " + millisUntilFinished);
 
                     timerTextView.setText("Time left: " + (millisUntilFinished / 1000) + " seconds");
                 }
@@ -723,7 +711,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void timerUp() {
 //                countDownTimer.cancel();
 
-        System.out.println("TIME IS UPPPPPPPPPPP");
         // Your UI-related code here, including the existing content of timerUp
         if (game.picked && !(game.cardsSelected.isEmpty())) {
             Button dropButton = findViewById(R.id.drop);
