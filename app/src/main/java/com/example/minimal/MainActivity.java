@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -286,21 +287,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void onCardDrop(View v){
 
-        if(game.picked && !(game.cardsSelected.isEmpty())){
+        if(game.picked && !(game.cardsSelected.isEmpty())) {
             ImageView selectedCard = findViewById(game.selectedCardId);
             ImageView stackImageView = findViewById(R.id.stack);
-            game.dropped=true;
-            game.picked=false;
-            game.previous =stackImageView.getDrawable();
+            game.dropped = true;
+            game.picked = false;
+            game.previous = stackImageView.getDrawable();
 
             game.pre = selectedCard;
-            game.check= (int) selectedCard.getTag();
+            game.check = (int) selectedCard.getTag();
             Drawable cardDrawable = selectedCard.getDrawable(); // Get the drawable from the clicked card
 
             if (stackImageView.getVisibility() == View.VISIBLE) {
                 stackImageView.setImageDrawable(game.previous);
-            }
-            else {
+            } else {
                 stackImageView.setImageDrawable(cardDrawable);
             }
 
@@ -308,20 +308,38 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             for (ImageView img_view : game.cardsSelected) {
                 img_view.setVisibility(View.INVISIBLE);
-                game.droppedCard= img_view;
+                game.droppedCard = img_view;
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
                 params.topMargin += 50;
                 img_view.setLayoutParams(params);
             }
 
             stackImageView.setVisibility(View.VISIBLE);
-            if(selectedCard.getTag()!=null){
+            if (selectedCard.getTag() != null) {
                 cards.add((Integer) selectedCard.getTag());
 
 
             }
-        }
 
+
+            if (game.playerHand != null ) {
+                List<Integer> playerHandList = game.playerHand.get(game.current_player);
+                if (playerHandList != null && !playerHandList.isEmpty()) {
+                    // Remove cards from the player's hand based on their indices
+                    for (ImageView card : game.cardsSelected) {
+                        // Remove the first occurrence of the card from the player's hand
+                        // UPDATES PLAYER CARD
+
+                        playerHandList.remove(card);
+                    }
+
+                    // Update the player's hand in the playerHand map
+                    game.playerHand.put(game.current_player, playerHandList);
+                }
+            }
+
+
+        }
         else{
             Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
 
@@ -655,9 +673,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         MinimizeAI minimize = new MinimizeAI();
         minimize.minimizeAI(imageViewsList, drop, pickFromStack, game, dropButton, stack);
-//        minimize.show(getHand(game.current_player));
+        if(game.playerHand!=null){
+            minimize.show(getHand(game.current_player), game);
 
-
+        }
 
 
 

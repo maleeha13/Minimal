@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.util.List;
+import java.util.Map;
 
 public class MinimizeAI {
 
@@ -83,20 +84,38 @@ public class MinimizeAI {
 
 
     }
-    public void show( List<ImageView> myCards){
-        int sum = 0;
+    public void show( List<ImageView> myCards, Game game) {
+        int val = 0;
         for (ImageView imageView : myCards) {
             int tag = (Integer) imageView.getTag();
-            sum += tag % 100;
+            val += tag % 100;
         }
 
-        if(sum<6){
+        if (val < 6) {
             System.out.println("lesser than 6 can show ");
         }
+        int[] handSums = new int[4]; // Create an array to store hand sums
 
+        int index = 0;
 
-        // Delay between the second and third clicks
+        for (Map.Entry<Integer, List<Integer>> entry : game.playerHand.entrySet()) {
+            System.out.println(" enter");
+            List<Integer> hand = entry.getValue();
+            // Calculate sum of the player's hand
+            int sum = 0;
+            for (Integer card : hand) {
+                System.out.println("add");
+                sum += card % 100;
+            }
 
+            // Store the sum in the array
+            handSums[index] = sum;
+            index++;
 
+        }
+        System.out.println("Hand sums:");
+        for (int sum : handSums) {
+            System.out.println(sum);
+        }
     }
 }

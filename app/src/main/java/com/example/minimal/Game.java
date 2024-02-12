@@ -4,7 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
@@ -27,6 +29,7 @@ public class Game {
     int second;
     ImageView iv_deck;
     ImageView stack;
+    Map<Integer, List<Integer>> playerHand = new  HashMap<>();;
 
     int x = 0;
     ImageView droppedCard;

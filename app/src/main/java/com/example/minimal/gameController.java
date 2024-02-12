@@ -12,11 +12,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class gameController {
 
     private GameUIListener gameUIListener;
     Game game;
     private Context context;
+
 
     public gameController(GameUIListener gameUIListener, Context context) {
         this.gameUIListener = gameUIListener;
@@ -55,6 +60,8 @@ public class gameController {
                 game.dropped = false;
                 game.picked = true;
             }
+
+
         }
 
     }
@@ -68,6 +75,12 @@ public class gameController {
         game.second =game.check;
         game.dropped=false;
         game.picked=true;
+
+        List<Integer> playerHandList = new ArrayList<>();
+        game.playerHand.get(game.current_player);
+        playerHandList.add((Integer) imageView.getTag());
+        System.out.println("adding .... " + (Integer) imageView.getTag());
+        game.playerHand.put(game.current_player, playerHandList);
 
     }
 
