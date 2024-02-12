@@ -103,14 +103,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         for(int i=1; i<=5; i++){
 
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
-            System.out.println("the id of the card is " + start);
             ImageView imageView = findViewById(imageViewId);
             Card.assignImages(Card.getCards().get(game.x), imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int cardValue = Card.getCards().get(game.x);
-                    System.out.println("start is " + start);
                     onCardClicked(cardValue, imageView, start);
                 }
             });
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         hideImageViewsRange(4, "iv_p", View.VISIBLE);
 
         game.iv_deck = (ImageView) findViewById(R.id.iv_deck);
-        ImageView stack = (ImageView) findViewById(R.id.stack);
+        game.stack = (ImageView) findViewById(R.id.stack);
         game.iv_deck.setVisibility(View.VISIBLE);
 
         LinearLayout linearLayout = findViewById(R.id.lay1);
@@ -168,11 +166,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         });
 
-        stack.setOnClickListener(new View.OnClickListener() {
+        game.stack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                System.out.println("listener trig");
+
                 try {
+                    System.out.println("try ");
                     onPileClick();
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         });
 
-        stack.setVisibility(View.INVISIBLE);
+        game.stack.setVisibility(View.INVISIBLE);
 
 
         timer();
@@ -337,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     @Override
     public void onPileClick() throws CloneNotSupportedException {
+        System.out.println("ON PILE CKICK ");
         ImageView stackImageView = findViewById(R.id.stack);
         if(game.dropped && !game.begin){
 
@@ -371,10 +373,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     @Override
     public void onDeckClick() throws CloneNotSupportedException {
-        System.out.println("b4.........");
 
         if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
-            System.out.println("entered....");
 
             ImageView img = findEmptyImageView();
             if (img != null) {
@@ -412,7 +412,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void nextTurn() throws CloneNotSupportedException {
-        System.out.println("discarded cards in next turn: " + cards.size());
         System.out.println(cards);
 
 
@@ -482,21 +481,18 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         ISMCTS monte = new ISMCTS();
         Button dropButton = findViewById(R.id.drop);
-        monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.droppedCard);
+        monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
     }
 
         public List<ImageView> getHand( int j) {
             List<ImageView> imageViewList =  new ArrayList<>();;
-            System.out.println(" j is " + j);
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
-                System.out.println("tag before passing is " + img.getTag());
 
                 imageViewList.add(img);
             }
 
-            System.out.println("hand size isisisi " + imageViewList.size());
             return imageViewList;
         }
 

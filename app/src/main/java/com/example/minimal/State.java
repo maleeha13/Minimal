@@ -271,7 +271,6 @@ public class State implements Cloneable {
 //            System.out.println("cards are " + MainActivity.cards.size());
         }
 
-        System.out.println("discarded cards are " + discardedCards);
 
         List<Integer> playerHandList = playerHand.get(player);
         if (playerHandList != null && !playerHandList.isEmpty()) {

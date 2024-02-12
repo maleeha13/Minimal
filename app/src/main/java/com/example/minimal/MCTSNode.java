@@ -136,7 +136,6 @@ public class MCTSNode {
     public List<Move> getUntriedMoves(State state) {
 
         if (children.isEmpty()) {
-            System.out.println("is emp");
             // If the node has no children, all moves are untried
 //            System.out.println("it is empty????");
             return state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
@@ -213,9 +212,7 @@ public class MCTSNode {
     }
 
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
-        System.out.println("legal moves are " + legalMoves);
         if (children.isEmpty()) {
-            System.out.println("has no children ");
             return this; // Return itself if there are no children
         }
 

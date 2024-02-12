@@ -48,17 +48,14 @@ public class ISMCTS {
             System.out.println("THE THREAD IS HERE");
 
             for (int i = 0; i < itermax; i++) {
-                System.out.println("11111");
                 State state = rootState.clone();
                 try {
                     state = state.CloneAndRandomize(rootState.getPlayerToMove());
                 } catch (CloneNotSupportedException e) {
-                    System.out.println("22222");
 
                     throw new RuntimeException(e);
                 }
                 MCTSNode node = rootNode.cloneNode();
-                System.out.println("3333");
 
                 int it =0;
                 while (!state.isTerminal()) {
@@ -66,13 +63,11 @@ public class ISMCTS {
                         // If there are no untried moves, select the best child using UCB
                         node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.5);
                         state.applyMove(node.getMove(), state.getPlayerToMove());
-                        System.out.println("move being applied is " + node.getMove());
                     } else {
                         // If there are untried moves, randomly select one, apply it, and expand the node
                         List<Move> untriedMoves = node.getUntriedMoves(state);
                         Move randomMove = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
                         state.applyMove(randomMove, state.getPlayerToMove());
-                        System.out.println("move being applied is " + node.getMove());
 
                         node = node.addChild(randomMove, state.getPlayerToMove());
                     }
@@ -84,14 +79,12 @@ public class ISMCTS {
                     state.applyMove(randomMove, state.getPlayerToMove());
                     boolean simulationResult = state.getResult(state.getPlayerToMove());
                     node.update(simulationResult);
-                    System.out.println("55555");
 
                 }
 
                 while (node != null) {
                     node.update(state.getResult(node.getPlayerJustMoved()));
                     node = node.getParent();
-                    System.out.println("STUCK HERE111 $$$$");
 
                 }
             }
@@ -99,7 +92,6 @@ public class ISMCTS {
             if (!rootNode.getChildren().isEmpty()) {
                 return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
             } else {
-                System.out.println("77777");
 
                 return null;
             }
@@ -129,15 +121,14 @@ public class ISMCTS {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                System.out.println("enterubg handler");
                 String source = maxMove.getSource();
                 List<Integer> cards = maxMove.getCardsPlayed();
 
                 for (ImageView imageView : hand) {
                     int tagValue = (Integer) imageView.getTag();
-                    System.out.println("the tag of image view is " + imageView.getTag());
                     if (cards.contains(tagValue)) {
                         imageView.performClick();
+                        System.out.println("clicks the card");
 
 
                     }
@@ -147,6 +138,7 @@ public class ISMCTS {
                     @Override
                     public void run() {
                         dropButton.performClick();
+                        System.out.println("drops the card");
                     }
                 }, 1000);
 
@@ -155,6 +147,7 @@ public class ISMCTS {
                         @Override
                         public void run() {
                             deck.performClick();
+                            System.out.println("clicks teh deck");
                         }
                     }, 2000);
                 } else {
@@ -162,6 +155,14 @@ public class ISMCTS {
                         @Override
                         public void run() {
                             stack.performClick();
+                            System.out.println("PILE PILE PILE");
+                            System.out.println("PILE PILE PILE");
+                            System.out.println("PILE PILE PILE");
+                            System.out.println("PILE PILE PILE");
+                            System.out.println("PILE PILE PILE");
+
+                            System.out.println("PILE PILE PILE");
+
                         }
                     }, 1000);
                 }

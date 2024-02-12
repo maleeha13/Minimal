@@ -26,6 +26,8 @@ public class Game {
     int check;
     int second;
     ImageView iv_deck;
+    ImageView stack;
+
     int x = 0;
     ImageView droppedCard;
 
