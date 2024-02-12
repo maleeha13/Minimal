@@ -257,7 +257,6 @@ public class State implements Cloneable {
 
 
     public void applyMove(Move move, int player) {
-        System.out.println("MOVE IS BEING APPLIED");
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
         List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
@@ -271,6 +270,8 @@ public class State implements Cloneable {
             discardedCards.add(card);
 //            System.out.println("cards are " + MainActivity.cards.size());
         }
+
+        System.out.println("discarded cards are " + discardedCards);
 
         List<Integer> playerHandList = playerHand.get(player);
         if (playerHandList != null && !playerHandList.isEmpty()) {

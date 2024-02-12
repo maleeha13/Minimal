@@ -136,6 +136,7 @@ public class MCTSNode {
     public List<Move> getUntriedMoves(State state) {
 
         if (children.isEmpty()) {
+            System.out.println("is emp");
             // If the node has no children, all moves are untried
 //            System.out.println("it is empty????");
             return state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
@@ -191,25 +192,40 @@ public class MCTSNode {
         // Set the playerJustMoved value for the child node
         // Additional logic as needed
     }
+    public boolean isFullyExpanded() {
+        // Get all legal moves for the current player
+        List<Move> legalMoves = gameState.getAllMoves(gameState.getPlayerToMove());
+
+        // Check if all legal moves have corresponding child nodes
+        for (Move move : legalMoves) {
+            boolean found = false;
+            for (MCTSNode child : children) {
+                if (child.getMove().equals(move)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false; // At least one legal move doesn't have a corresponding child node
+            }
+        }
+        return true; // All legal moves have corresponding child nodes
+    }
 
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
+        System.out.println("legal moves are " + legalMoves);
         if (children.isEmpty()) {
-            System.out.println("is empt");
+            System.out.println("has no children ");
             return this; // Return itself if there are no children
         }
 
-
-        // Filter the list of children by the list of legal moves
+        // Filter the list of children by the list of legal moves and untried moves
         List<MCTSNode> legalChildren = new ArrayList<>();
         for (MCTSNode child : children) {
-            System.out.println("lsmsmms " + legalMoves);
-            System.out.println("chielldld " + child.getMove());
-            if (legalMoves.contains(child.getMove())) {
-
+            if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
                 legalChildren.add(child);
             }
         }
-
         // Get the child with the highest UCB score
         MCTSNode selectedChild = null;
         double highestUCB = Double.NEGATIVE_INFINITY;

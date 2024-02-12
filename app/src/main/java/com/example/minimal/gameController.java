@@ -51,12 +51,14 @@ public class gameController {
 
             if (imageView != null) {
                 assign(imageView, game.turns[game.current_player]);
-
+                System.out.println("final");
                 game.second = game.check;
                 game.dropped = false;
                 game.picked = true;
             }
         }
+
+        System.out.println("deck click .....");
     }
 
 
@@ -68,6 +70,7 @@ public class gameController {
         game.second =game.check;
         game.dropped=false;
         game.picked=true;
+        System.out.println(" pile clicked.....");
 
     }
 
@@ -136,6 +139,8 @@ public class gameController {
 
                 }
             }
+
+            System.out.println("card is clicked...... ");
         }
 
 

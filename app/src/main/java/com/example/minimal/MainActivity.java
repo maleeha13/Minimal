@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -39,7 +40,7 @@ import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 
-public class MainActivity extends AppCompatActivity implements gameController.GameUIListener {
+public class MainActivity extends AppCompatActivity implements gameController.GameUIListener  {
 
     private static boolean isPaused = false;
 
@@ -102,12 +103,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         for(int i=1; i<=5; i++){
 
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
+            System.out.println("the id of the card is " + start);
             ImageView imageView = findViewById(imageViewId);
             Card.assignImages(Card.getCards().get(game.x), imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int cardValue = Card.getCards().get(game.x);
+                    System.out.println("start is " + start);
                     onCardClicked(cardValue, imageView, start);
                 }
             });
@@ -233,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     @Override
     public void onCardClicked(int cardValue, ImageView imageView, int player) {
 
+        System.out.println("onCardClick");
         int tag = (int) imageView.getTag();
         if (game.cardsSelected.contains(imageView)) {
             game.cardsSelected.remove(imageView);
@@ -255,6 +259,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             }
 
+
+            System.out.println("the player is " + player + " " + game.turns[game.current_player] + "game picked is " + game.picked);
             if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
                 game.cardsSelected.add(imageView);
@@ -262,6 +268,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 imageView.setLayoutParams(params);
                 ImageView selectedCard = imageView;
                 game.selectedCardId = imageView.getId();
+                System.out.println("onCardClick2");
+
 
             }
             else if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
@@ -312,12 +320,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             stackImageView.setVisibility(View.VISIBLE);
             if(selectedCard.getTag()!=null){
-                System.out.println(" adding to disc view ");
                 cards.add((Integer) selectedCard.getTag());
-                System.out.println("disc main size " + cards.size());
 
 
             }
+            System.out.println("dropping card......");
         }
 
         else{
@@ -364,8 +371,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     @Override
     public void onDeckClick() throws CloneNotSupportedException {
-        if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
+        System.out.println("b4.........");
 
+        if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
+            System.out.println("entered....");
 
             ImageView img = findEmptyImageView();
             if (img != null) {
@@ -446,11 +455,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
 //            callMinimize(game.current_player +1);
-            State s = new State(this, game.current_player+1);
+            callMonte();
 
-            ISMCTS monte = new ISMCTS();
-            Button dropButton = findViewById(R.id.drop);
-            System.out.println(monte.run(s, 5, getHand(game.current_player+1), dropButton, game));
         } else {
             if (countDownTimer != null) {
                 System.out.println("cancel it ");
@@ -471,21 +477,46 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
+    public void callMonte() throws CloneNotSupportedException {
+        State s = new State(this, game.current_player+1);
+
+        ISMCTS monte = new ISMCTS();
+        Button dropButton = findViewById(R.id.drop);
+        monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.droppedCard);
+    }
+
         public List<ImageView> getHand( int j) {
-            List<ImageView> imageViewList = null;
+            List<ImageView> imageViewList =  new ArrayList<>();;
+            System.out.println(" j is " + j);
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
+                System.out.println("tag before passing is " + img.getTag());
 
-                imageViewList = new ArrayList<>();
                 imageViewList.add(img);
             }
 
+            System.out.println("hand size isisisi " + imageViewList.size());
             return imageViewList;
         }
 
 
 
+
+    private class MonteCarloTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            State s = new State(MainActivity.this, game.current_player + 1);
+            ISMCTS monte = new ISMCTS();
+            Button dropButton = findViewById(R.id.drop);
+            monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.droppedCard);
+            return null;
+        }
+    }
+    public void callMonte2() {
+        new MonteCarloTask().execute();
+    }
         private void  calculateScores() {
         int currentRound = StartScreen.currentRound;
 
