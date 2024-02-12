@@ -446,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
             callMinimize(game.current_player +1);
+
 //            callMonte();
 
         } else {
@@ -654,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         MinimizeAI minimize = new MinimizeAI();
         minimize.minimizeAI(imageViewsList, drop, pickFromStack, game, dropButton, stack);
-
+//        minimize.show(getHand(game.current_player));
 
 
 
