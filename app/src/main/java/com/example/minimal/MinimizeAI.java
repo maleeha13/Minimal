@@ -1,5 +1,6 @@
 package com.example.minimal;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -12,39 +13,27 @@ import java.util.Objects;
 
 public class MinimizeAI {
 
-    public void minimizeAI(List<List<ImageView>> imageViewsList, ImageView img, Boolean pickFromStack, Game game, Button dropButton, ImageView stackImage, String source) {
-        System.out.println("-----------------------");
-        // Click the first set of image views
-//        if (imageViewsList.size() < 1) {
-//            img.performClick();
-//            System.out.println("click 1");
-//        } else {
 
-//        }
+    boolean isClicked = false;
+    boolean isDropped = false;
+    boolean isPicked = true;
+
+    private CountDownTimer clickTimer;
+
+    public void minimizeAI(List<ImageView> playerHand, ImageView img, Boolean pickFromStack, Game game, Button dropButton, ImageView stackImage, String source) {
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                for (List<ImageView> imageViewList : imageViewsList) {
-                    for (ImageView imageView : imageViewList) {
 
-                        System.out.println("cards is  " +  imageView.getTag());
-                    }
-                }
 
-                System.out.println("size is " + imageViewsList.size() );
-                if(imageViewsList.size()<1){
-                    img.performClick();
-                }
-                else{
-                    for (List<ImageView> imageViewList : imageViewsList) {
-                        for (ImageView imageView : imageViewList) {
-                            imageView.performClick();
-                            System.out.println("click ");
-                        }
-                    }
-                }
+                for (ImageView imageView : playerHand) {
 
+                        imageView.performClick();
+
+
+
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -72,6 +61,108 @@ public class MinimizeAI {
                 }
             }
         });
+
+
+
+
+
+
+
+
+
+
+        //        System.out.println("-----------------------");
+//        System.out.println("player iss " + game.current_player);
+//
+//        if (imageViewsList.size() > 0) {
+//            for (List<ImageView> imageViewList : imageViewsList) {
+//                for (ImageView imageView : imageViewList) {
+//                    imageView.performClick();
+//
+//                    System.out.println("click ");
+//                }
+//            }
+//        } else {
+//            // If no image views to click, perform the initial click
+//            img.performClick();
+//            System.out.println("click 111111");
+//        }
+//
+//
+//        dropButton.performClick();
+//        if (Objects.equals(source, "deck")) {
+//            game.iv_deck.performClick();
+//            System.out.println(" deck ");
+//        } else {
+//            game.stack.performClick();
+//            System.out.println(" stack ");
+//        }
+
+//
+//        new Handler(Looper.getMainLooper()).post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(isPicked){
+//
+//                    // Click the first set of image views if available
+//                if (imageViewsList.size() > 0) {
+//                    for (List<ImageView> imageViewList : imageViewsList) {
+//                        for (ImageView imageView : imageViewList) {
+//                            imageView.performClick();
+//                            System.out.println("click ");
+//                            isClicked = true;
+//                            isPicked=false;
+//
+//                        }
+//                    }
+//                } else {
+//                    // If no image views to click, perform the initial click
+//                    img.performClick();
+//                    isClicked = true;
+//                    isPicked=false;
+//
+//                    System.out.println("click 111111");
+//                }
+//            }
+//                // Delay before clicking the drop button
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(isClicked) {
+//
+//                            dropButton.performClick();
+//                            System.out.println(" drop ");
+//                            isDropped=true;
+//                            isPicked=false;
+//                            isClicked=false;
+//                        }
+//                        // Delay before clicking the appropriate source
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if(isDropped) {
+//                                    if (Objects.equals(source, "deck")) {
+//                                        game.iv_deck.performClick();
+//                                        System.out.println(" deck ");
+//                                        isPicked=true;
+//                                        isDropped=false;
+//                                        isClicked=false;
+//
+//                                    } else {
+//                                        game.stack.performClick();
+//                                        isPicked=true;
+//                                        isDropped=false;
+//                                        isClicked=false;
+//
+//                                        System.out.println(" stack ");
+//                                    }
+//                                }
+//                            }
+//                        }, 2000); // Delay for clicking the source button
+//                    }
+//                }, 2000); // Delay for clicking the drop button
+//            }
+//        });
     }
 
     public void deckDrop(ImageView img, Button dropButton, Game game){

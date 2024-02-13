@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -238,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         int tag = (int) imageView.getTag();
         if (game.cardsSelected.contains(imageView)) {
+            System.out.println("CARD 11111111111111111");
+
             game.cardsSelected.remove(imageView);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
             params.topMargin += 50;
@@ -247,6 +250,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         else{
+            System.out.println("CARD 222222222222222222");
+
             int cardNumber = (int) imageView.getTag();
             int lastDigit = cardNumber % 100;
             ImageView v = null;
@@ -266,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 imageView.setLayoutParams(params);
                 ImageView selectedCard = imageView;
                 game.selectedCardId = imageView.getId();
+                System.out.println("clicked da card");
 
 
             }
@@ -465,6 +471,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //            callGreedy(game.current_player + 1);
             callMinimize(game.current_player +1);
 
+
 //            callMonte();
 
         } else {
@@ -618,40 +625,34 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void callMinimize(int j){
         int largest = 0;
-        Boolean pickFromStack =false;
+        Boolean pickFromStack = false;
         ImageView drop = null;
-        List<List<ImageView>> list = new ArrayList<>();
+        List<ImageView> list = new ArrayList<>();
 
         Map<Integer, List<ImageView>> imageViewMap = new HashMap<>();
 
         if (isPaused) {
             return; // Exit the method if the game is paused
         }
+
         Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
-        ImageView stack = (ImageView) findViewById(R.id.stack);
+        ImageView stack = findViewById(R.id.stack);
 
-        int stackCardNumber ;
-        if(stack.getTag()!=null){
-             stackCardNumber = (int) stack.getTag();
-
-        }
-        else{
-             stackCardNumber = 0;
-        }
+        int stackCardNumber = stack.getTag() != null ? (int) stack.getTag() : 0;
+        List<ImageView> descList = new ArrayList<>();
 
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
             ImageView img = findViewById(imageViewId);
+            descList.add(img);
+
 
             int cardNumber = (int) img.getTag();
             int remainder = cardNumber % 100;
 
-
-            if(cardNumber % 100 ==  stackCardNumber % 100){
-                pickFromStack =true;
-
+            if (cardNumber % 100 == stackCardNumber % 100) {
+                pickFromStack = true;
             }
-
 
             if (imageViewMap.containsKey(remainder)) {
                 // Add the image view to the existing list
@@ -663,21 +664,57 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 imageViewMap.put(remainder, imageViewList);
             }
 
-            if ((cardNumber % 100) > largest) {
-                if(!(pickFromStack && remainder == stackCardNumber % 100))  {
-                    largest = cardNumber % 100;
-                    drop = img;
-                }
+        }
 
+        Collections.sort(descList, new Comparator<ImageView>() {
+            @Override
+            public int compare(ImageView img1, ImageView img2) {
+                int tag1 = (int) img1.getTag() % 100;
+                int tag2 = (int) img2.getTag() % 100;
+                // Sort in descending order
+                return tag2 - tag1;
+            }
+        });
+
+        for (ImageView imageView : descList) {
+            System.out.println("val is " + imageView.getTag());
+        }
+
+        largest = (int) descList.get(0).getTag();
+
+// Iterate over the image view map and add all values to the list
+        int largestKey = 0;
+        int largestValue = 0;
+
+// Find the key with the largest value in the map
+        for (Map.Entry<Integer, List<ImageView>> entry : imageViewMap.entrySet()) {
+            int key = entry.getKey();
+            int value = entry.getValue().size();
+
+            if (value > largestValue) {
+                largestKey = key;
+                largestValue = value;
             }
         }
 
+        System.out.println("largest key is " + largestKey);
+        System.out.println("largest val " + largestValue);
 
-        for (List<ImageView> imageViewList : imageViewMap.values()) {
-            if (imageViewList.size() > 1) {
-                list.add(imageViewList);
-            }
+
+// Add the ImageViews corresponding to the largest key to the list
+        list.addAll(imageViewMap.get(largestKey));
+
+
+
+// Check if the total value in the list is greater than 'largest'
+        int totalValue = 0;
+        for (ImageView imageView : list) {
+
+            totalValue += (Integer) imageView.getTag() % 100;
+            System.out.println("val being added is " + (Integer) imageView.getTag() % 100);
         }
+
+
 
         String source;
 
@@ -689,12 +726,37 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
 
-        MinimizeAI minimize = new MinimizeAI();
-        minimize.minimizeAI(list, drop, pickFromStack, game, dropButton, stack, source);
+
+        if (totalValue >= largest) {
+            System.out.println("mult");
+            MinimizeAI minimize = new MinimizeAI();
+            minimize.minimizeAI(list, drop, pickFromStack, game, dropButton, stack, source); // Return the list if its total value is greater than 'largest'
+        } else {
+            // Create a new list and add 'img' to it
+            List<ImageView> newList = new ArrayList<>();
+            if (largest == stackCardNumber % 100 && pickFromStack) {
+
+                    drop = (descList.get(1)); // Add the second ImageView in the list to the descList
+
+            }
+
+            else{
+                drop = (descList.get(0));
+            }
+            newList.add(drop);
+
+
+            MinimizeAI minimize = new MinimizeAI();
+            minimize.minimizeAI(newList, drop, pickFromStack, game, dropButton, stack, source);
+        }
+
+
+
+
         if(game.playerHand!=null){
             Button show = findViewById(R.id.show);
             show.setVisibility(View.INVISIBLE);
-            minimize.show(getHand(game.current_player), game, show);
+//            minimize.show(getHand(game.current_player), game, show);
 
         }
 
