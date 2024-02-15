@@ -22,14 +22,16 @@ public class MinimizeAI {
 
     public void minimizeAI(List<ImageView> playerHand, ImageView img, Boolean pickFromStack, Game game, Button dropButton, ImageView stackImage, String source) {
 
+
+        System.out.println("-----------------------------------");
+        System.out.println("PLAYER NUM: " + game.current_player);
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
 
-
                 for (ImageView imageView : playerHand) {
-
-                        imageView.performClick();
+                    imageView.performClick();
+                    System.out.println("i am clicking " + imageView.getTag());
 
 
 
@@ -166,7 +168,6 @@ public class MinimizeAI {
     }
 
     public void deckDrop(ImageView img, Button dropButton, Game game){
-
 
         new Handler().postDelayed(new Runnable() {
             @Override

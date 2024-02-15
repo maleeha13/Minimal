@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -271,7 +272,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 imageView.setLayoutParams(params);
                 ImageView selectedCard = imageView;
                 game.selectedCardId = imageView.getId();
-                System.out.println("clicked da card");
+                RelativeLayout rootView = findViewById(R.id.main);
+                System.out.println("it is picking the card " + imageView.getTag()) ;
+
+// Force refresh the layout
+                rootView.requestLayout();
 
 
             }
@@ -314,10 +319,23 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             for (ImageView img_view : game.cardsSelected) {
                 img_view.setVisibility(View.INVISIBLE);
+                ViewParent parent = img_view.getParent();
+                if (parent instanceof View) {
+                    ((View) parent).invalidate();
+                }
+
+                System.out.println("Making it invisible on thread: " + Thread.currentThread().getName());
+                System.out.println("card is " + img_view.getTag());
+                System.out.println("making it invisible " + img_view.getVisibility());
                 game.droppedCard = img_view;
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
                 params.topMargin += 50;
                 img_view.setLayoutParams(params);
+                RelativeLayout rootView = findViewById(R.id.main);
+
+// Force refresh the layout
+                rootView.requestLayout();
+
             }
 
             stackImageView.setVisibility(View.VISIBLE);
@@ -644,25 +662,33 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
             ImageView img = findViewById(imageViewId);
-            descList.add(img);
+            System.out.println("image is " + img.getTag());
+            if(img.getVisibility() == View.VISIBLE){
+                System.out.println(" vis is image is " + img.getTag());
 
+                int cardNumber = (int) img.getTag();
+                int remainder = cardNumber % 100;
 
-            int cardNumber = (int) img.getTag();
-            int remainder = cardNumber % 100;
+                if (cardNumber % 100 == stackCardNumber % 100) {
+                    pickFromStack = true;
+                }
 
-            if (cardNumber % 100 == stackCardNumber % 100) {
-                pickFromStack = true;
+                if (imageViewMap.containsKey(remainder)) {
+                    // Add the image view to the existing list
+                    imageViewMap.get(remainder).add(img);
+                } else {
+                    // Create a new list and add the image view to it
+                    List<ImageView> imageViewList = new ArrayList<>();
+                    imageViewList.add(img);
+                    imageViewMap.put(remainder, imageViewList);
+                }
+                descList.add(img);
             }
+            System.out.println("image");
 
-            if (imageViewMap.containsKey(remainder)) {
-                // Add the image view to the existing list
-                imageViewMap.get(remainder).add(img);
-            } else {
-                // Create a new list and add the image view to it
-                List<ImageView> imageViewList = new ArrayList<>();
-                imageViewList.add(img);
-                imageViewMap.put(remainder, imageViewList);
-            }
+
+
+
 
         }
 
@@ -676,11 +702,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         });
 
-        for (ImageView imageView : descList) {
-            System.out.println("val is " + imageView.getTag());
-        }
 
-        largest = (int) descList.get(0).getTag();
+
+        largest = (int) descList.get(0).getTag() % 100;
 
 // Iterate over the image view map and add all values to the list
         int largestKey = 0;
@@ -726,9 +750,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
 
+        System.out.println("PLAYER ISSSSSSSS " + game.current_player );
+        for (ImageView imageView : descList) {
+
+            System.out.println("val in desc list " + imageView.getTag());
+        }
 
         if (totalValue >= largest) {
             System.out.println("mult");
+            for (ImageView imageView : list) {
+                System.out.println("val in LIST IS " + imageView.getTag());
+            }
             MinimizeAI minimize = new MinimizeAI();
             minimize.minimizeAI(list, drop, pickFromStack, game, dropButton, stack, source); // Return the list if its total value is greater than 'largest'
         } else {
@@ -745,7 +777,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
             newList.add(drop);
 
-
+            for (ImageView imageView : newList) {
+                System.out.println("val in LIST IS " + imageView.getTag());
+            }
             MinimizeAI minimize = new MinimizeAI();
             minimize.minimizeAI(newList, drop, pickFromStack, game, dropButton, stack, source);
         }

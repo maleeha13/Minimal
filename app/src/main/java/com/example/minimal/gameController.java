@@ -127,6 +127,7 @@ public class gameController {
                 params.topMargin += 50;
                 imageView.setLayoutParams(params);
                 game.currentCard=null;
+
             }
             else{
                 int cardNumber = (int) imageView.getTag();
@@ -138,6 +139,7 @@ public class gameController {
                     int x = (int) v.getTag();
                     existing = x % 100;
                 }
+
                 // if its the players turn and theyve picked a card and its a new card or one w same value pick it
                 if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
 
@@ -146,6 +148,8 @@ public class gameController {
                     params.topMargin -= 50;
                     imageView.setLayoutParams(params);
                     game.selectedCardId = imageView.getId();
+                    System.out.println("it is clicking the card " + imageView.getTag()) ;
+
 
                 }
             }
