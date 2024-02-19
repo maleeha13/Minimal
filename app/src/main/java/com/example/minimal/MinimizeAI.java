@@ -190,8 +190,10 @@ public class MinimizeAI {
             val += tag % 100;
         }
 
+
+
         if (val < 6) {
-            System.out.println("lesser than 6 can show ");
+            System.out.println("lesser than 6 can show for " + game.current_player );
             show.performClick();
         }
         int[] handSums = new int[4]; // Create an array to store hand sums

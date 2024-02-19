@@ -531,8 +531,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
+                if(img.getVisibility()==View.VISIBLE){
+                    imageViewList.add(img);
 
-                imageViewList.add(img);
+                }
+
             }
 
             return imageViewList;
@@ -646,6 +649,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         Boolean pickFromStack = false;
         ImageView drop = null;
         List<ImageView> list = new ArrayList<>();
+        if(game.playerHand!=null){
+            Button show = findViewById(R.id.show);
+            show.setVisibility(View.INVISIBLE);
+            MinimizeAI minimize = new MinimizeAI();
+            minimize.show(getHand(game.current_player), game, show);
+
+        }
+
 
         Map<Integer, List<ImageView>> imageViewMap = new HashMap<>();
 
@@ -767,9 +778,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             // Create a new list and add 'img' to it
             List<ImageView> newList = new ArrayList<>();
             if (largest == stackCardNumber % 100 && pickFromStack) {
-
                     drop = (descList.get(1)); // Add the second ImageView in the list to the descList
-
             }
 
             else{
@@ -787,12 +796,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
 
-        if(game.playerHand!=null){
-            Button show = findViewById(R.id.show);
-            show.setVisibility(View.INVISIBLE);
-//            minimize.show(getHand(game.current_player), game, show);
-
-        }
 
 
 
