@@ -311,8 +311,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             if (stackImageView.getVisibility() == View.VISIBLE) {
                 stackImageView.setImageDrawable(game.previous);
+                stackImageView.setTag(game.pre.getTag());
             } else {
                 stackImageView.setImageDrawable(cardDrawable);
+                stackImageView.setTag(selectedCard.getTag());
+
+
             }
 
             game.current = cardDrawable;
@@ -324,9 +328,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     ((View) parent).invalidate();
                 }
 
-                System.out.println("Making it invisible on thread: " + Thread.currentThread().getName());
-                System.out.println("card is " + img_view.getTag());
-                System.out.println("making it invisible " + img_view.getVisibility());
+
                 game.droppedCard = img_view;
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) img_view.getLayoutParams();
                 params.topMargin += 50;
@@ -667,7 +669,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
         ImageView stack = findViewById(R.id.stack);
 
-        int stackCardNumber = stack.getTag() != null ? (int) stack.getTag() : 0;
+        System.out.println("PREV IS " + game.stack.getTag());
+
+        Integer stackCardNumber = (Integer) game.stack.getTag();
+
         List<ImageView> descList = new ArrayList<>();
 
         for (int i = 1; i <= 5; i++) {
@@ -681,6 +686,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 int remainder = cardNumber % 100;
 
                 if (cardNumber % 100 == stackCardNumber % 100) {
+                    System.out.println("XXXXXXX");
                     pickFromStack = true;
                 }
 
