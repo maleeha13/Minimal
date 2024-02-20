@@ -42,20 +42,6 @@ public class State implements Cloneable {
 
 
 
-    public Context getContext(){
-        return this.context;
-    }
-
-
-//    @Override
-//    public State clone() {
-//        try {
-//            return (State) super.clone();
-//        } catch (CloneNotSupportedException e) {
-//            throw new AssertionError("Cloning not supported for State class", e);
-//        }
-//    }
-//
 
 
     @Override
@@ -202,22 +188,16 @@ public class State implements Cloneable {
 
         // Get the current player's hand
         List<Integer> currentPlayerHand = playerHand.get(player);
-//        System.out.println("player num is " + player);
-//        System.out.println("played is " + playerHand.get(player) );
+        Integer largestCardWithoutSameRank = null; // Variable to store the largest card without the same rank
 
-        // Iterate over each card in the player's hand
-        for (int i = 0; i < currentPlayerHand.size(); i++) {
-            Integer card = currentPlayerHand.get(i);
-
+        for (Integer card : currentPlayerHand) {
             // Check for other cards with the same rank
-
             boolean cardNotInAllMoves = allMoves.stream()
                     .flatMap(move -> move.getCardsPlayed().stream())
                     .noneMatch(card::equals);
 
-            if(cardNotInAllMoves){
+            if (cardNotInAllMoves) {
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
-
 
                 // If there are cards with the same rank, create a move for playing them together with the pile
                 if (!cardsWithSameRank.isEmpty()) {
@@ -227,32 +207,33 @@ public class State implements Cloneable {
 
                     allMoves.add(movePile);
                     allMoves.add(moveDeck);
-
-                    // Remove the processed cards from the player's hand
                 } else {
+                    // If the current card is higher than the current largest card without the same rank, update it
+                    if (largestCardWithoutSameRank == null || card % 100 > largestCardWithoutSameRank % 100) {
+                        largestCardWithoutSameRank = card ;
 
-                    // If there is only one card with the same rank, add it to the "pile" move
-                    Move movePileSingle = new Move(Collections.singletonList(card), "pile");
-                    Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
-
-                    allMoves.add(movePileSingle);
-                    allMoves.add(moveDeckSingle);
+                    }
                 }
             }
-
         }
-//
 
-//        System.out.println("Possible moves for Player " + player + ":");
-//        for (Move move : allMoves) {
-//            System.out.println(move);
-////        }
-//        for (Move move : allMoves) {
-//            System.out.println(move);
-//        }
-        // You can add more logic here to generate additional moves based on game rules
+        // If there is a largest card without the same rank, add it to the moves
+        if (largestCardWithoutSameRank != null) {
+            Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
+            Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
+
+            allMoves.add(movePileSingle);
+            allMoves.add(moveDeckSingle);
+        }
+
+
+        System.out.println("Possible moves for Player "  + ":");
+        for (Move move : allMoves) {
+            System.out.println(move);
+        }
 
         return allMoves;
+
     }
 
 

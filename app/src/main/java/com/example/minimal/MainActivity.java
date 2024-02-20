@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         scores = new int[numberOfRounds][4];
         StartScreen.currentRound=0;
 
@@ -240,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         int tag = (int) imageView.getTag();
         if (game.cardsSelected.contains(imageView)) {
-            System.out.println("CARD 11111111111111111");
 
             game.cardsSelected.remove(imageView);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
@@ -251,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         else{
-            System.out.println("CARD 222222222222222222");
 
             int cardNumber = (int) imageView.getTag();
             int lastDigit = cardNumber % 100;
@@ -273,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 ImageView selectedCard = imageView;
                 game.selectedCardId = imageView.getId();
                 RelativeLayout rootView = findViewById(R.id.main);
-                System.out.println("it is picking the card " + imageView.getTag()) ;
 
 // Force refresh the layout
                 rootView.requestLayout();
@@ -489,10 +485,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
-            callMinimize(game.current_player +1);
+//            callMinimize(game.current_player +1);
 
 
-//            callMonte();
+            callMonte();
+
 
         } else {
             if (countDownTimer != null) {
@@ -524,7 +521,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             monte.show(getHand(game.current_player), game, showButton);
 
         }
-        monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+        monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
 
     }
 
@@ -669,7 +666,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
         ImageView stack = findViewById(R.id.stack);
 
-        System.out.println("PREV IS " + game.stack.getTag());
 
         Integer stackCardNumber = (Integer) game.stack.getTag();
 
@@ -678,15 +674,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
             ImageView img = findViewById(imageViewId);
-            System.out.println("image is " + img.getTag());
             if(img.getVisibility() == View.VISIBLE){
-                System.out.println(" vis is image is " + img.getTag());
 
                 int cardNumber = (int) img.getTag();
                 int remainder = cardNumber % 100;
 
                 if (cardNumber % 100 == stackCardNumber % 100) {
-                    System.out.println("XXXXXXX");
                     pickFromStack = true;
                 }
 
@@ -701,7 +694,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 }
                 descList.add(img);
             }
-            System.out.println("image");
 
 
 
@@ -738,8 +730,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
-        System.out.println("largest key is " + largestKey);
-        System.out.println("largest val " + largestValue);
+
 
 
 // Add the ImageViews corresponding to the largest key to the list
@@ -752,7 +743,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         for (ImageView imageView : list) {
 
             totalValue += (Integer) imageView.getTag() % 100;
-            System.out.println("val being added is " + (Integer) imageView.getTag() % 100);
         }
 
 
@@ -767,17 +757,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
 
-        System.out.println("PLAYER ISSSSSSSS " + game.current_player );
-        for (ImageView imageView : descList) {
-
-            System.out.println("val in desc list " + imageView.getTag());
-        }
 
         if (totalValue >= largest) {
-            System.out.println("mult");
-            for (ImageView imageView : list) {
-                System.out.println("val in LIST IS " + imageView.getTag());
-            }
+
             MinimizeAI minimize = new MinimizeAI();
             minimize.minimizeAI(list, drop, pickFromStack, game, dropButton, stack, source); // Return the list if its total value is greater than 'largest'
         } else {
@@ -792,9 +774,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
             newList.add(drop);
 
-            for (ImageView imageView : newList) {
-                System.out.println("val in LIST IS " + imageView.getTag());
-            }
+
             MinimizeAI minimize = new MinimizeAI();
             minimize.minimizeAI(newList, drop, pickFromStack, game, dropButton, stack, source);
         }
@@ -917,5 +897,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         Intent intent=new Intent(MainActivity.this, StartScreen.class);
         startActivity(intent);
     }
+
+
+
+
 
 }
