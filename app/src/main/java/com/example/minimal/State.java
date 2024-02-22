@@ -104,23 +104,10 @@ public class State implements Cloneable {
 
         // seen cards = player's hand + discarded card
         seenCards.addAll(discardedCards);
-//        System.out.println("size of disc cards  " + discardedCards.size());
-//        System.out.println( discardedCards);
-
-//        System.out.println("size of disc cards MAIN " + MainActivity.cards.size());
-
-//        System.out.println(discardedCards);
-//        System.out.println("size of disc cards MAIN ACT " + MainActivity.discardedCards.size());
-
-
-
         List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
-//        System.out.println("total " + unseenCards.size());
 
         unseenCards.removeAll(seenCards);
-//        System.out.println("size of seen cards " + seenCards.size());
 
-//        System.out.println("size of unseen cards " + unseenCards.size());
 
         // shuffles the other cards
         Collections.shuffle(unseenCards);
@@ -308,12 +295,23 @@ public class State implements Cloneable {
         List<Integer> card = updateUnseenCards();
 //        System.out.println("CARD SIZE HERE  ====" + card.size());
 
-        if(card.isEmpty()){
+        if(card.isEmpty() || canPlayerShow() ){
             return Boolean.TRUE;
         }
         else{
             return Boolean.FALSE;
         }
+    }
+
+    public Boolean canPlayerShow(){
+        List<Integer> playerHandList = playerHand.get(playerToMove);
+        int totalValue = 0;
+
+        for (Integer card : playerHandList) {
+            totalValue += card % 100;
+        }
+
+        return totalValue < 6;
     }
 
     public Boolean getResult(int player) {

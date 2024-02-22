@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         scores = new int[numberOfRounds][4];
         StartScreen.currentRound=0;
 
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
     }
+
+
 
 
     private void hideImageViewsRange(int start, String pre, int visibility) {
