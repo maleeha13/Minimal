@@ -29,7 +29,7 @@ public class Game {
     int second;
     ImageView iv_deck;
     ImageView stack;
-    Map<Integer, List<Integer>> playerHand = new  HashMap<>();;
+    static Map<Integer, List<Integer>> playerHand = new  HashMap<>();
 
     int x = 0;
     ImageView droppedCard;

@@ -28,6 +28,8 @@ public class State implements Cloneable {
         this.lastMove = null;
         playerToMove = player;
 
+        System.out.println(MainActivity.cards);
+
         discardedCards = new ArrayList<>(MainActivity.cards);
 //        System.out.println("lallala" + MainActivity.cards.size());
         playerHand.put(player, getPlayersHand(player));
@@ -108,6 +110,10 @@ public class State implements Cloneable {
 
         unseenCards.removeAll(seenCards);
 
+        for(int i=0; i<4;i++){
+            List<Integer> playerHand = Game.playerHand.get(i);
+            System.out.println("the player: " + i + "hand is " + playerHand);
+        }
 
         // shuffles the other cards
         Collections.shuffle(unseenCards);
@@ -115,20 +121,41 @@ public class State implements Cloneable {
         // deals the cards
         for (int p = 1; p <= 4; p++) {
             if (p != observer) {
-                // Deal cards to player p
-                // Store the size of player p's hand
+                List<Integer> existingCards = Game.playerHand.get(p - 1); // Get existing cards for player p
 
-                // Give player p the first numCards unseen cards
-                st.playerHand.put(p, new ArrayList<>(unseenCards.subList(0, 5)));
-                // Remove those cards from unseenCards
-                unseenCards.subList(0, 5).clear();
+                // Deal cards to player p
+
+               // Initialize player's hand with existing cards
+
+                List<Integer> playerHand;
+                int numExistingCards;
+                // Add random cards to complete the hand up to 5 cards
+                if(existingCards !=null){
+                     playerHand = new ArrayList<>(existingCards);
+                     numExistingCards = existingCards.size();
+
+                }
+                else{
+                    playerHand = new ArrayList<>();
+                    numExistingCards= 0;
+                }
+                if (numExistingCards < 5) {
+                    int remainingCards = 5 - numExistingCards;
+                    playerHand.addAll(unseenCards.subList(0, remainingCards));
+                    unseenCards.subList(0, remainingCards).clear();
+                }
+
+                // Store the size of player p's hand
+                // This step isn't clear from the provided code; you may need to adjust it according to your implementation
+
+                // Update st.playerHand with the new hand
+                st.playerHand.put(p, playerHand);
+                System.out.println("player: " + p + "cards: " + playerHand);
             }
         }
 
         // Print every player's hand
-        for (int p = 1; p <=4; p++) {
-            List<Integer> playerHand = st.playerHand.get(p);
-        }
+
 
         // Print discarded cards
 //        System.out.println("Discarded cards: " + handToString(MainActivity.discardedCards));
@@ -245,13 +272,9 @@ public class State implements Cloneable {
             Double probability = calculateProbability();
 
             if (probability > 0.6) {
-                System.out.println("IN THE SINGLE IF");
                 Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
-                System.out.println("LARGEST CARDDDD = " + largestCardWithoutSameRank);
                 allMoves.add(movePileSingle);
-                System.out.println("IS IT HERE?????");
             } else {
-                System.out.println("IN THE SINGLE ELSE");
 
                 Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
                 allMoves.add(moveDeckSingle);
