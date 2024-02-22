@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class State implements Cloneable {
     private List<Integer> discardedCards;  // Replace String with the actual type of keys and values
@@ -192,6 +193,9 @@ public class State implements Cloneable {
     }
 
 
+    public void getCards(int p){
+
+    }
     public List<Integer> getPlayersHand(int player) {
         List<Integer> playerHand = new ArrayList<>(); // Initialize the list
 
@@ -246,10 +250,17 @@ public class State implements Cloneable {
 
                     Double probability = calculateProbability();
 
+
+//                    Move movePile = new Move(cardsWithSameRank, "deck");
+//
+//                    allMoves.add(movePile);
+//                    Move moveDeck = new Move(cardsWithSameRank, "pile");
+//                    allMoves.add(moveDeck);
                     if (probability > 0.6) {
                         System.out.println("IN THE MANY IF");
 
                         Move movePile = new Move(cardsWithSameRank, "deck");
+
                         allMoves.add(movePile);
                     } else {
                         System.out.println("IN THE MANY ELSE");
@@ -292,6 +303,7 @@ public class State implements Cloneable {
     }
 
     public void applyMove(Move move, int player) {
+        System.out.println("MOVE IS " + move);
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
         List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
@@ -307,7 +319,9 @@ public class State implements Cloneable {
         }
 
 
+
         List<Integer> playerHandList = playerHand.get(player);
+        System.out.println("Player cards b4 are " + playerHandList);
         if (playerHandList != null && !playerHandList.isEmpty()) {
             // Remove cards from the player's hand based on their indices
             for (Integer card : cardsPlayed) {
@@ -319,16 +333,25 @@ public class State implements Cloneable {
 
             // Update the player's hand in the playerHand map
             playerHand.put(player, playerHandList);
+            System.out.println("Player cards after are " + playerHandList);
+
         } else {
             // Handle the case when playerHandList is null or empty
             System.out.println("Player's hand is empty or not found.");
         }
 
-        if(source == "pile"){
+        if(Objects.equals(source, "pile")){
             if (!discardedCards.isEmpty()) {
                 // Remove the last added value from the discard pile
-                int lastAddedCard = discardedCards.remove(discardedCards.size() - 1);
+
+                int lastAddedCard= discardedCards.get(0);
+                discardedCards.remove(0);
                 playerHandList.add(lastAddedCard);
+                playerHand.put(player, playerHandList);
+
+                List<Integer> unseenCards = updateUnseenCards();
+                int firstUnseenCard = unseenCards.get(0);
+                playerHandList.add(firstUnseenCard);
                 playerHand.put(player, playerHandList);
                 // You can use lastAddedCard as needed
             } else {

@@ -57,29 +57,33 @@ public class ISMCTS {
                 }
                 MCTSNode node = rootNode.cloneNode();
 
-                while (!state.isTerminal()) {
-                    if (node.getUntriedMoves(state).isEmpty()) {
-                        // If there are no untried moves, select the best child using UCB
-                        node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
-                        state.applyMove(node.getMove(), state.getPlayerToMove());                    System.out.println("in expansion");
-                        System.out.println("in if");
+                while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && node.getUntriedMoves(state).isEmpty() && !state.isTerminal()) {
+                    node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
+                    System.out.println("moves are before applying" + state.getAllMoves(state.getPlayerToMove()));
 
-
-                    } else {
-                        // If there are untried moves, randomly select one, apply it, and expand the node
-                        List<Move> untriedMoves = node.getUntriedMoves(state);
-                        Move randomMove = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
-                        state.applyMove(randomMove, state.getPlayerToMove());
-
-                        node = node.addChild(randomMove, state.getPlayerToMove());
-                        System.out.println("in else");
-
-                    }
-                    System.out.println("in expansion");
-
+                    state.applyMove(node.getMove(), state.getPlayerToMove());
+                    System.out.println("moves are " + state.getAllMoves(state.getPlayerToMove()));
+//                    if(x==2){
+//                        return null;
+//                    }
+                    System.out.println("in exp");
                 }
 
+                List<Move> untriedMoves = node.getUntriedMoves(state);
+                if (!untriedMoves.isEmpty() && !state.isTerminal()) {  // if we can expand (i.e. state/node is non-terminal)
+                    Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
+                    int player = state.getPlayerToMove();
+                    state.applyMove(m, player);
+                    node = node.addChild(m, player);  // add child and descend tree
+                }
+
+                int x =0;
                 while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && !state.isTerminal()) {
+                    x++;
+//                    if(x==4){
+//                        break;
+//                    }
+                    System.out.println("hand of player " + state.getPlayerToMove() + state.getPlayersHand(state.getPlayerToMove()));
                     List<Move> legalMoves = state.getAllMoves(state.getPlayerToMove());
                     Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
                     state.applyMove(randomMove, state.getPlayerToMove());
@@ -102,7 +106,7 @@ public class ISMCTS {
                 System.out.println(Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove());
                 return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
             } else {
-
+                System.out.println("NO NODE ");
                 return null;
             }
         }

@@ -134,10 +134,14 @@ public class MCTSNode {
 //        }
 //    }
     public List<Move> getUntriedMoves(State state) {
+        System.out.println("the last move was " + state.getLastMove());
 
         if (children.isEmpty()) {
+            System.out.println("no children ");
             // If the node has no children, all moves are untried
 //            System.out.println("it is empty????");
+
+
             return state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
         } else {
 //            System.out.println("notttttt????");
@@ -151,7 +155,8 @@ public class MCTSNode {
                 // Collect moves from child nodes
 
                 triedMoves.add(child.getGameState().getLastMove());
-//                System.out.println("the last move was "+ child.getGameState().getLastMove());
+
+                System.out.println("the last move was "+ child.getGameState().getLastMove());
             }
 
             // Remove tried moves from the list of all moves
@@ -163,7 +168,7 @@ public class MCTSNode {
     }
 
     public MCTSNode addChild(Move move, int playerJustMoved) {
-        MCTSNode childNode = new MCTSNode(null, this, playerJustMoved, move);  // Replace 'null' with the appropriate initial game state
+        MCTSNode childNode = new MCTSNode(null, this, playerJustMoved, move);
         childNode.move = move;
         childNode.parent = this;
         childNode.gameState = this.gameState;
@@ -172,7 +177,7 @@ public class MCTSNode {
 
         childNode.setParentPlayerJustMoved(playerJustMoved);
         children.add(childNode);
-//        System.out.println("adding .... " + children);
+        System.out.println("adding .... " + childNode.getMove());
         return childNode;
     }
 
