@@ -61,7 +61,10 @@ public class ISMCTS {
                     if (node.getUntriedMoves(state).isEmpty()) {
                         // If there are no untried moves, select the best child using UCB
                         node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
-                        state.applyMove(node.getMove(), state.getPlayerToMove());
+                        state.applyMove(node.getMove(), state.getPlayerToMove());                    System.out.println("in expansion");
+                        System.out.println("in if");
+
+
                     } else {
                         // If there are untried moves, randomly select one, apply it, and expand the node
                         List<Move> untriedMoves = node.getUntriedMoves(state);
@@ -69,7 +72,11 @@ public class ISMCTS {
                         state.applyMove(randomMove, state.getPlayerToMove());
 
                         node = node.addChild(randomMove, state.getPlayerToMove());
+                        System.out.println("in else");
+
                     }
+                    System.out.println("in expansion");
+
                 }
 
                 while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && !state.isTerminal()) {
@@ -78,17 +85,21 @@ public class ISMCTS {
                     state.applyMove(randomMove, state.getPlayerToMove());
                     boolean simulationResult = state.getResult(state.getPlayerToMove());
                     node.update(simulationResult);
+                    System.out.println("in sim");
 
                 }
 
                 while (node != null) {
                     node.update(state.getResult(node.getPlayerJustMoved()));
                     node = node.getParent();
+                    System.out.println("in back prop");
 
                 }
+                System.out.println("after back prop");
             }
 
             if (!rootNode.getChildren().isEmpty()) {
+                System.out.println(Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove());
                 return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
             } else {
 

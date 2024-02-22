@@ -137,6 +137,34 @@ public class State implements Cloneable {
     }
 
 
+    public double calculateProbability() {
+
+        List<Integer> unseenCards = updateUnseenCards();
+
+
+        // Count the number of cards smaller than the top discard in the deck
+    ;
+
+        System.out.println("printimg disc arrayyyy " + discardedCards);
+        int topDiscard = discardedCards.isEmpty() ? 0 : discardedCards.get(0);
+        System.out.println("the val is " + topDiscard);
+        // Count the number of cards smaller than the top discard in the deck
+        int smallerCardsCount = 0;
+        int topDiscardValue = topDiscard % 100;
+        for (Integer card : unseenCards) {
+            if (card % 100 < topDiscardValue) {
+                smallerCardsCount++;
+            }
+        }
+
+        // Calculate the probability of picking a smaller card from the deck
+        double probability = (double) smallerCardsCount / unseenCards.size();
+        System.out.println("probability is " + probability);
+
+        return probability;
+    }
+
+
     public List<Integer> getPlayersHand(int player) {
         List<Integer> playerHand = new ArrayList<>(); // Initialize the list
 
@@ -185,15 +213,23 @@ public class State implements Cloneable {
 
             if (cardNotInAllMoves) {
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
-
                 // If there are cards with the same rank, create a move for playing them together with the pile
                 if (!cardsWithSameRank.isEmpty()) {
                     cardsWithSameRank.add(card);  // Add the current card to the list
-                    Move movePile = new Move(cardsWithSameRank, "pile");
-                    Move moveDeck = new Move(cardsWithSameRank, "deck");
 
-                    allMoves.add(movePile);
-                    allMoves.add(moveDeck);
+                    Double probability = calculateProbability();
+
+                    if (probability > 0.6) {
+                        System.out.println("IN THE MANY IF");
+
+                        Move movePile = new Move(cardsWithSameRank, "deck");
+                        allMoves.add(movePile);
+                    } else {
+                        System.out.println("IN THE MANY ELSE");
+
+                        Move moveDeck = new Move(cardsWithSameRank, "pile");
+                        allMoves.add(moveDeck);
+                    }
                 } else {
                     // If the current card is higher than the current largest card without the same rank, update it
                     if (largestCardWithoutSameRank == null || card % 100 > largestCardWithoutSameRank % 100) {
@@ -206,23 +242,31 @@ public class State implements Cloneable {
 
         // If there is a largest card without the same rank, add it to the moves
         if (largestCardWithoutSameRank != null) {
-            Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
-            Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
+            Double probability = calculateProbability();
 
-            allMoves.add(movePileSingle);
-            allMoves.add(moveDeckSingle);
+            if (probability > 0.6) {
+                System.out.println("IN THE SINGLE IF");
+                Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
+                System.out.println("LARGEST CARDDDD = " + largestCardWithoutSameRank);
+                allMoves.add(movePileSingle);
+                System.out.println("IS IT HERE?????");
+            } else {
+                System.out.println("IN THE SINGLE ELSE");
+
+                Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
+                allMoves.add(moveDeckSingle);
+            }
         }
 
 
-        System.out.println("Possible moves for Player "  + ":");
-        for (Move move : allMoves) {
-            System.out.println(move);
-        }
+//        System.out.println("Possible moves for Player "  + ":");
+//        for (Move move : allMoves) {
+//            System.out.println(move);
+//        }
 
         return allMoves;
 
     }
-
 
     public void applyMove(Move move, int player) {
         String source = move.getSource();
