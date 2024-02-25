@@ -107,7 +107,7 @@ public class State implements Cloneable {
 
         // seen cards = player's hand + discarded card
         seenCards.addAll(discardedCards);
-        List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
+        List<Integer> unseenCards = new ArrayList<>(makeList());
 
         unseenCards.removeAll(seenCards);
 
@@ -460,7 +460,7 @@ public class State implements Cloneable {
 
     List<Integer> updateUnseenCards() {
         // Clear the current unseenCards list
-        List<Integer> unseenCards = new ArrayList<>(Card.makeCardList());
+        List<Integer> unseenCards = new ArrayList<>(makeList());
 //        System.out.println("uneen cards og is " + unseenCards.size());
 
         // Add all cards to the unseenCards list
@@ -507,5 +507,67 @@ public class State implements Cloneable {
 
     public List<Integer> getDiscardedCards() {
         return discardedCards;
+    }
+
+    public static ArrayList<Integer> makeList() {
+
+        ArrayList<Integer>  cards = new ArrayList<>();
+        cards.add(102);
+        cards.add(103);
+        cards.add(104);
+        cards.add(105);
+        cards.add(106);
+        cards.add(107);
+        cards.add(108);
+        cards.add(100);
+        cards.add(110);
+        cards.add(111);
+        cards.add(112);
+        cards.add(113);
+        cards.add(101);
+
+        cards.add(202);
+        cards.add(203);
+        cards.add(204);
+        cards.add(205);
+        cards.add(206);
+        cards.add(207);
+        cards.add(208);
+        cards.add(200);
+        cards.add(210);
+        cards.add(211);
+        cards.add(212);
+        cards.add(213);
+        cards.add(201);
+
+        cards.add(302);
+        cards.add(303);
+        cards.add(304);
+        cards.add(305);
+        cards.add(306);
+        cards.add(307);
+        cards.add(308);
+        cards.add(300);
+        cards.add(310);
+        cards.add(311);
+        cards.add(312);
+        cards.add(313);
+        cards.add(301);
+
+        cards.add(402);
+        cards.add(403);
+        cards.add(404);
+        cards.add(405);
+        cards.add(406);
+        cards.add(407);
+        cards.add(408);
+        cards.add(400);
+        cards.add(410);
+        cards.add(411);
+        cards.add(412);
+        cards.add(413);
+        cards.add(401);
+
+        return cards;
     }
 }
