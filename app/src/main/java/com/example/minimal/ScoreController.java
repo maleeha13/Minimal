@@ -18,7 +18,6 @@ import androidx.appcompat.app.AlertDialog;
 
 public class ScoreController {
 
-
     int calculateMinScore(){
 
     int currentRound = StartScreen.currentRound;

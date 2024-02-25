@@ -240,58 +240,63 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     @Override
     public void onCardClicked(int cardValue, ImageView imageView, int player) {
 
-        int tag = (int) imageView.getTag();
-        if (game.cardsSelected.contains(imageView)) {
+        if(!game.show){
+            int tag = (int) imageView.getTag();
+            if (game.cardsSelected.contains(imageView)) {
 
-            game.cardsSelected.remove(imageView);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-            params.topMargin += 50;
-            imageView.setLayoutParams(params);
-            game.currentCard=null;
-
-        }
-
-        else{
-
-            int cardNumber = (int) imageView.getTag();
-            int lastDigit = cardNumber % 100;
-            ImageView v = null;
-            int existing =-1;
-            if(!game.cardsSelected.isEmpty()){
-                v = game.cardsSelected.get(0);
-                int x = (int) v.getTag();
-                existing = x % 100;
+                game.cardsSelected.remove(imageView);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+                params.topMargin += 50;
+                imageView.setLayoutParams(params);
+                game.currentCard=null;
 
             }
 
+            else{
 
-            if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-                game.cardsSelected.add(imageView);
-                params.topMargin -= 50;
-                imageView.setLayoutParams(params);
-                ImageView selectedCard = imageView;
-                game.selectedCardId = imageView.getId();
-                RelativeLayout rootView = findViewById(R.id.main);
+                int cardNumber = (int) imageView.getTag();
+                int lastDigit = cardNumber % 100;
+                ImageView v = null;
+                int existing =-1;
+                if(!game.cardsSelected.isEmpty()){
+                    v = game.cardsSelected.get(0);
+                    int x = (int) v.getTag();
+                    existing = x % 100;
+
+                }
+
+
+                if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+                    game.cardsSelected.add(imageView);
+                    params.topMargin -= 50;
+                    imageView.setLayoutParams(params);
+                    ImageView selectedCard = imageView;
+                    game.selectedCardId = imageView.getId();
+                    RelativeLayout rootView = findViewById(R.id.main);
 
 // Force refresh the layout
-                rootView.requestLayout();
+                    rootView.requestLayout();
 
 
+                }
+                else if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
+                    Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
+
+                } else if (player!=game.turns[game.current_player]) {
+                    Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
+
+                }
+                else if((game.turns[game.current_player])==tag){
+                    Toast.makeText(this, "Thats not your card! " , Toast.LENGTH_LONG).show();
+                }
+
+                game.currentCard = findViewById(game.selectedCardId);
             }
-            else if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
-                Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
-
-            } else if (player!=game.turns[game.current_player]) {
-                Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
-
-            }
-            else if((game.turns[game.current_player])==tag){
-                Toast.makeText(this, "Thats not your card! " , Toast.LENGTH_LONG).show();
-            }
-
-            game.currentCard = findViewById(game.selectedCardId);
         }
+
+
+
     }
 
 
@@ -401,7 +406,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if (game.x > Card.getCards().size() - 1) {
             game.iv_deck.setVisibility(View.INVISIBLE);
             Button showButton = findViewById(R.id.show);
-            showButton.performClick();
+            dispEndScores();
+//            showButton.performClick();
         }
         nextTurn();
 
@@ -410,27 +416,30 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     @Override
     public void onDeckClick() throws CloneNotSupportedException {
 
-        if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
+        if(!game.show){
+            if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE )  {
 
-            ImageView img = findEmptyImageView();
-            if (img != null) {
-                gameController.onDeckClick(img);
-                game.x++;
-                img.setVisibility(View.VISIBLE);
-                ImageView stackImageView = findViewById(R.id.stack);
-                stackImageView.setImageDrawable(game.current);
+                ImageView img = findEmptyImageView();
+                if (img != null) {
+                    gameController.onDeckClick(img);
+                    game.x++;
+                    img.setVisibility(View.VISIBLE);
+                    ImageView stackImageView = findViewById(R.id.stack);
+                    stackImageView.setImageDrawable(game.current);
+                }
+
+                nextTurn();
+
+            } else {
+                Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
             }
-
-            nextTurn();
-
-        } else {
-            Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
+            if (game.x > Card.getCards().size() - 1) {
+                game.iv_deck.setVisibility(View.INVISIBLE);
+                Button showButton = findViewById(R.id.show);
+                dispEndScores();
+            }
         }
-        if (game.x > Card.getCards().size() - 1) {
-            game.iv_deck.setVisibility(View.INVISIBLE);
-            Button showButton = findViewById(R.id.show);
-            showButton.performClick();
-        }
+
     }
 
 
@@ -521,10 +530,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if(game.playerHand!=null){
             Button showButton = findViewById(R.id.show);
             showButton.setVisibility(View.INVISIBLE);
-            monte.show(getHand(game.current_player), game, showButton);
+            monte.show(getHand(game.current_player+1), game, showButton);
 
         }
-        monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+
+        if(!game.show){
+            monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+
+        }
 
     }
 
@@ -585,12 +598,25 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         calculateScores();
         int win = scoreController.calculateMinScore();
         scoreController.showScores(win, game);
-        Toast.makeText(this, "THE WINNER IS PLAYER " + win+1 , Toast.LENGTH_LONG).show();
+        System.out.println("showing");
+        int winner = win+ 1;
+        game.show=true;
+        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard scorecard = new scorecard(this);
         scorecard.showScoreboardPopup(5);
     }
 
 
+    public void dispEndScores(){
+        int win = scoreController.calculateMinScore();
+        int winner = win+ 1;
+        System.out.println("showing");
+        game.show=true;
+
+        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
+        scorecard scorecard = new scorecard(this);
+        scorecard.showScoreboardPopup(5);
+    }
 
 
 

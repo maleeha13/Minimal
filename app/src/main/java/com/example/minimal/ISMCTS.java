@@ -99,7 +99,6 @@ public class ISMCTS {
                     System.out.println("in back prop");
 
                 }
-                System.out.println("after back prop");
             }
 
             if (!rootNode.getChildren().isEmpty()) {
@@ -182,7 +181,6 @@ public class ISMCTS {
         }
 
         if (val < 6) {
-            System.out.println("lesser than 6 can show ");
             show.performClick();
         }
         int[] handSums = new int[4]; // Create an array to store hand sums
@@ -190,7 +188,6 @@ public class ISMCTS {
         int index = 0;
 
         for (Map.Entry<Integer, List<Integer>> entry : game.playerHand.entrySet()) {
-            System.out.println(" enter");
             List<Integer> hand = entry.getValue();
             // Calculate sum of the player's hand
             int sum = 0;

@@ -33,6 +33,7 @@ public class Game {
 
     int x = 0;
     ImageView droppedCard;
+    boolean show = false;
 
 
 
