@@ -190,10 +190,7 @@ public class MinimizeAI {
             val += tag % 100;
         }
 
-
-
         if (val < 6) {
-            System.out.println("lesser than 6 can show for " + game.current_player );
             show.performClick();
         }
         int[] handSums = new int[4]; // Create an array to store hand sums
@@ -201,12 +198,10 @@ public class MinimizeAI {
         int index = 0;
 
         for (Map.Entry<Integer, List<Integer>> entry : game.playerHand.entrySet()) {
-//            System.out.println(" enter");
             List<Integer> hand = entry.getValue();
             // Calculate sum of the player's hand
             int sum = 0;
             for (Integer card : hand) {
-//                System.out.println("add");
                 sum += card % 100;
             }
 
@@ -215,9 +210,9 @@ public class MinimizeAI {
             index++;
 
         }
-//        System.out.println("Hand sums:");
-//        for (int sum : handSums) {
-//            System.out.println(sum);
-//        }
+
+        for (int sum : handSums) {
+            System.out.println(sum);
+        }
     }
 }

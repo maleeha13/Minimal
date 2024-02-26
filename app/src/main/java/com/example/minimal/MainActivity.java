@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         calculateScores();
 
 
-        if (game.current_player != 0) {
+        if (game.current_player == 1) {
 
             timerTextView.setText("Time left: " + "- seconds");
             System.out.println("TEXT TO -");
@@ -512,7 +512,30 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             callMonte();
 
 
-        } else {
+        } else if (game.current_player == 2) {
+
+            timerTextView.setText("Time left: " + "- seconds");
+            System.out.println("TEXT TO -");
+//            callGreedy(game.current_player + 1);
+//            callMinimize(game.current_player +1);
+
+
+            callMinimize(game.current_player+1);
+
+
+        } else if (game.current_player == 3) {
+
+            timerTextView.setText("Time left: " + "- seconds");
+            System.out.println("TEXT TO -");
+//            callGreedy(game.current_player + 1);
+//            callMinimize(game.current_player +1);
+
+
+            callGreedy(game.current_player+1);
+
+
+        }
+        else {
             if (countDownTimer != null) {
 
                 countDownTimer.cancel();
@@ -698,7 +721,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             Button show = findViewById(R.id.show);
             show.setVisibility(View.INVISIBLE);
             MinimizeAI minimize = new MinimizeAI();
-            minimize.show(getHand(game.current_player), game, show);
+            minimize.show(getHand(game.current_player + 1), game, show);
 
         }
 
