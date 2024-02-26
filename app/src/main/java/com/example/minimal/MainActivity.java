@@ -682,7 +682,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         GreedyAI greedy = new GreedyAI();
-        greedy.greedyAI(j, drop, game, dropButton);
+        if (!(game.show)){
+            greedy.greedyAI(j, drop, game, dropButton);
+
+        }
 
     }
 
