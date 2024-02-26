@@ -643,6 +643,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         else{
             winner_popup popup = new winner_popup(MainActivity.this);
             popup.displayWinner(scoreController);
+
+
         }
 
     }

@@ -23,7 +23,9 @@ public class winner_popup extends AppCompatActivity {
 
     private KonfettiView celeb;
     Context context;
+    static boolean finished = false;
 
+    Context c;
     public winner_popup(Context con) {
         context = con;
     }
@@ -48,6 +50,7 @@ public class winner_popup extends AppCompatActivity {
                 .streamFor(300, 5000L);
 
         // Your onCreate method remains the same...
+        c = this;
     }
 
     void displayWinner(ScoreController scoreController) {
@@ -101,8 +104,13 @@ public class winner_popup extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                winnerDialog.dismiss();
+//                closeOptionsMenu();
+//                finished = true;
+
                 Intent intent = new Intent(context, StartScreen.class);
-                startActivity(intent);
+                context.startActivity(intent);
+
             }
         });
     }
