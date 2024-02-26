@@ -29,7 +29,6 @@ public class State implements Cloneable {
         this.lastMove = null;
         playerToMove = player;
 
-        System.out.println(MainActivity.cards);
 
         discardedCards = new ArrayList<>(MainActivity.cards);
 //        System.out.println("lallala" + MainActivity.cards.size());
@@ -113,7 +112,6 @@ public class State implements Cloneable {
 
         for(int i=0; i<4;i++){
             List<Integer> playerHand = Game.playerHand.get(i);
-            System.out.println("the player: " + i + "hand is " + playerHand);
         }
 
         // shuffles the other cards
@@ -151,7 +149,6 @@ public class State implements Cloneable {
 
                 // Update st.playerHand with the new hand
                 st.playerHand.put(p, playerHand);
-                System.out.println("player: " + p + "cards: " + playerHand);
             }
         }
 
@@ -173,9 +170,7 @@ public class State implements Cloneable {
         // Count the number of cards smaller than the top discard in the deck
     ;
 
-        System.out.println("printimg disc arrayyyy " + discardedCards);
         int topDiscard = discardedCards.isEmpty() ? 0 : discardedCards.get(0);
-        System.out.println("the val is " + topDiscard);
         // Count the number of cards smaller than the top discard in the deck
         int smallerCardsCount = 0;
         int topDiscardValue = topDiscard % 100;
@@ -187,7 +182,6 @@ public class State implements Cloneable {
 
         // Calculate the probability of picking a smaller card from the deck
         double probability = (double) smallerCardsCount / unseenCards.size();
-        System.out.println("probability is " + probability);
 
         return probability;
     }
@@ -245,7 +239,8 @@ public class State implements Cloneable {
             if (cardNotInAllMoves) {
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
                 // If there are cards with the same rank, create a move for playing them together with the pile
-                if (!cardsWithSameRank.isEmpty()) {
+                if (!cardsWithSameRank.isEmpty() && (cardsWithSameRank.get(0)%100!=0)) {
+
                     cardsWithSameRank.add(card);  // Add the current card to the list
 
                     Double probability = calculateProbability();
@@ -257,13 +252,11 @@ public class State implements Cloneable {
 //                    Move moveDeck = new Move(cardsWithSameRank, "pile");
 //                    allMoves.add(moveDeck);
                     if (probability > 0.6) {
-                        System.out.println("IN THE MANY IF");
 
                         Move movePile = new Move(cardsWithSameRank, "deck");
 
                         allMoves.add(movePile);
                     } else {
-                        System.out.println("IN THE MANY ELSE");
 
                         Move moveDeck = new Move(cardsWithSameRank, "pile");
                         allMoves.add(moveDeck);
@@ -303,7 +296,7 @@ public class State implements Cloneable {
     }
 
     public void applyMove(Move move, int player) {
-        System.out.println("MOVE IS " + move);
+
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
         List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
@@ -321,7 +314,6 @@ public class State implements Cloneable {
 
 
         List<Integer> playerHandList = playerHand.get(player);
-        System.out.println("Player cards b4 are " + playerHandList);
         if (playerHandList != null && !playerHandList.isEmpty()) {
             // Remove cards from the player's hand based on their indices
             for (Integer card : cardsPlayed) {
@@ -333,11 +325,9 @@ public class State implements Cloneable {
 
             // Update the player's hand in the playerHand map
             playerHand.put(player, playerHandList);
-            System.out.println("Player cards after are " + playerHandList);
 
         } else {
             // Handle the case when playerHandList is null or empty
-            System.out.println("Player's hand is empty or not found.");
         }
 
         if(Objects.equals(source, "pile")){

@@ -59,14 +59,9 @@ public class ISMCTS {
 
                 while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && node.getUntriedMoves(state).isEmpty() && !state.isTerminal()) {
                     node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
-                    System.out.println("moves are before applying" + state.getAllMoves(state.getPlayerToMove()));
 
                     state.applyMove(node.getMove(), state.getPlayerToMove());
-                    System.out.println("moves are " + state.getAllMoves(state.getPlayerToMove()));
-//                    if(x==2){
-//                        return null;
-//                    }
-                    System.out.println("in exp");
+//
                 }
 
                 List<Move> untriedMoves = node.getUntriedMoves(state);
@@ -77,26 +72,19 @@ public class ISMCTS {
                     node = node.addChild(m, player);  // add child and descend tree
                 }
 
-                int x =0;
                 while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && !state.isTerminal()) {
-                    x++;
-//                    if(x==4){
-//                        break;
-//                    }
-                    System.out.println("hand of player " + state.getPlayerToMove() + state.getPlayersHand(state.getPlayerToMove()));
+
                     List<Move> legalMoves = state.getAllMoves(state.getPlayerToMove());
                     Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
                     state.applyMove(randomMove, state.getPlayerToMove());
                     boolean simulationResult = state.getResult(state.getPlayerToMove());
                     node.update(simulationResult);
-                    System.out.println("in sim");
 
                 }
 
                 while (node != null) {
                     node.update(state.getResult(node.getPlayerJustMoved()));
                     node = node.getParent();
-                    System.out.println("in back prop");
 
                 }
             }
@@ -105,7 +93,6 @@ public class ISMCTS {
                 System.out.println(Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove());
                 return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
             } else {
-                System.out.println("NO NODE ");
                 return null;
             }
         }
@@ -192,7 +179,6 @@ public class ISMCTS {
             // Calculate sum of the player's hand
             int sum = 0;
             for (Integer card : hand) {
-                System.out.println("add");
                 sum += card % 100;
             }
 
@@ -201,7 +187,7 @@ public class ISMCTS {
             index++;
 
         }
-        System.out.println("Hand sums:");
+
         for (int sum : handSums) {
             System.out.println(sum);
         }
