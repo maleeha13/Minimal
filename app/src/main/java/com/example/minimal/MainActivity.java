@@ -457,6 +457,15 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void nextTurn() throws CloneNotSupportedException {
+        TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+
+        timerTextView.setText("Time left: " + "- seconds");
+        if (countDownTimer != null) {
+
+            countDownTimer.cancel();
+            countDownTimer = null;
+            remainingTime = 0;
+        }
 
 
         if (game.current_player != 0) {
@@ -493,9 +502,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
         if (game.current_player != 0) {
-            TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
 
             timerTextView.setText("Time left: " + "- seconds");
+            System.out.println("TEXT TO -");
 //            callGreedy(game.current_player + 1);
 //            callMinimize(game.current_player +1);
 
@@ -508,8 +517,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
                 countDownTimer.cancel();
                 countDownTimer = null;
+                remainingTime = 0;
             }
             timer();
+            System.out.println("TEXT TO TIME");
+
 
         }
         if (scores[currentRound][game.current_player] <= 5 && game.current_player == 0) {
