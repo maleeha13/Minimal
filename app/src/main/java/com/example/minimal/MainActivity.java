@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
-        hideImageViewsRange(2, "iv_new_p", View.INVISIBLE);
-        hideImageViewsRange(3, "iv_new_p", View.INVISIBLE);
-        hideImageViewsRange(4, "iv_new_p", View.INVISIBLE);
+//        hideImageViewsRange(2, "iv_new_p", View.INVISIBLE);
+//        hideImageViewsRange(3, "iv_new_p", View.INVISIBLE);
+//        hideImageViewsRange(4, "iv_new_p", View.INVISIBLE);
 
         hideImageViewsRange(1, "iv_p", View.INVISIBLE);
         hideImageViewsRange(2, "iv_p", View.INVISIBLE);

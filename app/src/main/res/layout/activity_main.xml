@@ -127,62 +127,67 @@
 
         <ImageView
             android:id="@+id/iv_p4c1"
-            android:layout_width= "match_parent"
+            android:layout_width= "0dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            tools:ignore="Suspicious0dp">
         </ImageView>
 
         <ImageView
             android:id="@+id/iv_p4c2"
-            android:layout_width= "match_parent"
+            android:layout_width= "0dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            tools:ignore="Suspicious0dp">
         </ImageView>
 
         <ImageView
             android:id="@+id/iv_p4c3"
-            android:layout_width= "match_parent"
+            android:layout_width= "0dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            tools:ignore="Suspicious0dp">
         </ImageView>
 
         <ImageView
             android:id="@+id/iv_p4c4"
-            android:layout_width= "match_parent"
+            android:layout_width= "0dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            tools:ignore="Suspicious0dp">
         </ImageView>
 
         <ImageView
             android:id="@+id/iv_p4c5"
-            android:layout_width= "match_parent"
+            android:layout_width= "0dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
+            android:src="@drawable/card_back"
+            tools:ignore="Suspicious0dp">
         </ImageView>
     </LinearLayout>
 
@@ -278,8 +283,8 @@
             android:id="@+id/iv_p2c1"
             android:layout_weight="1"
 
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -291,8 +296,8 @@
             android:id="@+id/iv_p2c2"
             android:layout_weight="1"
 
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -303,8 +308,8 @@
 
         <ImageView
             android:id="@+id/iv_p2c3"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
@@ -317,8 +322,8 @@
         <ImageView
             android:id="@+id/iv_p2c4"
             android:layout_weight="1"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -329,8 +334,8 @@
         <ImageView
             android:id="@+id/iv_p2c5"
             android:layout_weight="1"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
@@ -414,7 +419,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="150dp"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="410dp"
             android:onClick="showScores"
             android:text="Show" />
 
@@ -436,11 +441,11 @@
 
         <ImageView
             android:id="@+id/iv_p3c1"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_weight="1"
+
             android:scaleType="centerInside"
             android:src="@drawable/card_back">
 
@@ -448,11 +453,10 @@
 
         <ImageView
             android:id="@+id/iv_p3c2"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/card_back">
 
@@ -460,11 +464,10 @@
 
         <ImageView
             android:id="@+id/iv_p3c3"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/card_back">
 
@@ -472,11 +475,10 @@
 
         <ImageView
             android:id="@+id/iv_p3c4"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/card_back">
 
@@ -484,11 +486,10 @@
 
         <ImageView
             android:id="@+id/iv_p3c5"
-            android:layout_width= "match_parent"
-            android:layout_height="match_parent"
+            android:layout_width= "0dp"
+            android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/card_back">
 
@@ -542,15 +543,14 @@
 
         <ImageView
             android:id="@+id/iv_new_p3c4"
-            android:layout_weight="1"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/card_back">
-        </ImageView>
+            android:src="@drawable/card_back"></ImageView>
 
         <ImageView
             android:id="@+id/iv_new_p3c5"
@@ -574,7 +574,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="410dp"
+        android:layout_marginTop="350dp"
         android:onClick="onCardDrop"
         android:text="Drop" />
 
