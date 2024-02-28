@@ -45,7 +45,6 @@ import nl.dionsegijn.konfetti.models.Size;
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener  {
 
     private static boolean isPaused = false;
-
     CountDownTimer countDownTimer;
     private long remainingTime;
     gameController gameController ;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     Game game;
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
-
+    String fileName = "eval_1.txt";
 
 
     @Override
@@ -68,10 +67,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
-//        hideImageViewsRange(2, "iv_new_p", View.INVISIBLE);
-//        hideImageViewsRange(3, "iv_new_p", View.INVISIBLE);
-//        hideImageViewsRange(4, "iv_new_p", View.INVISIBLE);
-
         hideImageViewsRange(1, "iv_p", View.INVISIBLE);
         hideImageViewsRange(2, "iv_p", View.INVISIBLE);
         hideImageViewsRange(3, "iv_p", View.INVISIBLE);
@@ -303,6 +298,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void onCardDrop(View v){
 
         if(game.picked && !(game.cardsSelected.isEmpty())) {
+            List<ImageView> handImageViews = getHand(game.current_player + 1);
+            List<Integer> tags = new ArrayList<>();
+
+            for (ImageView imageView : handImageViews) {
+                // Get the tag of each ImageView and add it to the list
+                Integer tag = (Integer) imageView.getTag();
+                tags.add(tag);
+            }
+
+            int pl = game.current_player +  1;
+            String data = "Player " + pl + ": " + tags;
+            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+
+
             ImageView selectedCard = findViewById(game.selectedCardId);
             ImageView stackImageView = findViewById(R.id.stack);
             game.dropped = true;
@@ -342,6 +351,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 // Force refresh the layout
                 rootView.requestLayout();
 
+                tags = new ArrayList<>();
+
+                for (ImageView imageView : game.cardsSelected) {
+                    // Get the tag of each ImageView and add it to the list
+                    Integer tag = (Integer) imageView.getTag();
+                    tags.add(tag);
+                }
+
+                data = "Player " + pl + " dropping: " + tags;
+                System.out.println("DATA IS " + data) ;
+                fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+
+
+
             }
 
             stackImageView.setVisibility(View.VISIBLE);
@@ -365,6 +388,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
                     // Update the player's hand in the playerHand map
                     game.playerHand.put(game.current_player, playerHandList);
+
+                    handImageViews = getHand(game.current_player + 1);
+
+
+
                 }
             }
 
@@ -383,6 +411,21 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         ImageView stackImageView = findViewById(R.id.stack);
         if(game.dropped && !game.begin){
 
+            List<ImageView> handImageViews = getHand(game.current_player + 1);
+            List<Integer> tags = new ArrayList<>();
+
+            for (ImageView imageView : handImageViews) {
+                // Get the tag of each ImageView and add it to the list
+                Integer tag = (Integer) imageView.getTag();
+                tags.add(tag);
+            }
+
+            int pl = game.current_player +  1;
+            String data = "Player " + pl + ": " + tags;
+            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+
+
+
             ImageView img = findEmptyImageView();
             if (img != null) {
                 game.x++;
@@ -393,6 +436,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             }
             gameController.onPileClick(img, stackImageView);
+
+            handImageViews = getHand(game.current_player + 1);
+            tags = new ArrayList<>();
+
+            for (ImageView imageView : handImageViews) {
+                // Get the tag of each ImageView and add it to the list
+                Integer tag = (Integer) imageView.getTag();
+                tags.add(tag);
+            }
+            data = "Player " + pl + " picking from pile: " + img.getTag();
+            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+            data = "Player " + pl + ": " + tags;
+            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
 
         }
 
@@ -417,7 +473,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void onDeckClick() throws CloneNotSupportedException {
 
         if(!game.show){
+            List<ImageView> handImageViews = getHand(game.current_player + 1);
+            List<Integer> tags = new ArrayList<>();
+
+            for (ImageView imageView : handImageViews) {
+                // Get the tag of each ImageView and add it to the list
+                Integer tag = (Integer) imageView.getTag();
+                tags.add(tag);
+            }
+
+            int pl = game.current_player +  1;
+            String data = "Player " + pl + ": " + tags;
+            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
             if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE )  {
+
 
                 ImageView img = findEmptyImageView();
                 if (img != null) {
@@ -427,6 +496,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     ImageView stackImageView = findViewById(R.id.stack);
                     stackImageView.setImageDrawable(game.current);
                 }
+
+                handImageViews = getHand(game.current_player + 1);
+                tags = new ArrayList<>();
+
+                for (ImageView imageView : handImageViews) {
+                    // Get the tag of each ImageView and add it to the list
+                    Integer tag = (Integer) imageView.getTag();
+                    tags.add(tag);
+                }
+                data = "Player " + pl + " picking from deck: " + img.getTag();
+                fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+                data = "Player " + pl + ": " + tags;
+                fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
 
                 nextTurn();
 
