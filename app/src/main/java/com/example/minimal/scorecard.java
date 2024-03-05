@@ -31,6 +31,7 @@ public class scorecard extends AppCompatActivity {
     }
 
 
+    // 5. DISPLAYS THE SCOREBOARD
     void showScoreboardPopup(int delayInSeconds ) {
         // Delay the appearance of the scoreboard
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -52,9 +53,11 @@ public class scorecard extends AppCompatActivity {
                 // Show the AlertDialog
                 dialog = builder.create();
                 dialog.show();
+//                System.out.println("init");
             }
         }, delayInSeconds * 1000); // Convert seconds to milliseconds
     }
+
 
     private void createScoreboard(TableLayout tableLayout, int numColumns) {
         // Create Header Row

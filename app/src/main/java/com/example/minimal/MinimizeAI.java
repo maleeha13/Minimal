@@ -22,16 +22,12 @@ public class MinimizeAI {
 
     public void minimizeAI(List<ImageView> playerHand, ImageView img, Boolean pickFromStack, Game game, Button dropButton, ImageView stackImage, String source) {
 
-
-        System.out.println("-----------------------------------");
-        System.out.println("PLAYER NUM: " + game.current_player);
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
 
                 for (ImageView imageView : playerHand) {
                     imageView.performClick();
-                    System.out.println("i am clicking " + imageView.getTag());
 
 
 
@@ -42,7 +38,7 @@ public class MinimizeAI {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 1000);
+                }, 10);
 
                 if (Objects.equals(source, "deck")) {
                     new Handler().postDelayed(new Runnable() {
@@ -50,7 +46,7 @@ public class MinimizeAI {
                         public void run() {
                             game.iv_deck.performClick();
                         }
-                    }, 2000);
+                    }, 10);
                 } else {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -59,7 +55,7 @@ public class MinimizeAI {
 
 
                         }
-                    }, 1000);
+                    }, 10);
                 }
             }
         });
@@ -212,7 +208,7 @@ public class MinimizeAI {
         }
 
         for (int sum : handSums) {
-            System.out.println(sum);
+//            System.out.println(sum);
         }
     }
 }

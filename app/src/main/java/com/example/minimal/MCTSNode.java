@@ -106,7 +106,7 @@ public class MCTSNode {
 //        return null;  // No untried moves, cannot expand further
 //    }
 
-//    public double simulate() {
+    //    public double simulate() {
 //        State simulatedState = gameState.Clone();
 //        int currentPlayer = playerJustMoved;
 //
@@ -138,8 +138,6 @@ public class MCTSNode {
         if (children.isEmpty()) {
             // If the node has no children, all moves are untried
 //            System.out.println("it is empty????");
-
-
             return state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
         } else {
 //            System.out.println("notttttt????");
@@ -182,9 +180,9 @@ public class MCTSNode {
 
         if (playerJustMoved != 0) {
             // Assuming your State class has a method GetResult(int player) to get the result for a player
-           if(gameState.getResult(playerJustMoved)){
-               wins++;
-           }
+            if(gameState.getResult(playerJustMoved)){
+                wins++;
+            }
         }
     }
 

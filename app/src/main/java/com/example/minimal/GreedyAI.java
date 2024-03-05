@@ -14,7 +14,15 @@ public class GreedyAI {
 
         // Check if the game is paused
 
-        drop.performClick();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Perform the second click after a 2-second delay
+
+                drop.performClick();
+            }
+
+        }, 10) ; // 2000 milliseconds = 2 seconds
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -24,7 +32,7 @@ public class GreedyAI {
                 dropButton.performClick();
             }
 
-        }, 500) ; // 2000 milliseconds = 2 seconds
+        }, 10) ; // 2000 milliseconds = 2 seconds
 
         // Delay between the second and third clicks
         new Handler().postDelayed(new Runnable() {
@@ -34,7 +42,7 @@ public class GreedyAI {
                 game.iv_deck.performClick();
 
             }
-        }, 1000);
+        }, 10);
     }
 
 

@@ -106,6 +106,7 @@ public class State implements Cloneable {
 
         // seen cards = player's hand + discarded card
         seenCards.addAll(discardedCards);
+//        System.out.println("size in clone and rand " + discardedCards.size());
         List<Integer> unseenCards = new ArrayList<>(makeList());
 
         unseenCards.removeAll(seenCards);
@@ -124,14 +125,14 @@ public class State implements Cloneable {
 
                 // Deal cards to player p
 
-               // Initialize player's hand with existing cards
+                // Initialize player's hand with existing cards
 
                 List<Integer> playerHand;
                 int numExistingCards;
                 // Add random cards to complete the hand up to 5 cards
                 if(existingCards !=null){
-                     playerHand = new ArrayList<>(existingCards);
-                     numExistingCards = existingCards.size();
+                    playerHand = new ArrayList<>(existingCards);
+                    numExistingCards = existingCards.size();
 
                 }
                 else{
@@ -139,9 +140,12 @@ public class State implements Cloneable {
                     numExistingCards= 0;
                 }
                 if (numExistingCards < 5) {
-                    int remainingCards = 5 - numExistingCards;
-                    playerHand.addAll(unseenCards.subList(0, remainingCards));
-                    unseenCards.subList(0, remainingCards).clear();
+                    int remainingCards = Math.min(5 - numExistingCards, unseenCards.size());
+                    if (remainingCards > 0) {
+                        playerHand.addAll(unseenCards.subList(0, remainingCards));
+                        unseenCards.subList(0, remainingCards).clear();
+                    }
+
                 }
 
                 // Store the size of player p's hand
@@ -168,7 +172,7 @@ public class State implements Cloneable {
 
 
         // Count the number of cards smaller than the top discard in the deck
-    ;
+        ;
 
         int topDiscard = discardedCards.isEmpty() ? 0 : discardedCards.get(0);
         // Count the number of cards smaller than the top discard in the deck
@@ -251,12 +255,14 @@ public class State implements Cloneable {
 //                    allMoves.add(movePile);
 //                    Move moveDeck = new Move(cardsWithSameRank, "pile");
 //                    allMoves.add(moveDeck);
-                    if (probability > 0.6) {
+                    if (probability > 0.6 ||  updateUnseenCards().isEmpty()) {
 
                         Move movePile = new Move(cardsWithSameRank, "deck");
 
+//                        System.out.println("there is a move");
                         allMoves.add(movePile);
                     } else {
+//                        System.out.println("there is a move deck");
 
                         Move moveDeck = new Move(cardsWithSameRank, "pile");
                         allMoves.add(moveDeck);
@@ -373,9 +379,10 @@ public class State implements Cloneable {
 
     public Boolean isTerminal(){
         List<Integer> card = updateUnseenCards();
-//        System.out.println("CARD SIZE HERE  ====" + card.size());
 
-        if(card.isEmpty() || canPlayerShow() ){
+
+        if(card.size()<20 || canPlayerShow() ){
+            System.out.println();
             return Boolean.TRUE;
         }
         else{
@@ -423,7 +430,7 @@ public class State implements Cloneable {
         }
 
         else{
-           return  Boolean.FALSE;
+            return  Boolean.FALSE;
         }
     }
 
@@ -468,9 +475,9 @@ public class State implements Cloneable {
 
         // Remove discarded cards from the unseenCards list
         unseenCards.removeAll(discardedCards);
-//        System.out.println(" removing disared " + discardedCards.size());
+//        System.out.println(" removing dicarded " + discardedCards.size());
 
-
+//        System.out.println("size of unseen ards is " + unseenCards.size());
         return unseenCards;
     }
     public Move getLastMove() {
@@ -492,7 +499,7 @@ public class State implements Cloneable {
     }
 
     public int getPlayerToMove(){
-         return playerToMove;
+        return playerToMove;
     }
 
     public List<Integer> getDiscardedCards() {

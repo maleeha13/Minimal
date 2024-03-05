@@ -49,7 +49,6 @@ public class winner_popup extends AppCompatActivity {
                 .setPosition(-50f, celeb.getWidth() + 50f, -50f, -50f)
                 .streamFor(300, 5000L);
 
-        // Your onCreate method remains the same...
         c = this;
     }
 
@@ -104,10 +103,6 @@ public class winner_popup extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                winnerDialog.dismiss();
-//                closeOptionsMenu();
-//                finished = true;
-
                 Intent intent = new Intent(context, StartScreen.class);
                 context.startActivity(intent);
 

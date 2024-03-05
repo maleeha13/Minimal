@@ -37,7 +37,7 @@ public class gameController {
 
     public interface GameUIListener {
 
-        void onCardClicked(int cardValue, ImageView imageView, int player);
+        void onCardClicked(int cardValue, ImageView imageView, int player) throws CloneNotSupportedException;
 
 
         void onPileClick() throws CloneNotSupportedException;
@@ -52,8 +52,9 @@ public class gameController {
 
     public void onDeckClick(ImageView img) {
         if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
-            ImageView imageView = img;
 
+            // 4A. ASSIGNS A NEW CARD
+            ImageView imageView = img;
             if (imageView != null) {
                 assign(imageView, game.turns[game.current_player]);
                 game.second = game.check;
@@ -68,6 +69,7 @@ public class gameController {
 
 
     public void onPileClick(ImageView imageView, ImageView stackImageView) {
+        // 4B. ASSIGNS THE PREVIOUS PLAYERS CARD
         imageView.setImageDrawable(game.previous);
         imageView.setTag(game.second);
         imageView.setTag(game.second);
@@ -79,7 +81,6 @@ public class gameController {
         List<Integer> playerHandList = new ArrayList<>();
         game.playerHand.get(game.current_player);
         playerHandList.add((Integer) imageView.getTag());
-        System.out.println("adding .... " + (Integer) imageView.getTag());
         game.playerHand.put(game.current_player, playerHandList);
 
     }
@@ -148,7 +149,7 @@ public class gameController {
                     params.topMargin -= 50;
                     imageView.setLayoutParams(params);
                     game.selectedCardId = imageView.getId();
-                    System.out.println("it is clicking the card " + imageView.getTag()) ;
+//                    System.out.println("it is clicking the card " + imageView.getTag()) ;
 
 
                 }

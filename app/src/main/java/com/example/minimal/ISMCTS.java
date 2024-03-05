@@ -45,11 +45,14 @@ public class ISMCTS {
         @Override
         protected Move doInBackground(Void... voids) {
             MCTSNode rootNode = new MCTSNode(rootState, null, 0, null);
+
             expandNode(rootNode, rootState);
 
             for (int i = 0; i < itermax; i++) {
                 State state = rootState.clone();
                 try {
+                    List<Integer> card = state.updateUnseenCards();
+//                    System.out.println("is it terminal " + state.isTerminal() + " size is "  + card.size());
                     state = state.CloneAndRandomize(rootState.getPlayerToMove());
                 } catch (CloneNotSupportedException e) {
 
@@ -60,6 +63,7 @@ public class ISMCTS {
                 while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && node.getUntriedMoves(state).isEmpty() && !state.isTerminal()) {
                     node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
 
+//                    System.out.println("moves 1 " + state.updateUnseenCards().size());
                     state.applyMove(node.getMove(), state.getPlayerToMove());
 //
                 }
@@ -68,6 +72,8 @@ public class ISMCTS {
                 if (!untriedMoves.isEmpty() && !state.isTerminal()) {  // if we can expand (i.e. state/node is non-terminal)
                     Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
                     int player = state.getPlayerToMove();
+//                    System.out.println("moves 2 " + state.updateUnseenCards().size());
+
                     state.applyMove(m, player);
                     node = node.addChild(m, player);  // add child and descend tree
                 }
@@ -76,6 +82,8 @@ public class ISMCTS {
 
                     List<Move> legalMoves = state.getAllMoves(state.getPlayerToMove());
                     Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
+//                    System.out.println("moves 3 " + state.updateUnseenCards().size());
+
                     state.applyMove(randomMove, state.getPlayerToMove());
                     boolean simulationResult = state.getResult(state.getPlayerToMove());
                     node.update(simulationResult);
@@ -93,7 +101,8 @@ public class ISMCTS {
                 System.out.println(Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove());
                 return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
             } else {
-                return null;
+//                System.out.println("move is " + rootNode.getMove());
+                return rootNode.getMove();
             }
         }
 
@@ -102,16 +111,23 @@ public class ISMCTS {
             if (maxMove != null) {
                 applyBest(maxMove, hand, dropButton, game, deck, stack);
             }
+            else{
+                System.out.println("is null ");
+            }
         }
     }
 
     private void expandNode(MCTSNode node, State state) {
         List<Move> untriedMoves = new ArrayList<>(node.getUntriedMoves(state));
+//        System.out.println("untried moves " + untriedMoves.isEmpty() + " terminal " + state.isTerminal());
         if (!untriedMoves.isEmpty()) {
             Move randomMove = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
             State newState = state.clone();
+//            System.out.println("moves 4 " + state.updateUnseenCards().size());
+
             newState.applyMove(randomMove, newState.getPlayerToMove());
             node.addChild(randomMove, newState.getPlayerToMove());
+//            System.out.println("added chikd to root");
             untriedMoves.remove(randomMove);
         }
     }
@@ -137,7 +153,7 @@ public class ISMCTS {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 1000);
+                }, 10);
 
                 if (Objects.equals(source, "deck")) {
                     new Handler().postDelayed(new Runnable() {
@@ -145,7 +161,7 @@ public class ISMCTS {
                         public void run() {
                             deck.performClick();
                         }
-                    }, 2000);
+                    }, 10);
                 } else {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -154,7 +170,7 @@ public class ISMCTS {
 
 
                         }
-                    }, 1000);
+                    }, 10);
                 }
             }
         });
@@ -189,7 +205,7 @@ public class ISMCTS {
         }
 
         for (int sum : handSums) {
-            System.out.println(sum);
+//            System.out.println(sum);
         }
     }
 }

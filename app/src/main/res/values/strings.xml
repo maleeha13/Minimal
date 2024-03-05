@@ -4,7 +4,7 @@
     <string-array name="dropdown_options">
         <item>1</item>
         <item>2</item>
-        <item>10</item>
+        <item>100</item>
         <!-- Add more options as needed -->
     </string-array>
 
