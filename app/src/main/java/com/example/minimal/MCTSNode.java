@@ -7,6 +7,7 @@ import java.util.Random;
 public class MCTSNode {
     private int visits;
     private int wins;
+    private double score;
     private double totalReward;
     private MCTSNode parent;
     private List<MCTSNode> children;
@@ -20,6 +21,7 @@ public class MCTSNode {
         this.visits = 0;
         this.wins = 0;
         this.totalReward = 0.0;
+        this.score=0;
         this.children = new ArrayList<>();
         this.playerJustMoved = playerJustMoved;
         this.move=move;
@@ -31,6 +33,9 @@ public class MCTSNode {
     }
     public int getVisits() {
         return visits;
+    }
+    double getScore() {
+        return score;
     }
     public int getWins() {
         return wins;
@@ -175,13 +180,20 @@ public class MCTSNode {
         return childNode;
     }
 
-    public void update(boolean terminalState) {
+    public void update(State state) {
         visits++;
 
         if (playerJustMoved != 0) {
             // Assuming your State class has a method GetResult(int player) to get the result for a player
-            if(gameState.getResult(playerJustMoved)){
+            if(state.getResult(playerJustMoved)){
+                int[] sc = state.getScores(state);
+                score = 0 + Math.sqrt(sc[playerJustMoved]);
+
                 wins++;
+            }
+            else{
+                int[] sc = state.getScores(state);
+                score = 100 + Math.sqrt(sc[playerJustMoved]);
             }
         }
     }
@@ -209,6 +221,42 @@ public class MCTSNode {
         }
         return true; // All legal moves have corresponding child nodes
     }
+
+//    public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
+//        if (children.isEmpty()) {
+//            return this; // Return itself if there are no children
+//        }
+//
+//        // Filter the list of children by the list of legal moves and untried moves
+//        List<MCTSNode> legalChildren = new ArrayList<>();
+//        for (MCTSNode child : children) {
+//            if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
+//                legalChildren.add(child);
+//            }
+//        }
+//
+//        // Get the child with the lowest score
+//        MCTSNode selectedChild = null;
+//        double lowestScore = Double.POSITIVE_INFINITY;
+//        for (MCTSNode child : legalChildren) {
+//            if (child.getVisits() == 0) {
+//                // Assign a high value to unvisited nodes for exploration
+//                lowestScore = Double.NEGATIVE_INFINITY;
+//                selectedChild = child;
+//                break;
+//            } else {
+//                // Compare the score of the child with the lowest score
+//                if (child.getScore() < lowestScore) {
+//                    lowestScore = child.getScore();
+//                    selectedChild = child;
+//                }
+//            }
+//        }
+//
+//        // Return the selected child
+//        return selectedChild;
+//    }
+//
 
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
         if (children.isEmpty()) {
@@ -246,13 +294,16 @@ public class MCTSNode {
         return selectedChild;
     }
 
+
     public MCTSNode cloneNode() {
         MCTSNode clone = new MCTSNode(this.gameState, this.parent, this.playerJustMoved, this.move);
         clone.visits = this.visits;
         clone.wins = this.wins;
         clone.totalReward = this.totalReward;
         clone.children = new ArrayList<>(this.children);
-        // You might need to add additional cloning logic based on your specific implementation
+        clone.score = this.score;
+        // You might need to add additional cloning logic bas
+        // ed on your specific implementation
 
         return clone;
     }

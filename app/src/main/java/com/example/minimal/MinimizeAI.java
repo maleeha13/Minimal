@@ -28,6 +28,7 @@ public class MinimizeAI {
 
                 for (ImageView imageView : playerHand) {
                     imageView.performClick();
+                    System.out.println("dropping " + imageView.getTag());
 
 
 
@@ -45,6 +46,7 @@ public class MinimizeAI {
                         @Override
                         public void run() {
                             game.iv_deck.performClick();
+                            System.out.println("pick from deck");
                         }
                     }, 10);
                 } else {
@@ -52,6 +54,8 @@ public class MinimizeAI {
                         @Override
                         public void run() {
                             game.stack.performClick();
+                            System.out.println("pick from pile");
+
 
 
                         }

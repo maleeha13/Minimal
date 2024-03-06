@@ -61,7 +61,7 @@ public class ISMCTS {
                 MCTSNode node = rootNode.cloneNode();
 
                 while (!state.getAllMoves(state.getPlayerToMove()).isEmpty() && node.getUntriedMoves(state).isEmpty() && !state.isTerminal()) {
-                    node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.7);
+                    node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 0.8);
 
 //                    System.out.println("moves 1 " + state.updateUnseenCards().size());
                     state.applyMove(node.getMove(), state.getPlayerToMove());
@@ -86,22 +86,24 @@ public class ISMCTS {
 
                     state.applyMove(randomMove, state.getPlayerToMove());
                     boolean simulationResult = state.getResult(state.getPlayerToMove());
-                    node.update(simulationResult);
+                    node.update(state);
 
                 }
 
                 while (node != null) {
-                    node.update(state.getResult(node.getPlayerJustMoved()));
+                    node.update(state);
                     node = node.getParent();
 
                 }
             }
 
             if (!rootNode.getChildren().isEmpty()) {
-                System.out.println(Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove());
-                return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getVisits)).getMove();
+                System.out.println("Move by ISMCTS: " + Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getWins)).getMove());
+//                return Collections.min(rootNode.getChildren(), Comparator.comparingDouble(MCTSNode::getScore)).getMove();
+
+                return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getWins)).getMove();
             } else {
-//                System.out.println("move is " + rootNode.getMove());
+                System.out.println("move is " + rootNode.getMove());
                 return rootNode.getMove();
             }
         }

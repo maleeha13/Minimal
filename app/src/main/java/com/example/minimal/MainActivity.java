@@ -44,10 +44,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
      static List<Integer> cards = new ArrayList<>();  // Replace String with the actual type of keys and values
     Game game;
     List<List<ImageView>> imageViewsList = new ArrayList<>();
+    static ArrayList<Integer> testCards = new ArrayList<>();
+
 
     String fileName = "eval_1.txt";
 
-    String fileName1 = "ev_3.txt";
+    String fileName1 = "ev_27.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +100,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
             ImageView imageView = findViewById(imageViewId);
             Card.assignImages(Card.getCards().get(game.x), imageView);
+//            Card.assignImages(testCards.get(game.x), imageView);
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    System.out.println("game x is lalalalal" + game.x);
-
                     if(!game.show){
                         int cardValue = Card.getCards().get(game.x);
                     try {
@@ -132,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         Card.makeCardList();
         Collections.shuffle(Card.getCards());
+
+        ArrayList<Integer> list = makeTestList();
 //        System.out.println("assign card " + game.x);
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
@@ -358,8 +362,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             // 7. UPDATES THE UI AND MAKES THE "DROPPED" CARDS INVISIBLE
             for (ImageView img_view : game.cardsSelected) {
                 if (img_view.getTag() != null) {
-                    System.out.println("adding to dis " + cards.size());
-                    System.out.println("pile is " + cards);
                     cards.add((Integer) img_view.getTag());
 
                     if(cards.size()>55){
@@ -655,11 +657,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //            callGreedy(game.current_player + 1);
 //            callMinimize(game.current_player +1);
 
-            System.out.println("size of unseen cards MAIN " + game.x);
-            System.out.println("size of discard  cards MAIN " + cards.size());
 
             callMonte();
-            System.out.println("finish running monte ");
 
 
         } else if (game.current_player == 2) {
@@ -684,7 +683,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         }
         else {
-            System.out.println("timer?");
 //            if (countDownTimer != null) {
 //
 //                countDownTimer.cancel();
@@ -719,8 +717,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         if(!game.show){
-            System.out.println("starting ismcts");
-            monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+            monte.runInBackground(s, 1000, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
 
         }
 
@@ -780,7 +777,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         scoreController.showScores(win, game);
         int winner = win+ 1;
         game.show=true;
-        System.out.println("showing");
+//        System.out.println("showing");
 //        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard sc = new scorecard(this);
         sc.showScoreboardPopup(1);
@@ -803,7 +800,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         int win = scoreController.calculateMinScore();
         int winner = win+ 1;
         game.show=true;
-        System.out.println("showing");
+//        System.out.println("showing");
 
 
 //        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
@@ -830,7 +827,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void nextRound(View v) throws CloneNotSupportedException {
         currentRound++;
         if(currentRound < StartScreen.numberOfRounds){
-            System.out.println("new round");
+//            System.out.println("new round");
 
             View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
 
@@ -1019,11 +1016,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 }
                 descList.add(img);
             }
-
-
-
-
-
         }
 
         Collections.sort(descList, new Comparator<ImageView>() {
@@ -1049,19 +1041,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             int key = entry.getKey();
             int value = entry.getValue().size();
 
-            if (value > largestValue) {
+            if (value > largestValue && key!=stackCardNumber%100) {
                 largestKey = key;
                 largestValue = value;
             }
         }
 
-
-
-
 // Add the ImageViews corresponding to the largest key to the list
         list.addAll(imageViewMap.get(largestKey));
-
-
 
 // Check if the total value in the list is greater than 'largest'
         int totalValue = 0;
@@ -1069,8 +1056,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             totalValue += (Integer) imageView.getTag() % 100;
         }
-
-
 
         String source;
 
@@ -1080,8 +1065,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         else{
             source="deck";
         }
-
-
 
         if (totalValue >= largest) {
 
@@ -1397,6 +1380,42 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if (val < 6) {
             show.performClick();
         }
+
+
+    }
+
+
+    public static ArrayList<Integer> makeTestList() {
+
+        testCards.add(410);
+        testCards.add(103);
+        testCards.add(104);
+        testCards.add(105);
+        testCards.add(106);
+
+        testCards.add(210);
+        testCards.add(310);
+        testCards.add(100);
+        testCards.add(110);
+        testCards.add(111);
+
+        testCards.add(112);
+        testCards.add(113);
+        testCards.add(101);
+        testCards.add(101);
+        testCards.add(101);
+
+        testCards.add(101);
+        testCards.add(101);
+        testCards.add(101);
+        testCards.add(101);
+        testCards.add(101);
+
+        testCards.add(101);
+        testCards.add(101);
+        testCards.add(101);
+
+        return testCards;
 
 
     }
