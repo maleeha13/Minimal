@@ -2,7 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Minimal" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- Add or modify attributes here -->
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorButtonNormal">@color/black</item> <!-- Custom background color for buttons -->
     </style>
 
     <style name="Theme.Minimal" parent="Base.Theme.Minimal" />

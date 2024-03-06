@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //        }
 
         if (game.current_player == 0) {
-            callGreedy(game.current_player+1);
+//            callGreedy(game.current_player+1);
         }
     }
 
