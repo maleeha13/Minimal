@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class StartScreen extends AppCompatActivity {
 
@@ -127,6 +129,8 @@ public class StartScreen extends AppCompatActivity {
 
 
     public void startButton (View v){
+        EditText getName = findViewById(R.id.nameEditText);
+        name = getName.getText().toString();
         Intent intent=new Intent(StartScreen.this, MainActivity.class);
 
 

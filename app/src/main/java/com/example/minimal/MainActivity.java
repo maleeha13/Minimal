@@ -127,6 +127,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
         game = gameController.game;
+        ImageView play_av = findViewById(R.id.play_av);
+        play_av.setImageDrawable(StartScreen.chosen.getDrawable());
+        TextView name = findViewById(R.id.player_name);
+        name.setText(StartScreen.name);
+
 
         game.x=0;
         Button showButton = findViewById(R.id.show);
