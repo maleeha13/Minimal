@@ -732,13 +732,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         }
         else {
-//            if (countDownTimer != null) {
-//
-//                countDownTimer.cancel();
-//                countDownTimer = null;
-//                remainingTime = 0;
-//            }
-//            timer();
+            if (countDownTimer != null) {
+
+                countDownTimer.cancel();
+                countDownTimer = null;
+                remainingTime = 0;
+            }
+            timer();
 
 
         }
