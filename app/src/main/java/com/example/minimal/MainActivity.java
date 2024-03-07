@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
         game = gameController.game;
-        ImageView play_av = findViewById(R.id.play_av);
+        ImageView play_av = findViewById(R.id.ai_av1);
         play_av.setImageDrawable(StartScreen.chosen.getDrawable());
         TextView name = findViewById(R.id.player_name);
         name.setText(StartScreen.name);
@@ -164,6 +164,16 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         GradientDrawable border = new GradientDrawable();
         border.setColor(0xFFFFFFFF); // White background
         border.setStroke(8, Color.RED); // Black border with width 2
+
+        String img_name = "ai_av1";
+        int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+
+        GradientDrawable borderDrawable = new GradientDrawable();
+        borderDrawable.setStroke(5, Color.RED); // Set the border width and color
+        ImageView image = findViewById(resIDImage);
+        image.setBackground(borderDrawable);
+
+
 
         // Set the background drawable for your LinearLayout
         linearLayout.setBackground(border);
@@ -614,19 +624,38 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if (game.current_player != 0) {
             String beforelayout = "lay" + (game.current_player + 1);
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-
             LinearLayout linearLayoutold = findViewById(resID);
-
             linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
-
             linearLayoutold.setBackground(null);
+
+            String img_name = "ai_av" + (game.current_player+1);
+            System.out.println("making this invi " + img_name);
+            int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+
+            GradientDrawable borderDrawable = new GradientDrawable();
+            borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
+            ImageView img = findViewById(resIDImage);
+            img.setBackground(borderDrawable);
+
         } else {
             String beforelayout = "lay" + 1;
             int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
             LinearLayout linearLayoutold = findViewById(resID);
             linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
-
             linearLayoutold.setBackground(null);
+
+            System.out.println("making this invi " + game.current_player+1);
+
+            String img_name = "ai_av1";
+            int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+
+            GradientDrawable borderDrawable = new GradientDrawable();
+            borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
+            ImageView img = findViewById(resIDImage);
+
+// Set the border drawable as the background of the ImageView
+            img.setBackground(borderDrawable);
+
         }
 
         gameController.nextTurn();
@@ -635,9 +664,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         LinearLayout linearLayout = findViewById(resID);
         GradientDrawable border = new GradientDrawable();
-        border.setColor(0xFFFFFFFF); // White background
+//        border.setColor(0xFFFFFFFF); // White background
         border.setStroke(8, Color.RED); // Black border with width 2
         linearLayout.setBackground(border);
+
+        String img_name = "ai_av" + (game.current_player+1);
+        int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+
+        GradientDrawable borderDrawable = new GradientDrawable();
+        borderDrawable.setStroke(5, Color.RED); // Set the border width and color
+        ImageView img = findViewById(resIDImage);
+
+// Set the border drawable as the background of the ImageView
+        img.setBackground(borderDrawable);
 
 
         Button showButton = findViewById(R.id.show);
