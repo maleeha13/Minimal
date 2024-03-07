@@ -6,11 +6,13 @@ import static com.example.minimal.StartScreen.currentRound;
 import static com.example.minimal.StartScreen.numberOfRounds;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -163,20 +165,26 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         // Create a GradientDrawable
         GradientDrawable border = new GradientDrawable();
         border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(8, Color.RED); // Black border with width 2
+        border.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
+        border.setAlpha(20); // Set alpha value for glowing effect
+
+
 
         String img_name = "ai_av1";
         int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
-// Get the ImageView reference
         ImageView image = findViewById(resIDImage);
-
-
         GradientDrawable borderDrawable = new GradientDrawable();
         borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        borderDrawable.setStroke(20, Color.YELLOW); // Set the border width and color
+        borderDrawable.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
         borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
         image.setBackground(borderDrawable);
+//        ImageView background_image_view  = findViewById(R.id.background_image_view1);
+//        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.glow);
+//        background_image_view.setImageDrawable(drawable);
+
+
+
 
 
 
@@ -670,7 +678,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         LinearLayout linearLayout = findViewById(resID);
         GradientDrawable border = new GradientDrawable();
 //        border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(8, Color.RED); // Black border with width 2
+        border.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
         linearLayout.setBackground(border);
 
         String img_name = "ai_av" + (game.current_player+1);
@@ -679,7 +687,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         ImageView image = findViewById(resIDImage);
         GradientDrawable borderDrawable = new GradientDrawable();
         borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        borderDrawable.setStroke(20, Color.YELLOW); // Set the border width and color
+        borderDrawable.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
         borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
         image.setBackground(borderDrawable);
 

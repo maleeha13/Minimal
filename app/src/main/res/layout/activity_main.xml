@@ -399,13 +399,12 @@
             android:layout_width="100dp"
             android:id="@+id/la3"
 
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:weightSum="5"
             android:orientation="vertical"
             android:layout_height="250dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginStart="200dp"
+            android:layout_marginStart="280dp"
 
             android:rotation="0">
             <ImageView
@@ -683,5 +682,4 @@
         android:textSize="24sp" />
 
 </RelativeLayout>
-
 
