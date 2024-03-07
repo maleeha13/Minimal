@@ -155,7 +155,7 @@ public class ISMCTS {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 10);
+                }, 500);
 
                 if (Objects.equals(source, "deck")) {
                     new Handler().postDelayed(new Runnable() {
@@ -163,7 +163,7 @@ public class ISMCTS {
                         public void run() {
                             deck.performClick();
                         }
-                    }, 10);
+                    }, 500);
                 } else {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -172,7 +172,7 @@ public class ISMCTS {
 
 
                         }
-                    }, 10);
+                    }, 500);
                 }
             }
         });

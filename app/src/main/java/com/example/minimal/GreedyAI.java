@@ -22,7 +22,7 @@ public class GreedyAI {
                 drop.performClick();
             }
 
-        }, 10) ; // 2000 milliseconds = 2 seconds
+        }, 500) ; // 2000 milliseconds = 2 seconds
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -32,7 +32,7 @@ public class GreedyAI {
                 dropButton.performClick();
             }
 
-        }, 10) ; // 2000 milliseconds = 2 seconds
+        }, 500) ; // 2000 milliseconds = 2 seconds
 
         // Delay between the second and third clicks
         new Handler().postDelayed(new Runnable() {
@@ -42,7 +42,7 @@ public class GreedyAI {
                 game.iv_deck.performClick();
 
             }
-        }, 10);
+        }, 500);
     }
 
 

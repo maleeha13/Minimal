@@ -168,10 +168,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         String img_name = "ai_av1";
         int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
-        GradientDrawable borderDrawable = new GradientDrawable();
-        borderDrawable.setStroke(5, Color.RED); // Set the border width and color
+// Get the ImageView reference
         ImageView image = findViewById(resIDImage);
+
+
+        GradientDrawable borderDrawable = new GradientDrawable();
+        borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
+        borderDrawable.setStroke(20, Color.YELLOW); // Set the border width and color
+        borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
         image.setBackground(borderDrawable);
+
+
 
 
 
@@ -629,7 +636,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             linearLayoutold.setBackground(null);
 
             String img_name = "ai_av" + (game.current_player+1);
-            System.out.println("making this invi " + img_name);
             int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
             GradientDrawable borderDrawable = new GradientDrawable();
@@ -644,7 +650,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
             linearLayoutold.setBackground(null);
 
-            System.out.println("making this invi " + game.current_player+1);
 
             String img_name = "ai_av1";
             int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
@@ -671,12 +676,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         String img_name = "ai_av" + (game.current_player+1);
         int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
+        ImageView image = findViewById(resIDImage);
         GradientDrawable borderDrawable = new GradientDrawable();
-        borderDrawable.setStroke(5, Color.RED); // Set the border width and color
-        ImageView img = findViewById(resIDImage);
-
-// Set the border drawable as the background of the ImageView
-        img.setBackground(borderDrawable);
+        borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
+        borderDrawable.setStroke(20, Color.YELLOW); // Set the border width and color
+        borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
+        image.setBackground(borderDrawable);
 
 
         Button showButton = findViewById(R.id.show);
@@ -691,7 +696,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //            callMinimize(game.current_player +1);
 
 
-            callGreedy(game.current_player+1);
+//            callGreedy(game.current_player+1);
 
 
         }
@@ -1388,7 +1393,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     img.performClick();
                 }
 
-            }, 10); // 2000 milliseconds = 2 seconds
+            }, 500); // 2000 milliseconds = 2 seconds
 
             Button dropButton = findViewById(R.id.drop);
             new Handler().postDelayed(new Runnable() {
@@ -1399,7 +1404,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     dropButton.performClick();
                 }
 
-            }, 10); // 2000 milliseconds = 2 seconds
+            }, 500); // 2000 milliseconds = 2 seconds
 
             // Delay between the second and third clicks
             new Handler().postDelayed(new Runnable() {
@@ -1409,7 +1414,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     game.iv_deck.performClick();
 
                 }
-            }, 10);
+            }, 500);
         }
     }
 
