@@ -1323,6 +1323,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void exitGame(View v) {
         Intent intent=new Intent(MainActivity.this, StartScreen.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -1498,6 +1499,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         for (ImageView imageView : myCards) {
             int tag = (Integer) imageView.getTag();
             val += tag % 100;
+
         }
 
         if (val < 6) {

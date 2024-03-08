@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,36 +9,34 @@
 
     <EditText
         android:id="@+id/nameEditText"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="182dp"
-        android:layout_marginEnd="53dp"
-        android:layout_marginBottom="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="240dp"
         android:fontFamily="@font/pixel"
         android:hint="Enter player name"
-
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/chosen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="224dp" />
+
 
     <GridLayout
         android:id="@+id/avatarGridLayout"
-        android:layout_width="238dp"
-        android:layout_height="0dp"
-
-        android:layout_marginBottom="250dp"
+        android:layout_width="253dp"
+        android:layout_height="163dp"
+        android:layout_marginTop="360dp"
+        android:layout_centerHorizontal="true"
         android:columnCount="3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        tools:layout_editor_absoluteX="87dp"
+        tools:layout_editor_absoluteY="362dp">
 
         <!-- First row -->
+
+        <!-- Second row -->
 
         <ImageView
             android:id="@+id/avatar1"
@@ -49,8 +47,6 @@
             android:layout_columnWeight="1"
             android:background="@drawable/av1"
             android:scaleType="centerCrop" />
-
-        <!-- Second row -->
 
         <ImageView
             android:id="@+id/avatar2"
@@ -103,98 +99,95 @@
     </GridLayout>
 
     <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="118dp"
-        android:layout_height="44dp"
-        android:entries="@array/diff_options"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
-
-    <Spinner
         android:id="@+id/spinner"
         android:layout_width="117dp"
-        android:layout_height="40dp"
+        android:layout_height="42dp"
         android:entries="@array/dropdown_options"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/startButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="636dp"
-        android:fontFamily="@font/pixel"
-        android:onClick="startButton"
-        android:text="PLAY"
-        android:textSize="29dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/chosen"
-        android:layout_width="0dp"
-        android:visibility="invisible"
-        android:layout_height="0dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="215dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="86dp"
-        android:layout_marginBottom="11dp"
-        android:fontFamily="@font/pixel"
-        android:text="CHOOSE YOUR AVATAR"
-        android:textColor="@color/white"
-        android:textSize="28dp"
-        app:flow_verticalAlign="center"
-        app:layout_constraintBottom_toBottomOf="@+id/chosen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/chosen" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="179dp"
-        android:fontFamily="@font/pixel"
-        android:text="Number of rounds:"
-        android:textColor="@color/white"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chosen" />
+        android:layout_marginTop="540dp"
+        android:layout_marginStart="230dp"
+        tools:layout_editor_absoluteX="254dp"
+        tools:layout_editor_absoluteY="528dp" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="139dp"
         android:fontFamily="@font/pixel"
         android:text="Difficulty:"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="600dp"
         android:textColor="@color/white"
         android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
-        app:layout_constraintHorizontal_bias="0.623"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chosen"
-        app:layout_constraintVertical_bias="1.0" />
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="593dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="118dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="590dp"
+        android:layout_marginStart="230dp"
+        android:entries="@array/diff_options"
+        tools:layout_editor_absoluteX="253dp"
+        tools:layout_editor_absoluteY="586dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pixel"
+        android:text="Number of rounds:"
+        android:layout_marginTop="550dp"
+        android:layout_marginStart="35dp"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="539dp" />
+
+    <Button
+        android:id="@+id/startButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pixel"
+        android:onClick="startButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="650dp"
+        android:text="PLAY"
+        android:textSize="29dp"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="636dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pixel"
+        android:text="CHOOSE YOUR AVATAR"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:layout_marginTop="315dp"
+        android:layout_marginStart="40dp"
+        android:textSize="28dp"
+        app:flow_verticalAlign="center"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="313dp" />
+
+    <ImageView
+        android:id="@+id/chosen"
+        android:layout_width="52dp"
+        android:layout_height="54dp"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="294dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="347dp"
+        android:layout_height="403dp"
+        android:layout_marginTop="-50dp"
+        android:layout_marginStart="35dp"
+        app:srcCompat="@drawable/finallogo"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="-73dp" />
+
+</RelativeLayout>
