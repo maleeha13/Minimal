@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.example.minimal.R;
 import com.example.minimal.StartScreen;
 
+import java.util.Objects;
+
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
@@ -121,8 +123,31 @@ public class winner_popup extends AppCompatActivity {
             imageView1.setImageDrawable(w4Drawable);
         }
         else{
-            Drawable w1Drawable = context.getDrawable(R.drawable.p1); // Assuming w2.png is in the drawable folder
-            imageView1.setImageDrawable(w1Drawable);
+            if(Objects.equals(StartScreen.avatar, "avatar1")){
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1); // Assuming w2.png is in the drawable folder
+                imageView1.setImageDrawable(w1Drawable);
+            }
+            if(Objects.equals(StartScreen.avatar, "avatar2")){
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w2); // Assuming w2.png is in the drawable folder
+                imageView1.setImageDrawable(w1Drawable);
+            }
+            if(Objects.equals(StartScreen.avatar, "avatar3")){
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w3); // Assuming w2.png is in the drawable folder
+                imageView1.setImageDrawable(w1Drawable);
+            }
+            if(Objects.equals(StartScreen.avatar, "avatar4")){
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w4); // Assuming w2.png is in the drawable folder
+                imageView1.setImageDrawable(w1Drawable);
+            }
+            if(Objects.equals(StartScreen.avatar, "avatar5")){
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w5); // Assuming w2.png is in the drawable folder
+                imageView1.setImageDrawable(w1Drawable);
+            }
+            if(Objects.equals(StartScreen.avatar, "avatar6")){
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w6); // Assuming w2.png is in the drawable folder
+                imageView1.setImageDrawable(w1Drawable);
+            }
+
         }
 
         // Show the AlertDialog
