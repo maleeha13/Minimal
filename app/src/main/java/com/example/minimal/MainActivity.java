@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewParent;
@@ -29,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -835,6 +837,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
     public void showScores(View v) throws CloneNotSupportedException {
+        showCustomToastWithDelay(3000);
         calculateScores();
         int win = scoreController.calculateMinScore();
         scoreController.showScores(win, game);
@@ -860,6 +863,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void dispEndScores() throws CloneNotSupportedException {
+        showCustomToastWithDelay(3000);
         int win = scoreController.calculateMinScore();
         int winner = win+ 1;
         game.show=true;
@@ -885,6 +889,29 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
+
+    private void showCustomToastWithDelay(int duration) {
+        // Inflate the custom layout
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.activity_custom_toast, null);
+
+        // Create and customize the toast
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+
+        // Show the toast
+        toast.show();
+
+        // Hide the toast after the specified duration
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, duration);
+    }
 
 
     public void nextRound(View v) throws CloneNotSupportedException {
