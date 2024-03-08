@@ -925,7 +925,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         calculateScores();
         int win = scoreController.calculateMinScore();
         int winner = win+ 1;
-        showCustomToastWithDelay(3000);
+        showCustomToastWithDelay(3000, Boolean.FALSE);
 
         scoreController.showScores(win, game);
         game.show=true;
@@ -951,7 +951,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void dispEndScores() throws CloneNotSupportedException {
         int win = scoreController.calculateMinScore();
         int winner = win+ 1;
-        showCustomToastWithDelay(3000);
+        showCustomToastWithDelay(3000, Boolean.TRUE);
 
         game.show=true;
 //        System.out.println("showing");
@@ -977,7 +977,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-    private void showCustomToastWithDelay(int duration) {
+    private void showCustomToastWithDelay(int duration, Boolean deckOver) {
         // Inflate the custom layout
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.activity_custom_toast, null);
@@ -986,12 +986,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         int playerShow = game.current_player+1;
         // Set the text of the TextView
-        if(playerShow==1){
-            textView.setText(name + " has clicked show");
+        if(!deckOver){
+            if(playerShow==1){
+                textView.setText(name + " has clicked show");
+            }
+            else{
+                textView.setText("Player " + playerShow + " has clicked show");
+            }
         }
+
         else{
-            textView.setText("Player " + playerShow + " has clicked show");
+            textView.setText("Deck finished... Game Over ");
         }
+
         // Create and customize the toast
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER, 0, 0);
