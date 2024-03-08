@@ -17,8 +17,9 @@
         android:layout_marginBottom="22dp"
         android:fontFamily="@font/pixel"
         android:hint="Enter player name"
+
         android:padding="12dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/chosen"
@@ -160,6 +161,7 @@
         android:layout_marginBottom="179dp"
         android:fontFamily="@font/pixel"
         android:text="Number of rounds:"
+        android:textColor="@color/white"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/spinner"

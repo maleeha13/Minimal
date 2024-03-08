@@ -72,7 +72,12 @@ public class winner_popup extends AppCompatActivity {
 
         // Customize the winner message and score
         TextView winnerMessageTextView = winnerView.findViewById(R.id.winnerMessageTextView);
-        winnerMessageTextView.setText("Player " + winnerPlayer + " wins!");
+        if(winnerPlayer==1){
+            winnerMessageTextView.setText(StartScreen.name+ " wins!");
+        }
+        else{
+            winnerMessageTextView.setText("Player " + winnerPlayer + " wins!");
+        }
 
         TextView winnerScoreTextView = winnerView.findViewById(R.id.winnerScoreTextView);
         winnerScoreTextView.setText("Score: " + winnerScore);

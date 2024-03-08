@@ -76,7 +76,14 @@ public class scorecard extends AppCompatActivity {
         // Player Headers
         for (int player = 1; player <= 4; player++) {
             TextView playerHeader = new TextView(context);
-            playerHeader.setText("Player " + player);
+            if(player==1){
+                playerHeader.setText(StartScreen.name);
+            }
+            else{
+                playerHeader.setText("Player " + player);
+
+            }
+
             playerHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
             headerRow.addView(playerHeader);
         }

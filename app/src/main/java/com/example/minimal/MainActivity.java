@@ -2,7 +2,9 @@
 package com.example.minimal;
 
 import static com.example.minimal.Game.scores;
+import static com.example.minimal.StartScreen.chosen;
 import static com.example.minimal.StartScreen.currentRound;
+import static com.example.minimal.StartScreen.name;
 import static com.example.minimal.StartScreen.numberOfRounds;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -130,9 +132,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         scoreController = new ScoreController();
         game = gameController.game;
         ImageView play_av = findViewById(R.id.ai_av1);
-        play_av.setImageDrawable(StartScreen.chosen.getDrawable());
-        TextView name = findViewById(R.id.player_name);
-        name.setText(StartScreen.name);
+        if(chosen!=null){
+            play_av.setImageDrawable(StartScreen.chosen.getDrawable());
+        }
+        if(name!=null){
+            TextView name = findViewById(R.id.player_name);
+            name.setText(StartScreen.name);
+        }
+
 
 
         game.x=0;
@@ -837,18 +844,18 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard sc = new scorecard(this);
         sc.showScoreboardPopup(1);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the game is paused before performing the third click
-                try {
-                    next();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        }, 2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Check if the game is paused before performing the third click
+//                try {
+//                    next();
+//                } catch (CloneNotSupportedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            }
+//        }, 2000);
     }
 
 
@@ -862,18 +869,18 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard sc = new scorecard(this);
         sc.showScoreboardPopup(1);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the game is paused before performing the third click
-                try {
-                    next();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        }, 2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Check if the game is paused before performing the third click
+//                try {
+//                    next();
+//                } catch (CloneNotSupportedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            }
+//        }, 2000);
 
 
     }
