@@ -470,6 +470,40 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
+//    @Override
+//    public void onPileClick() throws CloneNotSupportedException {
+//        ImageView stackImageView = findViewById(R.id.stack);
+//        if(game.dropped && !game.begin){
+//
+//            ImageView img = findEmptyImageView();
+//            if (img != null) {
+//                game.x++;
+//                img.setVisibility(View.VISIBLE);
+//                stackImageView.setImageDrawable(game.current);
+//                cards.remove((Integer) stackImageView.getTag());
+//
+//
+//            }
+//            gameController.onPileClick(img, stackImageView);
+//            nextTurn();
+//
+//        }
+//
+//        else if(!game.dropped){
+//            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+//        }
+//        else if(game.begin){
+//            Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
+//
+//        }
+//        if (game.x > Card.getCards().size() - 1) {
+//            game.iv_deck.setVisibility(View.INVISIBLE);
+//            Button showButton = findViewById(R.id.show);
+//            dispEndScores();
+////            showButton.performClick();
+//        }
+//
+//    }
 
     // 1. PILE IS CLICKED
     @Override
@@ -507,6 +541,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             // 5. ASSIGNS THE CARD ON TEH DECK TO THE PLAYER AND UPDATES THE UI
             gameController.onPileClick(img, stackImageView);
+            nextTurn();
 
             //////////////////////////////////////////////////////////////////////////////////////////////////
             handImageViews = getHand(game.current_player + 1);
@@ -528,10 +563,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         // 6. TELLS THE USER TO DROP A CARD FIRST
         else if(!game.dropped){
-//            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
         }
         else if(game.begin){
-//            Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
 
         }
         if (game.x > Card.getCards().size() - 1) {
@@ -541,85 +576,117 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 //        System.out.println("nextttttt pileeee");
 
-        nextTurn();
 
     }
 
 
-    // 1. DECK IS CLICKED
+//    @Override
+//    public void onDeckClick() throws CloneNotSupportedException {
+//
+//        if(!game.show){
+//            if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE )  {
+//
+//                ImageView img = findEmptyImageView();
+//                if (img != null) {
+//                    gameController.onDeckClick(img);
+//                    game.x++;
+//                    img.setVisibility(View.VISIBLE);
+//                    ImageView stackImageView = findViewById(R.id.stack);
+//                    stackImageView.setImageDrawable(game.current);
+//                }
+//
+//                nextTurn();
+//
+//            } else {
+//                Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
+//            }
+//            if (game.x > Card.getCards().size() - 1) {
+//                game.iv_deck.setVisibility(View.INVISIBLE);
+//                Button showButton = findViewById(R.id.show);
+//                dispEndScores();
+//            }
+//        }
+//
+//    }
+
+//     1. DECK IS CLICKED
     @Override
     public void onDeckClick() throws CloneNotSupportedException {
 
-        if(!game.show){
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            List<ImageView> handImageViews = getHand(game.current_player + 1);
-            List<Integer> tags = new ArrayList<>();
-
-            for (ImageView imageView : handImageViews) {
-                // Get the tag of each ImageView and add it to the list
-                Integer tag = (Integer) imageView.getTag();
-                tags.add(tag);
-            }
-
-            int pl = game.current_player +  1;
-            String data = "Player " + pl + ": " + tags;
-            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-            ////////////////////////////////////////////////////////////////////////////////////////////
-
-            // 2. CHECKS IF A CARD HAS BEEN DROP AND THERE ARE CARDS IN THE DECK
-            if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE )  {
-                // 3. GETS THE IMAGEVIEW WHICH IS INVISIBLE
-                ImageView img = findEmptyImageView();
-                if (img != null) {
-                    // 4. ASSIGNS A CARD FROM THE SHUFFLED DECK
-                    gameController.onDeckClick(img);
-                    game.x++;
-                    img.setVisibility(View.VISIBLE);
-                    ImageView stackImageView = findViewById(R.id.stack);
-
-                    // 5. UPDATES THE STACK WITH THE PREVIOUS PLAYER'S CARD
-                    // AS TURN IS OVER AFTER PICKING A CARD AND CALLS NEXT TURN
-
-                    stackImageView.setImageDrawable(game.current);
-                }
-
+        if(!game.show) {
+            if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
                 ////////////////////////////////////////////////////////////////////////////////////////////
-
-                handImageViews = getHand(game.current_player + 1);
-                tags = new ArrayList<>();
+                List<ImageView> handImageViews = getHand(game.current_player + 1);
+                List<Integer> tags = new ArrayList<>();
 
                 for (ImageView imageView : handImageViews) {
                     // Get the tag of each ImageView and add it to the list
                     Integer tag = (Integer) imageView.getTag();
                     tags.add(tag);
                 }
-                data = "Player " + pl + " picking from deck: " + img.getTag();
-                fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-                data = "Player " + pl + ": " + tags;
+
+                int pl = game.current_player + 1;
+                String data = "Player " + pl + ": " + tags;
                 fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
                 ////////////////////////////////////////////////////////////////////////////////////////////
 
-                //
+                // 2. CHECKS IF A CARD HAS BEEN DROP AND THERE ARE CARDS IN THE DECK
+                if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
+                    // 3. GETS THE IMAGEVIEW WHICH IS INVISIBLE
+                    ImageView img = findEmptyImageView();
+                    if (img != null) {
+                        // 4. ASSIGNS A CARD FROM THE SHUFFLED DECK
+                        gameController.onDeckClick(img);
+                        game.x++;
+                        img.setVisibility(View.VISIBLE);
+                        ImageView stackImageView = findViewById(R.id.stack);
+
+                        // 5. UPDATES THE STACK WITH THE PREVIOUS PLAYER'S CARD
+                        // AS TURN IS OVER AFTER PICKING A CARD AND CALLS NEXT TURN
+
+                        stackImageView.setImageDrawable(game.current);
+                    }
+
+                    nextTurn();
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////
+
+                    handImageViews = getHand(game.current_player + 1);
+                    tags = new ArrayList<>();
+
+                    for (ImageView imageView : handImageViews) {
+                        // Get the tag of each ImageView and add it to the list
+                        Integer tag = (Integer) imageView.getTag();
+                        tags.add(tag);
+                    }
+                    data = "Player " + pl + " picking from deck: " + img.getTag();
+                    fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+                    data = "Player " + pl + ": " + tags;
+                    fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
+                    ////////////////////////////////////////////////////////////////////////////////////////////
+
+                    //
 
 
+                }
+                // 6. INFORMS THE USER TO DROP A CARD FIRST
 
-            }
-            // 6. INFORMS THE USER TO DROP A CARD FIRST
-            else {
-//                Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
-            }
 //            System.out.println("game x in deck is " + game.x);
 //            System.out.println("stuck here ");
-            if (game.x > Card.getCards().size() - 1) {
+                if (game.x > Card.getCards().size() - 1) {
 //                System.out.println("end game ?");
-                game.iv_deck.setVisibility(View.INVISIBLE);
-                Button showButton = findViewById(R.id.show);
-                game.show=true;
-                dispEndScores();
+                    game.iv_deck.setVisibility(View.INVISIBLE);
+                    Button showButton = findViewById(R.id.show);
+                    game.show = true;
+                    dispEndScores();
+                }
+            }
+            else {
+                Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
             }
         }
+
 //        System.out.println("nextttttt deck");
-        nextTurn();
     }
 
 
