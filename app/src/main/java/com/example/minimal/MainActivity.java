@@ -837,16 +837,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
     public void showScores(View v) throws CloneNotSupportedException {
-        showCustomToastWithDelay(3000);
         calculateScores();
         int win = scoreController.calculateMinScore();
-        scoreController.showScores(win, game);
         int winner = win+ 1;
+        showCustomToastWithDelay(3000);
+
+        scoreController.showScores(win, game);
         game.show=true;
 //        System.out.println("showing");
 //        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard sc = new scorecard(this);
-        sc.showScoreboardPopup(1);
+        sc.showScoreboardPopup(3);
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -863,16 +864,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void dispEndScores() throws CloneNotSupportedException {
-        showCustomToastWithDelay(3000);
         int win = scoreController.calculateMinScore();
         int winner = win+ 1;
+        showCustomToastWithDelay(3000);
+
         game.show=true;
 //        System.out.println("showing");
 
 
 //        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard sc = new scorecard(this);
-        sc.showScoreboardPopup(1);
+        sc.showScoreboardPopup(3);
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -895,6 +897,16 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.activity_custom_toast, null);
 
+        TextView textView = layout.findViewById(R.id.textViewToast);
+
+        int playerShow = game.current_player+1;
+        // Set the text of the TextView
+        if(playerShow==1){
+            textView.setText(name + " has clicked show");
+        }
+        else{
+            textView.setText("Player " + playerShow + " has clicked show");
+        }
         // Create and customize the toast
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -982,39 +994,42 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void callGreedy(int j){
+        if(!game.show){
+            if(game.playerHand!=null){
+                Button showButton = findViewById(R.id.show);
+                showButton.setVisibility(View.INVISIBLE);
+                show(getHand(game.current_player+1), game, showButton);
 
-        if(game.playerHand!=null){
-            Button showButton = findViewById(R.id.show);
-            showButton.setVisibility(View.INVISIBLE);
-            show(getHand(game.current_player+1), game, showButton);
-
-        }
-
-        int largest = 0;
-        ImageView drop = null;
-        if (isPaused) {
-            return; // Exit the method if the game is paused
-        }
-        Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
-
-        for (int i = 1; i <= 5; i++) {
-            int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
-            ImageView img = findViewById(imageViewId);
-            if(img.getVisibility() == View.VISIBLE){
-
-            int cardNumber = (int) img.getTag();
-            if ((cardNumber % 100) > largest) {
-                largest = cardNumber % 100;
-                drop = img;
             }
+
+            int largest = 0;
+            ImageView drop = null;
+            if (isPaused) {
+                return; // Exit the method if the game is paused
+            }
+            Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
+
+            for (int i = 1; i <= 5; i++) {
+                int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+                ImageView img = findViewById(imageViewId);
+                if(img.getVisibility() == View.VISIBLE){
+
+                    int cardNumber = (int) img.getTag();
+                    if ((cardNumber % 100) > largest) {
+                        largest = cardNumber % 100;
+                        drop = img;
+                    }
+                }
+            }
+
+            GreedyAI greedy = new GreedyAI();
+            if (!(game.show)){
+                greedy.greedyAI(j, drop, game, dropButton);
+
             }
         }
 
-        GreedyAI greedy = new GreedyAI();
-        if (!(game.show)){
-            greedy.greedyAI(j, drop, game, dropButton);
 
-        }
 
     }
 
