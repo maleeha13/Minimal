@@ -22,7 +22,7 @@
         android:layout_marginLeft="100dp"
         android:layout_marginTop="250dp"
         android:scaleType="centerInside"
-        android:src="@drawable/black_card" />
+        android:src="@drawable/red_card" />
 
 
     <ImageView
@@ -32,7 +32,7 @@
 
         android:layout_marginLeft="180dp"
         android:layout_marginTop="250dp"
-        android:src="@drawable/black_card" />
+        android:src="@drawable/red_card" />
 
     <LinearLayout
         android:id="@+id/lay1"
@@ -54,7 +54,7 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             android:tag="1">
 
         </ImageView>
@@ -68,7 +68,7 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             android:tag="1">
 
         </ImageView>
@@ -82,7 +82,7 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             android:tag="1">
 
         </ImageView>
@@ -96,7 +96,7 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             android:tag="1">
 
         </ImageView>
@@ -110,7 +110,7 @@
             android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             android:tag="1">
 
         </ImageView>
@@ -162,7 +162,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             tools:ignore="Suspicious0dp"></ImageView>
 
 
@@ -175,7 +175,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             tools:ignore="Suspicious0dp"></ImageView>
 
         <ImageView
@@ -187,7 +187,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             tools:ignore="Suspicious0dp"></ImageView>
 
         <ImageView
@@ -199,7 +199,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             tools:ignore="Suspicious0dp"></ImageView>
 
         <ImageView
@@ -211,7 +211,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"
+            android:src="@drawable/red_card"
             tools:ignore="Suspicious0dp"></ImageView>
     </LinearLayout>
 
@@ -250,7 +250,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"></ImageView>
+            android:src="@drawable/red_card"></ImageView>
 
         <ImageView
             android:id="@+id/iv_new_p4c2"
@@ -260,7 +260,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"></ImageView>
+            android:src="@drawable/red_card"></ImageView>
 
         <ImageView
             android:id="@+id/iv_new_p4c3"
@@ -270,7 +270,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card">
+            android:src="@drawable/red_card">
 
         </ImageView>
 
@@ -282,7 +282,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"></ImageView>
+            android:src="@drawable/red_card"></ImageView>
 
         <ImageView
             android:id="@+id/iv_new_p4c5"
@@ -292,7 +292,7 @@
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/black_card"></ImageView>
+            android:src="@drawable/red_card"></ImageView>
 
         <!-- Add more new images here -->
     </LinearLayout>
@@ -326,7 +326,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
 
             </ImageView>
 
@@ -340,7 +340,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
 
             </ImageView>
 
@@ -353,7 +353,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
 
             </ImageView>
 
@@ -366,7 +366,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
 
             </ImageView>
 
@@ -379,7 +379,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
 
             </ImageView>
 
@@ -419,7 +419,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
             </ImageView>
 
             <ImageView
@@ -430,7 +430,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
             </ImageView>
             <ImageView
                 android:id="@+id/iv_new_p2c3"
@@ -440,7 +440,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
 
             </ImageView>
 
@@ -452,7 +452,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
             </ImageView>
 
             <ImageView
@@ -463,7 +463,7 @@
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
-                android:src="@drawable/black_card">
+                android:src="@drawable/red_card">
             </ImageView>
 
             <!-- Add more new images here -->
@@ -500,7 +500,7 @@
                     android:layout_centerHorizontal="true"
 
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card">
+                    android:src="@drawable/red_card">
 
                 </ImageView>
 
@@ -511,7 +511,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card">
+                    android:src="@drawable/red_card">
 
                 </ImageView>
 
@@ -522,7 +522,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card">
+                    android:src="@drawable/red_card">
 
                 </ImageView>
 
@@ -533,7 +533,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card">
+                    android:src="@drawable/red_card">
 
                 </ImageView>
 
@@ -544,7 +544,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card">
+                    android:src="@drawable/red_card">
 
                 </ImageView>
 
@@ -579,7 +579,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card"></ImageView>
+                    android:src="@drawable/red_card"></ImageView>
 
                 <ImageView
                     android:id="@+id/iv_new_p3c2"
@@ -590,7 +590,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card"></ImageView>
+                    android:src="@drawable/red_card"></ImageView>
 
                 <ImageView
                     android:id="@+id/iv_new_p3c3"
@@ -601,7 +601,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card">
+                    android:src="@drawable/red_card">
 
                 </ImageView>
 
@@ -614,7 +614,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card"></ImageView>
+                    android:src="@drawable/red_card"></ImageView>
 
                 <ImageView
                     android:id="@+id/iv_new_p3c5"
@@ -625,7 +625,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/black_card"></ImageView>
+                    android:src="@drawable/red_card"></ImageView>
 
                 <!-- Add more new images here -->
             </LinearLayout>

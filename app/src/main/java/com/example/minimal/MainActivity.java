@@ -165,9 +165,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         // Create a GradientDrawable
         GradientDrawable border = new GradientDrawable();
         border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
-        border.setAlpha(20); // Set alpha value for glowing effect
-
+        border.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
+        linearLayout.setBackground(border);
 
 
         String img_name = "ai_av1";
@@ -176,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         ImageView image = findViewById(resIDImage);
         GradientDrawable borderDrawable = new GradientDrawable();
         borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        borderDrawable.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
+        borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
         borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
         image.setBackground(borderDrawable);
 //        ImageView background_image_view  = findViewById(R.id.background_image_view1);
@@ -678,7 +677,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         LinearLayout linearLayout = findViewById(resID);
         GradientDrawable border = new GradientDrawable();
 //        border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
+        border.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
         linearLayout.setBackground(border);
 
         String img_name = "ai_av" + (game.current_player+1);
@@ -687,7 +686,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         ImageView image = findViewById(resIDImage);
         GradientDrawable borderDrawable = new GradientDrawable();
         borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        borderDrawable.setStroke(8, Color.parseColor("#7BBF7D")); // Black border with width 2
+        borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
         borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
         image.setBackground(borderDrawable);
 

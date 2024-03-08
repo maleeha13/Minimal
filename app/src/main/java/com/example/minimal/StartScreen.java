@@ -5,7 +5,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +24,7 @@ public class StartScreen extends AppCompatActivity {
     static int numberOfRounds=0;
     static int currentRound=0;
     static String name= "Player 1";
-    static ImageView avatar;
+    static String avatar;
     static ImageView chosen;
 
 
@@ -56,12 +59,12 @@ public class StartScreen extends AppCompatActivity {
             }
         });
 
-        ImageView avatar1 = findViewById(R.id.avatarImageView1);
-        ImageView avatar2 = findViewById(R.id.avatarImageView2);
-        ImageView avatar3 = findViewById(R.id.avatarImageView3);
-        ImageView avatar4 = findViewById(R.id.avatarImageView4);
-        ImageView avatar5 = findViewById(R.id.avatarImageView5);
-        ImageView avatar6 = findViewById(R.id.avatarImageView6);
+        ImageView avatar1 = findViewById(R.id.avatar1);
+        ImageView avatar2 = findViewById(R.id.avatar2);
+        ImageView avatar3 = findViewById(R.id.avatar3);
+        ImageView avatar4 = findViewById(R.id.avatar4);
+        ImageView avatar5 = findViewById(R.id.avatar5);
+        ImageView avatar6 = findViewById(R.id.avatar6);
         chosen = findViewById(R.id.chosen);
 
 
@@ -71,6 +74,9 @@ public class StartScreen extends AppCompatActivity {
         avatar1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectAvatar(avatar1);
+
+                avatar= "avatar1";
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av1));
             }
         });
@@ -78,6 +84,10 @@ public class StartScreen extends AppCompatActivity {
         avatar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectAvatar(avatar2);
+
+                avatar= "avatar2";
+
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av2));
             }
         });
@@ -85,6 +95,10 @@ public class StartScreen extends AppCompatActivity {
         avatar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectAvatar(avatar3);
+
+                avatar= "avatar3";
+
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av3));
             }
         });
@@ -92,6 +106,9 @@ public class StartScreen extends AppCompatActivity {
         avatar4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectAvatar(avatar4);
+                avatar= "avatar4";
+
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av4));
             }
         });
@@ -99,6 +116,10 @@ public class StartScreen extends AppCompatActivity {
         avatar5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectAvatar(avatar5);
+
+                avatar= "avatar5";
+
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av5));
             }
         });
@@ -106,7 +127,10 @@ public class StartScreen extends AppCompatActivity {
         avatar6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("check");
+                selectAvatar(avatar6);
+
+                avatar= "avatar6";
+
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av6));
             }
         });
@@ -126,6 +150,47 @@ public class StartScreen extends AppCompatActivity {
         numberOfRounds= Integer.parseInt(rounds);
     }
 
+
+    public void selectAvatar(ImageView image) {
+        // Get the current drawable of the ImageView
+        if(avatar!=null) {
+            int resId = getResources().getIdentifier(avatar, "id", getPackageName());
+            System.out.println("lalala " + avatar);
+            ImageView img = findViewById(resId);
+
+
+            Drawable currentDrawable = img.getDrawable();
+            System.out.println("enter");
+            System.out.println("av is " + avatar);
+// Create a GradientDrawable for the border
+            GradientDrawable borderDrawable = new GradientDrawable();
+            borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
+            borderDrawable.setVisible(false, false);
+//            borderDrawable.setStroke(0, Color.GRAY); // Set the border width to 0 to remove the border
+
+// Create a LayerDrawable to combine the image and the border
+//            Drawable[] layers = {currentDrawable, borderDrawable};
+//            LayerDrawable layerDrawable = new LayerDrawable(layers);
+            img.setImageDrawable(borderDrawable);
+
+        }
+        // Set the LayerDrawable as the image drawable of the ImageView
+
+
+        Drawable current = image.getDrawable();
+
+        // Create a GradientDrawable for the border
+        GradientDrawable border = new GradientDrawable();
+        border.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
+        border.setStroke(12, Color.parseColor("#E17B26")); // Set the border width and color
+
+        // Create a LayerDrawable to combine the image and the border
+        Drawable[] layer = {current, border};
+        LayerDrawable layDrawable = new LayerDrawable(layer);
+
+        // Set the LayerDrawable as the image drawable of the ImageView
+        image.setImageDrawable(layDrawable);
+    }
 
 
     public void startButton (View v){
