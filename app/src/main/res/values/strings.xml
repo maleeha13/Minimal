@@ -8,4 +8,10 @@
         <!-- Add more options as needed -->
     </string-array>
 
+    <string-array name="diff_options">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Difficult</item>
+    </string-array>
+
 </resources>

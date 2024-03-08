@@ -183,19 +183,19 @@ public class MCTSNode {
     public void update(State state) {
         visits++;
 
-        if (playerJustMoved != 0) {
+
             // Assuming your State class has a method GetResult(int player) to get the result for a player
-            if(state.getResult(playerJustMoved)){
+            if(state.getResult(state.getPlayerToMove())){
                 int[] sc = state.getScores(state);
-                score = 0 + Math.sqrt(sc[playerJustMoved]);
+                score = 0 + Math.sqrt(sc[state.getPlayerToMove()]);
 
                 wins++;
             }
             else{
                 int[] sc = state.getScores(state);
-                score = 100 + Math.sqrt(sc[playerJustMoved]);
+                score = 100 + Math.sqrt(sc[state.getPlayerToMove()]);
             }
-        }
+
     }
 
     private void setParentPlayerJustMoved(int playerJustMoved) {

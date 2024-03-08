@@ -4,6 +4,7 @@ package com.example.minimal;
 import static com.example.minimal.Game.scores;
 import static com.example.minimal.StartScreen.chosen;
 import static com.example.minimal.StartScreen.currentRound;
+import static com.example.minimal.StartScreen.difficulty;
 import static com.example.minimal.StartScreen.name;
 import static com.example.minimal.StartScreen.numberOfRounds;
 
@@ -38,6 +39,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener  {
@@ -130,9 +132,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void startGame() throws CloneNotSupportedException {
 
+
+
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
         game = gameController.game;
+
         ImageView play_av = findViewById(R.id.ai_av1);
         if(chosen!=null){
             play_av.setImageDrawable(StartScreen.chosen.getDrawable());
@@ -716,38 +721,51 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
         }
-        if (game.current_player == 1) {
-
+        else{
             timerTextView.setText("Time left: " + "- seconds");
-//            callGreedy(game.current_player + 1);
-//            callMinimize(game.current_player +1);
+            if(Objects.equals(difficulty, "Easy")){
+                callGreedy(game.current_player + 1);
+            }
+            else if(Objects.equals(difficulty, "Medium")){
+                callMonte();
 
-
-            callMonte();
-
-
-        } else if (game.current_player == 2) {
-
-            timerTextView.setText("Time left: " + "- seconds");
-//            callGreedy(game.current_player + 1);
-//            callMinimize(game.current_player +1);
-
-
-            callMinimize(game.current_player+1);
-
-
-        } else if (game.current_player == 3) {
-
-            timerTextView.setText("Time left: " + "- seconds");
-//            callGreedy(game.current_player + 1);
-//            callMinimize(game.current_player +1);
-
-
-            callRandom(game.current_player+1);
-
-
+            }
+            else{
+                callMinimize(game.current_player + 1);
+            }
         }
-        else {
+//        if (game.current_player == 1) {
+//
+//            timerTextView.setText("Time left: " + "- seconds");
+////            callGreedy(game.current_player + 1);
+////            callMinimize(game.current_player +1);
+//
+//
+//            callMonte();
+//
+//
+//        } else if (game.current_player == 2) {
+//
+//            timerTextView.setText("Time left: " + "- seconds");
+////            callGreedy(game.current_player + 1);
+////            callMinimize(game.current_player +1);
+//
+//
+//            callMinimize(game.current_player+1);
+//
+//
+//        } else if (game.current_player == 3) {
+//
+//            timerTextView.setText("Time left: " + "- seconds");
+////            callGreedy(game.current_player + 1);
+////            callMinimize(game.current_player +1);
+//
+//
+//            callRandom(game.current_player+1);
+//
+//
+//        }
+
             if (countDownTimer != null) {
 
                 countDownTimer.cancel();
@@ -757,7 +775,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             timer();
 
 
-        }
+
 
         // MAKES THE SHOW BUTTON APPEAR ONLY IF SCORE IS <=5
         if (scores[currentRound][game.current_player] <= 5 && game.current_player == 0) {
@@ -782,7 +800,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         if(!game.show){
-            monte.runInBackground(s, 1000, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+            monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
 
         }
 

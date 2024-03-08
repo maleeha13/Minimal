@@ -24,6 +24,7 @@ public class StartScreen extends AppCompatActivity {
     static int numberOfRounds=0;
     static int currentRound=0;
     static String name= "Player 1";
+    static String  difficulty = "easy";
     static String avatar;
     static ImageView chosen;
 
@@ -51,6 +52,31 @@ public class StartScreen extends AppCompatActivity {
                 // Handle the selected item
                 String selectedOption = parentView.getItemAtPosition(position).toString();
                 setRounds(selectedOption);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here
+            }
+        });
+
+        Spinner spinner2 = findViewById(R.id.spinner2);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+                this, R.array.diff_options, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner2.setAdapter(adapter2);
+
+        // Set up a listener for item selection
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selected item
+                difficulty = parentView.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -155,13 +181,11 @@ public class StartScreen extends AppCompatActivity {
         // Get the current drawable of the ImageView
         if(avatar!=null) {
             int resId = getResources().getIdentifier(avatar, "id", getPackageName());
-            System.out.println("lalala " + avatar);
             ImageView img = findViewById(resId);
 
 
             Drawable currentDrawable = img.getDrawable();
-            System.out.println("enter");
-            System.out.println("av is " + avatar);
+
 // Create a GradientDrawable for the border
             GradientDrawable borderDrawable = new GradientDrawable();
             borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
@@ -196,6 +220,10 @@ public class StartScreen extends AppCompatActivity {
     public void startButton (View v){
         EditText getName = findViewById(R.id.nameEditText);
         name = getName.getText().toString();
+        if(name.isEmpty()){
+            name= "Player 1";
+        }
+
         Intent intent=new Intent(StartScreen.this, MainActivity.class);
 
 

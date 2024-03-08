@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#1A1047</item>
+        <item name="android:textColor">#FFFFFF</item> <!-- Set text color -->
+    </style>
+
+
+    <style name="dial2" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#6b1517</item> <!-- Set background color to black -->
+        <item name="android:textColor">#FFFFFF</item> <!-- Set text color -->
+
+    </style>
+
+</resources>

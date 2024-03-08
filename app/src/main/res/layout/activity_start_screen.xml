@@ -103,6 +103,15 @@
     </GridLayout>
 
     <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="118dp"
+        android:layout_height="44dp"
+        android:entries="@array/diff_options"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2" />
+
+    <Spinner
         android:id="@+id/spinner"
         android:layout_width="117dp"
         android:layout_height="40dp"
@@ -168,5 +177,24 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chosen" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="139dp"
+        android:fontFamily="@font/pixel"
+        android:text="Difficulty:"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintHorizontal_bias="0.623"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chosen"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

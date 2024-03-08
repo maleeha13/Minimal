@@ -4,7 +4,7 @@
         <!-- Customize your light theme here. -->
 
         <!-- Add or modify attributes here -->
-        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimary">@color/mustard</item>
         <item name="colorButtonNormal">@color/black</item> <!-- Custom background color for buttons -->
     </style>
 

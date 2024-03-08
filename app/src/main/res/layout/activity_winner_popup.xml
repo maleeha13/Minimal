@@ -1,36 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/layout/activity_winner_popup.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/celeb"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-    android:id="@+id/celeb">
-</nl.dionsegijn.konfetti.KonfettiView>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
-<TextView
-android:id="@+id/winnerMessageTextView"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:textSize="18sp"
-android:textStyle="bold"
-android:gravity="center"
-android:layout_marginBottom="8dp"/>
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="286dp"
+        android:layout_height="362dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+         />
 
-<TextView
-android:id="@+id/winnerScoreTextView"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:textSize="16sp"
-android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/winnerMessageTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_below="@id/imageView1"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/winnerScoreTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_below="@id/winnerMessageTextView"
+        android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/finishButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Finish"/>
-    </LinearLayout>
+        android:text="Finish"
+        android:layout_below="@id/winnerScoreTextView"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>

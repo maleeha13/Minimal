@@ -599,6 +599,7 @@ public class State implements Cloneable {
     }
 
     public int getPlayerToMove(){
+        System.out.println("player " + playerToMove);
         return playerToMove;
     }
 
