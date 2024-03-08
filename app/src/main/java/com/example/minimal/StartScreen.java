@@ -25,7 +25,7 @@ public class StartScreen extends AppCompatActivity {
     static int currentRound=0;
     static String name= "Player 1";
     static String  difficulty = "easy";
-    static String avatar;
+    static String avatar = "avatar1";
     static ImageView chosen;
 
 
@@ -94,12 +94,15 @@ public class StartScreen extends AppCompatActivity {
         chosen = findViewById(R.id.chosen);
 
 
+
         // Add more image view references for avatars if needed
 
         // Set click listeners for avatar selection
         avatar1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("click");
+
                 selectAvatar(avatar1);
 
                 avatar= "avatar1";
@@ -160,6 +163,7 @@ public class StartScreen extends AppCompatActivity {
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av6));
             }
         });
+        avatar1.performClick();
     }
 
 //    public  void setAvatar(ImageView av) {
