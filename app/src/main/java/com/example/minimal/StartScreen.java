@@ -36,11 +36,12 @@ public class StartScreen extends AppCompatActivity {
 
         Spinner spinner = findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.dropdown_options, android.R.layout.simple_spinner_item);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.dropdown_options, R.layout.custom_spinner_item);
 
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.dropdown);
 
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
@@ -63,10 +64,10 @@ public class StartScreen extends AppCompatActivity {
         Spinner spinner2 = findViewById(R.id.spinner2);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
-                this, R.array.diff_options, android.R.layout.simple_spinner_item);
+                this, R.array.diff_options, R.layout.custom_spinner_item);
 
         // Specify the layout to use when the list of choices appears
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter2.setDropDownViewResource(R.layout.dropdown);
 
         // Apply the adapter to the spinner
         spinner2.setAdapter(adapter2);

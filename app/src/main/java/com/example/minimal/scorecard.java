@@ -13,9 +13,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,6 +30,7 @@ import android.widget.TextView;
 public class scorecard extends AppCompatActivity {
     public static AlertDialog dialog;
     Context context;
+    Button nextButton ;
 
     public scorecard(Context con) {
         context = con;
@@ -46,11 +54,32 @@ public class scorecard extends AppCompatActivity {
 
                 // Create a TableLayout and add it to the popup
                 TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
+                nextButton = popupView.findViewById(R.id.nextButton);
                 createScoreboard(tableLayout, 5); // 5 columns, adjust as needed
                 // Build the AlertDialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.dial2);
                 builder.setView(popupView);
-                builder.setTitle("Scoreboard"); // Set the title as needed
+//                TextView titleTextView = new TextView(context);
+//                titleTextView.setText("Scoreboard"); // Set the title text
+//                titleTextView.setTextColor(Color.WHITE); // Set the title text color
+//                titleTextView.setGravity(Gravity.CENTER); // Align the title text to the center
+//                titleTextView.setTextSize(24); // Set the title text size
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                        RelativeLayout.LayoutParams.WRAP_CONTENT
+//                );
+//                params.addRule(RelativeLayout.CENTER_VERTICAL); // Center vertically
+//                params.addRule(RelativeLayout.CENTER_HORIZONTAL); // Center horizontally
+//
+//                params.topMargin = 20; // Adjust the value as needed for the desired margin
+//
+//                titleTextView.setLayoutParams(params);
+//// Create a custom title view and set it to the AlertDialog
+//                builder.setCustomTitle(titleTextView);
+                SpannableString title = new SpannableString("Scoreboard");
+                title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setTitle(title);
+
 
                 // Add any additional customization or buttons to the AlertDialog if needed
 
@@ -73,7 +102,7 @@ public class scorecard extends AppCompatActivity {
                 TableRow.LayoutParams.WRAP_CONTENT
         );
         headerRow.setLayoutParams(headerParams);
-        headerRow.setBackgroundColor(Color.parseColor("#E17B26")); // Set background color
+//        headerRow.setBackgroundColor(Color.parseColor("#E17B26")); // Set background color
 
 // Empty cell for the top-left corner
         TextView emptyHeader = new TextView(context);
@@ -93,6 +122,8 @@ public class scorecard extends AppCompatActivity {
             playerHeader.setTextColor(Color.WHITE); // Set text color
             Typeface customFont = ResourcesCompat.getFont(context, R.font.pixel);
             playerHeader.setTypeface(customFont);
+            playerHeader.setGravity(Gravity.CENTER); // Align text horizontally to the center
+
 
             TableRow.LayoutParams playerParams = new TableRow.LayoutParams(
                     0,
@@ -210,6 +241,19 @@ public class scorecard extends AppCompatActivity {
 
         // Add Total Row to the TableLayout
         tableLayout.addView(totalRow);
+        // Get the nextButton reference
+
+// Get the layout params of the nextButton
+        // Get the layout params of the nextButton
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) nextButton.getLayoutParams();
+
+// Set the button to be centered horizontally
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+
+// Apply the updated layout params to the button
+        nextButton.setLayoutParams(layoutParams);
+
+
 
     }
 }

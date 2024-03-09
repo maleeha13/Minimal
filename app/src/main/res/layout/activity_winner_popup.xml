@@ -7,24 +7,22 @@
 
     <nl.dionsegijn.konfetti.KonfettiView
         android:id="@+id/celeb"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="389dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
+
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="286dp"
-        android:layout_height="362dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="256dp"
+        android:layout_height="215dp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-         />
-
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:id="@+id/winnerMessageTextView"
@@ -51,6 +49,6 @@
         android:layout_height="wrap_content"
         android:text="Finish"
         android:layout_below="@id/winnerScoreTextView"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

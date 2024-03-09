@@ -8,10 +8,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.minimal.R;
@@ -107,7 +113,26 @@ public class winner_popup extends AppCompatActivity {
                 .streamFor(300, 5000L);
 
         builder.setView(winnerView);
-        builder.setTitle("Game Over");
+//        TextView titleTextView = new TextView(context);
+//        titleTextView.setText("CHAMPION"); // Set the title text
+//        titleTextView.setTextColor(Color.WHITE); // Set the title text color
+//        titleTextView.setTextSize(24); // Set the title text size
+//
+//        titleTextView.setGravity(Gravity.CENTER); // Align the title text to the center
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                RelativeLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        params.addRule(RelativeLayout.CENTER_VERTICAL); // Center vertically
+//        params.addRule(RelativeLayout.CENTER_HORIZONTAL); // Center horizontally
+//        params.topMargin = 20; // Adjust the value as needed for the desired margin
+//
+//        titleTextView.setLayoutParams(params);
+//// Create a custom title view and set it to the AlertDialog
+        SpannableString title = new SpannableString("Champion");
+        title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setTitle(title);
+
 
         ImageView imageView1 = winnerView.findViewById(R.id.imageView1);
         if(winnerPlayer==2){

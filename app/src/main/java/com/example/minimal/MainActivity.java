@@ -233,6 +233,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         game.stack.setVisibility(View.INVISIBLE);
 
 
+        if (countDownTimer != null) {
+
+            countDownTimer.cancel();
+            countDownTimer = null;
+            remainingTime = 0;
+        }
         timer();
         for (int j = 1; j <= 4; j++) {
             List<ImageView> playerImageViews = new ArrayList<>();
