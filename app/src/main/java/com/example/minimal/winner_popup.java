@@ -132,6 +132,8 @@ public class winner_popup extends AppCompatActivity {
         SpannableString title = new SpannableString("Champion");
         title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setTitle(title);
+        builder.setCancelable(false);
+
 
 
         ImageView imageView1 = winnerView.findViewById(R.id.imageView1);

@@ -78,6 +78,8 @@ public class scorecard extends AppCompatActivity {
 //// Create a custom title view and set it to the AlertDialog
 //                builder.setCustomTitle(titleTextView);
                 SpannableString title = new SpannableString("Scoreboard");
+                builder.setCancelable(false);
+
                 title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setTitle(title);
 
