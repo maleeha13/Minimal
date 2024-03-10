@@ -1,50 +1,49 @@
 package com.example.minimal;
 
-import android.content.Context;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageView;
 
+/**
+ * This class is responsible for creating an instance of the Greedy AI
+ */
 public class GreedyAI {
 
-
-
-
+    /**
+     * Executes the movements of the AI such as card click, drop and pick
+     * @param j
+     * @param drop  - card to be dropped
+     * @param game  - instance of the game
+     * @param dropButton    - instance of the drop button
+     */
     public void greedyAI(int j, ImageView drop, Game game,Button dropButton) {
 
-        // Check if the game is paused
-
+        // Selects the card
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Perform the second click after a 2-second delay
-
                 drop.performClick();
             }
 
-        }, 500) ; // 2000 milliseconds = 2 seconds
+        }, 500) ;
 
+        // Drops the card
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Perform the second click after a 2-second delay
-
                 dropButton.performClick();
             }
 
-        }, 500) ; // 2000 milliseconds = 2 seconds
+        }, 500) ;
 
-        // Delay between the second and third clicks
+        // Picks a card from the deck
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Check if the game is paused before performing the third click
                 game.iv_deck.performClick();
 
             }
         }, 500);
     }
-
-
-
+    
 }
