@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+/**
+ * Helps represent a custom toast
+ */
 public class custom_toast extends AppCompatActivity {
 
     @Override
