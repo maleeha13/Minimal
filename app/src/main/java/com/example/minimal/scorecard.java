@@ -45,6 +45,7 @@ public class scorecard extends AppCompatActivity {
 
     // 5. DISPLAYS THE SCOREBOARD
     void showScoreboardPopup(int delayInSeconds ) {
+        System.out.println("score board " + scores);
         // Delay the appearance of the scoreboard
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override

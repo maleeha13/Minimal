@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void startGame() throws CloneNotSupportedException {
 
 
-
+        System.out.println("current round is " + currentRound);
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
         game = gameController.game;
@@ -547,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             // 5. ASSIGNS THE CARD ON TEH DECK TO THE PLAYER AND UPDATES THE UI
             gameController.onPileClick(img, stackImageView);
-            nextTurn();
+
 
             //////////////////////////////////////////////////////////////////////////////////////////////////
             handImageViews = getHand(game.current_player + 1);
@@ -563,7 +563,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             data = "Player " + pl + ": " + tags;
             fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
             //////////////////////////////////////////////////////////////////////////////////////////////////
-
+            if (game.x > Card.getCards().size() - 1) {
+                game.iv_deck.setVisibility(View.INVISIBLE);
+                Button showButton = findViewById(R.id.show);
+                dispEndScores();
+            }
+            nextTurn();
 
         }
 
@@ -575,11 +580,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
 
         }
-        if (game.x > Card.getCards().size() - 1) {
-            game.iv_deck.setVisibility(View.INVISIBLE);
-            Button showButton = findViewById(R.id.show);
-            dispEndScores();
-        }
+
 //        System.out.println("nextttttt pileeee");
 
 
@@ -653,7 +654,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                         stackImageView.setImageDrawable(game.current);
                     }
 
-                    nextTurn();
+
 
                     ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -686,6 +687,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     game.show = true;
                     dispEndScores();
                 }
+                nextTurn();
             }
             else {
                 Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
@@ -710,82 +712,87 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     public void nextTurn() throws CloneNotSupportedException {
-//        System.out.println("----- NEXT TURN -----");
-        TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+        if(!game.show){
+            TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
 
-        timerTextView.setText("Time left: " + "- seconds");
-        if (countDownTimer != null) {
+            timerTextView.setText("Time left: " + "- seconds");
+            if (countDownTimer != null) {
 
-            countDownTimer.cancel();
-            countDownTimer = null;
-            remainingTime = 0;
-        }
+                countDownTimer.cancel();
+                countDownTimer = null;
+                remainingTime = 0;
+            }
 
 
-        if (game.current_player != 0) {
-            String beforelayout = "lay" + (game.current_player + 1);
-            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-            LinearLayout linearLayoutold = findViewById(resID);
-            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
-            linearLayoutold.setBackground(null);
+            if (game.current_player != 0) {
+                String beforelayout = "lay" + (game.current_player + 1);
+                int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+                LinearLayout linearLayoutold = findViewById(resID);
+                linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+                linearLayoutold.setBackground(null);
+
+                String img_name = "ai_av" + (game.current_player+1);
+                int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+
+                GradientDrawable borderDrawable = new GradientDrawable();
+                borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
+                ImageView img = findViewById(resIDImage);
+                img.setBackground(borderDrawable);
+
+            } else {
+                String beforelayout = "lay" + 1;
+                int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
+                LinearLayout linearLayoutold = findViewById(resID);
+                linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
+                linearLayoutold.setBackground(null);
+
+
+                String img_name = "ai_av1";
+                int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+
+                GradientDrawable borderDrawable = new GradientDrawable();
+                borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
+                ImageView img = findViewById(resIDImage);
+
+// Set the border drawable as the background of the ImageView
+                img.setBackground(borderDrawable);
+
+            }
+
+            gameController.nextTurn();
+            String layout = "lay" + (game.current_player + 1);
+            int resID = getResources().getIdentifier(layout, "id", getPackageName());
+
+            LinearLayout linearLayout = findViewById(resID);
+            GradientDrawable border = new GradientDrawable();
+//        border.setColor(0xFFFFFFFF); // White background
+            border.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
+            linearLayout.setBackground(border);
 
             String img_name = "ai_av" + (game.current_player+1);
             int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
+            ImageView image = findViewById(resIDImage);
             GradientDrawable borderDrawable = new GradientDrawable();
-            borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
-            ImageView img = findViewById(resIDImage);
-            img.setBackground(borderDrawable);
-
-        } else {
-            String beforelayout = "lay" + 1;
-            int resID = getResources().getIdentifier(beforelayout, "id", getPackageName());
-            LinearLayout linearLayoutold = findViewById(resID);
-            linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
-            linearLayoutold.setBackground(null);
+            borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
+            borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
+            borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
+            image.setBackground(borderDrawable);
 
 
-            String img_name = "ai_av1";
-            int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
+            Button showButton = findViewById(R.id.show);
+            System.out.println("check round " + currentRound);
 
-            GradientDrawable borderDrawable = new GradientDrawable();
-            borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
-            ImageView img = findViewById(resIDImage);
+            if(currentRound< numberOfRounds){
+                calculateScores();
 
-// Set the border drawable as the background of the ImageView
-            img.setBackground(borderDrawable);
-
-        }
-
-        gameController.nextTurn();
-        String layout = "lay" + (game.current_player + 1);
-        int resID = getResources().getIdentifier(layout, "id", getPackageName());
-
-        LinearLayout linearLayout = findViewById(resID);
-        GradientDrawable border = new GradientDrawable();
-//        border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
-        linearLayout.setBackground(border);
-
-        String img_name = "ai_av" + (game.current_player+1);
-        int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
-
-        ImageView image = findViewById(resIDImage);
-        GradientDrawable borderDrawable = new GradientDrawable();
-        borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
-        borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
-        image.setBackground(borderDrawable);
-
-
-        Button showButton = findViewById(R.id.show);
-        calculateScores();
+            }
 
 
 
-        if (game.current_player == 0) {
+            if (game.current_player == 0) {
 
-            timerTextView.setText("Time left: " + "- seconds");
+                timerTextView.setText("Time left: " + "- seconds");
 //            callGreedy(game.current_player + 1);
 //            callMinimize(game.current_player +1);
 
@@ -793,20 +800,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 //            callGreedy(game.current_player+1);
 
 
-        }
-        else{
-            timerTextView.setText("Time left: " + "- seconds");
-            if(Objects.equals(difficulty, "Easy")){
-                callGreedy(game.current_player + 1);
-            }
-            else if(Objects.equals(difficulty, "Medium")){
-                callMonte();
-
             }
             else{
-                callMinimize(game.current_player + 1);
+                timerTextView.setText("Time left: " + "- seconds");
+                if(Objects.equals(difficulty, "Easy")){
+                    callGreedy(game.current_player + 1);
+                }
+                else if(Objects.equals(difficulty, "Medium")){
+                    callMonte();
+
+                }
+                else{
+                    callMinimize(game.current_player + 1);
+                }
             }
-        }
 //        if (game.current_player == 1) {
 //
 //            timerTextView.setText("Time left: " + "- seconds");
@@ -850,12 +857,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
 
-        // MAKES THE SHOW BUTTON APPEAR ONLY IF SCORE IS <=5
-        if (scores[currentRound][game.current_player] <= 5 && game.current_player == 0) {
-            showButton.setVisibility(View.VISIBLE);
-        } else {
-            showButton.setVisibility(View.INVISIBLE);
+            if(currentRound< numberOfRounds) {
+                // MAKES THE SHOW BUTTON APPEAR ONLY IF SCORE IS <=5
+                if (scores[currentRound][game.current_player] <= 5 && game.current_player == 0) {
+                    showButton.setVisibility(View.VISIBLE);
+                } else {
+                    showButton.setVisibility(View.INVISIBLE);
+                }
+            }
         }
+
+
 
 
     }
@@ -915,14 +927,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         int currentRound = StartScreen.currentRound;
         for (int j = 1; j < 5; j++) {
             int score = 0;
+            System.out.println("PLAYER: " + j);
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
                 if (img.getVisibility() == View.VISIBLE) {
                     int cardNumber = (int) img.getTag();
                     score = score + (cardNumber % 100);
+                    System.out.println("card num " + i + " :" + cardNumber);
+
                 }
             }
+            System.out.println("index " + currentRound);
+            System.out.println("player " + j + " " +score);
             scores[currentRound][j - 1] = score;
         }
     }
@@ -1093,7 +1110,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void callGreedy(int j){
         if(!game.show){
-            if(game.playerHand!=null){
+            if(game.playerHand!=null && game.picked){
                 Button showButton = findViewById(R.id.show);
                 showButton.setVisibility(View.INVISIBLE);
                 show(getHand(game.current_player+1), game, showButton);

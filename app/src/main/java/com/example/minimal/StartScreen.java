@@ -228,6 +228,7 @@ public class StartScreen extends AppCompatActivity {
         if(name.isEmpty()){
             name= "Player 1";
         }
+        System.out.println("rounds are " + currentRound);
 
         Intent intent=new Intent(StartScreen.this, MainActivity.class);
 

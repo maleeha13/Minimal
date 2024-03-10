@@ -6,4 +6,6 @@
     android:padding="8dp"
     android:fontFamily="@font/pixel"
     android:textSize="21dp"
-    android:background="@android:color/black"/>
+    android:spinnerMode="dropdown"
+
+    android:background="@drawable/arrow"/>
