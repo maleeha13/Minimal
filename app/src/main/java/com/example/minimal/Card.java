@@ -1,16 +1,31 @@
 package com.example.minimal;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents an instance of the card in an array list
+ * and assigns a picture to each card
+ */
 public class Card {
+
     static ArrayList<Integer> cards;
+
+    /**
+     *
+     * @return the array list of cards
+     */
     public static ArrayList<Integer> getCards() {
         return cards;
     }
 
+    /**
+     * Adds a number to the array list which represents the card
+     * The last 2 digits represent the rank, whereas the first digit represents the suit
+     * The last 2 digits of 9 are 0, as the value of 9 in the game is 0
+     * @return the populated array list
+     */
     public static ArrayList<Integer> makeCardList() {
 
         cards = new ArrayList<>();
@@ -73,6 +88,11 @@ public class Card {
         return cards;
     }
 
+    /**
+     * Assigns an image to each card and assigns a tag representing the cards value
+     * @param card the int representing the card
+     * @param image the imageview for the card to be assigned to
+     */
     public static void assignImages(int card, ImageView image) {
 
         image.setTag(card);
