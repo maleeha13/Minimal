@@ -24,8 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
         android:fontFamily="@font/pixel"
-        android:text="TUTORIAL"
+        android:onClick="startTut"
 
+        android:text="TUTORIAL"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"

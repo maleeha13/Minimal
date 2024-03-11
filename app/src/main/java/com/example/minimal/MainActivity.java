@@ -9,13 +9,11 @@ import static com.example.minimal.StartScreen.name;
 import static com.example.minimal.StartScreen.numberOfRounds;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,13 +41,12 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener  {
-
     private static boolean isPaused = false;
     CountDownTimer countDownTimer;
     private long remainingTime;
     gameController gameController ;
     ScoreController scoreController ;
-     static List<Integer> cards = new ArrayList<>();  // Replace String with the actual type of keys and values
+    static List<Integer> cards = new ArrayList<>();  // Replace String with the actual type of keys and values
     Game game;
     List<List<ImageView>> imageViewsList = new ArrayList<>();
     static ArrayList<Integer> testCards = new ArrayList<>();

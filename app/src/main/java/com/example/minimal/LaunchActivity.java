@@ -25,4 +25,9 @@ public class LaunchActivity extends AppCompatActivity {
         Intent intent = new Intent(LaunchActivity.this, StartScreen.class);
         startActivity(intent);
     }
+
+    public void startTut(View v){
+        Intent intent = new Intent(LaunchActivity.this, Tutorial.class);
+        startActivity(intent);
+    }
 }

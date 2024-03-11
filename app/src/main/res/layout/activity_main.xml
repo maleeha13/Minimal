@@ -36,8 +36,8 @@
 
     <LinearLayout
         android:id="@+id/lay1"
-        android:layout_width="401dp"
-        android:layout_height="128dp"
+        android:layout_width="399dp"
+        android:layout_height="136dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="60dp"
@@ -640,8 +640,9 @@
         android:id="@+id/drop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="470dp"
         android:onClick="onCardDrop"
         android:text="Drop" />
 
@@ -669,7 +670,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="470dp"
+        android:layout_marginTop="350dp"
         android:onClick="exitGame"
         android:text="Exit" />
 
