@@ -40,13 +40,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * This class contains the main logic of the game including the UI logic of card clicking, dropping and picking
+ * It also contains functions for next turns, and starting the game
+ */
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener  {
     private static boolean isPaused = false;
-    CountDownTimer countDownTimer;
-    private long remainingTime;
+    CountDownTimer countDownTimer;              // Countdown timer
+    private long remainingTime;                 // Time remaining for the player to play
     gameController gameController ;
     ScoreController scoreController ;
-    static List<Integer> cards = new ArrayList<>();  // Replace String with the actual type of keys and values
+    static List<Integer> cards = new ArrayList<>();
     Game game;
     List<List<ImageView>> imageViewsList = new ArrayList<>();
     static ArrayList<Integer> testCards = new ArrayList<>();
@@ -56,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     String fileName1 = "ev_27.txt";
 
+
+    /**
+     * Distributes the cards and starts the game
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         getAllMoves();
         scores = new int[numberOfRounds][4];
         StartScreen.currentRound=0;
-
 
         hideImageViewsRange(1, "iv_new_p", View.INVISIBLE);
         hideImageViewsRange(1, "iv_p", View.INVISIBLE);
@@ -82,8 +93,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-
-
+    /**
+     * Hides the image views of the other players
+     * @param start
+     * @param pre
+     * @param visibility
+     */
     private void hideImageViewsRange(int start, String pre, int visibility) {
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
@@ -97,7 +112,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-
+    /**
+     * Assigns cards to each player nad sets an onClickListener to each card
+     * @param pre
+     * @param start
+     */
     private void assignCard(String pre, int start){
 
         for(int i=1; i<=5; i++){
@@ -127,14 +146,21 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
+    /**
+     * Starts the game
+     * Shuffles cards and assigns cards to each player
+     * Sets UI to highlight player 1 and starts the timer
+     * @throws CloneNotSupportedException
+     */
     public void startGame() throws CloneNotSupportedException {
-
-
         System.out.println("current round is " + currentRound);
+
+        // Creates new instances of game and score controllers
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
         game = gameController.game;
 
+        // Sets name and avatar
         ImageView play_av = findViewById(R.id.ai_av1);
         if(chosen!=null){
             play_av.setImageDrawable(StartScreen.chosen.getDrawable());
@@ -144,24 +170,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             name.setText(StartScreen.name);
         }
 
-
-
         game.x=0;
         Button showButton = findViewById(R.id.show);
         showButton.setVisibility(View.INVISIBLE);
 
+        // Shuffles and assigns cards
         Card.makeCardList();
         Collections.shuffle(Card.getCards());
-
         ArrayList<Integer> list = makeTestList();
-//        System.out.println("assign card " + game.x);
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
         assignCard("iv_p", 3);
         assignCard("iv_p", 4);
 
         hideImageViewsRange(1, "iv_p", View.VISIBLE);
-
         hideImageViewsRange(2, "iv_p", View.VISIBLE);
         hideImageViewsRange(3, "iv_p", View.VISIBLE);
         hideImageViewsRange(4, "iv_p", View.VISIBLE);
@@ -171,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         game.iv_deck.setVisibility(View.VISIBLE);
         cards = new ArrayList<>();
 
+        // Highlights player 1
         LinearLayout linearLayout = findViewById(R.id.lay1);
 
         // Create a GradientDrawable
@@ -189,19 +212,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
         borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
         image.setBackground(borderDrawable);
-//        ImageView background_image_view  = findViewById(R.id.background_image_view1);
-//        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.glow);
-//        background_image_view.setImageDrawable(drawable);
 
-
-
-
-
-
-
-
-        // Set the background drawable for your LinearLayout
         linearLayout.setBackground(border);
+
+
         game.iv_deck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,8 +244,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         game.stack.setVisibility(View.INVISIBLE);
 
 
+        // Sets timer for player 1
         if (countDownTimer != null) {
-
             countDownTimer.cancel();
             countDownTimer = null;
             remainingTime = 0;
@@ -251,45 +265,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             imageViewsList.add(playerImageViews);
         }
 
-//        State s = new State(this, game.current_player+1);
-//        s.CloneAndRandomize(game.current_player+1);
-//
-//        MCTSNode rootNode = new MCTSNode(s, null, game.current_player+1, null);
-//
-//
-//// Test the getUntriedMoves method
-//        List<Move> untriedMoves = rootNode.getUntriedMoves();
-//
-//// Print or assert the result
-//        System.out.println("Untried Moves: " + untriedMoves);
-//
-//        if (!untriedMoves.isEmpty()) {
-//            Move selectedMove = untriedMoves.get(1); // Select the first move for demonstration
-//            System.out.println("Applying move: " + selectedMove);
-//            s.applyMove(selectedMove, game.current_player + 1);
-//
-//            // Create a new child node with the selected move and the resulting state
-//            MCTSNode newChildNode = rootNode.addChild(selectedMove, game.current_player + 1);
-//
-//            // Now you can inspect the updated state or perform further testing
-//
-//            // Print or assert the updated untried moves
-//            List<Move> updatedUntriedMoves = rootNode.getUntriedMoves();
-//            System.out.println("Updated Untried Moves: " + updatedUntriedMoves);
-////            System.out.println(s.getResult());
-//
-//        } else {
-//            System.out.println("No untried moves available.");
-//        }
-
-        if (game.current_player == 0) {
-//            callGreedy(game.current_player+1);
-        }
     }
 
 
 
     // 1. CARD IS CLICKED
+
+    /**
+     * Allows user to select and unselect cards
+     * Also allows user to select multiple card with same rank
+     * @param cardValue The value of the clicked card.
+     * @param imageView The ImageView associated with the clicked card.
+     * @param player    The player who clicked the card.
+     * @throws CloneNotSupportedException
+     */
     @Override
     public void onCardClicked(int cardValue, ImageView imageView, int player) throws CloneNotSupportedException {
 
@@ -360,6 +349,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
+    /**
+     * Allows the player to drop cards
+     * Updates the discard stack view to display what the next player can pick up
+     * @param v
+     */
     // 1. DROP BUTTON IS CLICKED
     public void onCardDrop(View v){
 
@@ -369,17 +363,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             List<Integer> tags = new ArrayList<>();
             game.dropped = true;
             game.picked = false;
-
-            ///////////////////////////////////////////////////////////////////////////////////////////
-            for (ImageView imageView : handImageViews) {
-                Integer tag = (Integer) imageView.getTag();
-                tags.add(tag);
-            }
-            int pl = game.current_player +  1;
-            String data = "Player " + pl + ": " + tags;
-            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-            ///////////////////////////////////////////////////////////////////////////////////////////
-
 
             // 3. SAVES THE DRAWABLE OF THE CARD TO BE DROPPED
             ImageView selectedCard = findViewById(game.selectedCardId);
@@ -430,16 +413,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 RelativeLayout rootView = findViewById(R.id.main);
                 rootView.requestLayout();
 
-                ///////////////////////////////////////////////////////////////////////////////////////////
-                tags = new ArrayList<>();
-                for (ImageView imageView : game.cardsSelected) {
-                    Integer tag = (Integer) imageView.getTag();
-                    tags.add(tag);
-                }
-                data = "Player " + pl + " dropping: " + tags;
-                fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-                ///////////////////////////////////////////////////////////////////////////////////////////
-
             }
 
 
@@ -473,63 +446,21 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
-//    @Override
-//    public void onPileClick() throws CloneNotSupportedException {
-//        ImageView stackImageView = findViewById(R.id.stack);
-//        if(game.dropped && !game.begin){
-//
-//            ImageView img = findEmptyImageView();
-//            if (img != null) {
-//                game.x++;
-//                img.setVisibility(View.VISIBLE);
-//                stackImageView.setImageDrawable(game.current);
-//                cards.remove((Integer) stackImageView.getTag());
-//
-//
-//            }
-//            gameController.onPileClick(img, stackImageView);
-//            nextTurn();
-//
-//        }
-//
-//        else if(!game.dropped){
-//            Toast.makeText(this, "Drop a card first" , Toast.LENGTH_LONG).show();
-//        }
-//        else if(game.begin){
-//            Toast.makeText(this, "Theres no card to pick yet!" , Toast.LENGTH_LONG).show();
-//
-//        }
-//        if (game.x > Card.getCards().size() - 1) {
-//            game.iv_deck.setVisibility(View.INVISIBLE);
-//            Button showButton = findViewById(R.id.show);
-//            dispEndScores();
-////            showButton.performClick();
-//        }
-//
-//    }
 
     // 1. PILE IS CLICKED
+
+    /**
+     * Allows the user to pick a card from the discard pile
+     * Assigns the card on top of the pile to the player
+     * Updates the discard pile with the most latest dropped card
+     * @throws CloneNotSupportedException
+     */
     @Override
     public void onPileClick() throws CloneNotSupportedException {
 
         // 2. CHECKS IF A CARD HAS BEEN DROPPED
         if(game.dropped && !game.begin){
             ImageView stackImageView = findViewById(R.id.stack);
-
-            //////////////////////////////////////////////////////////////////////////////////////////////////
-            List<ImageView> handImageViews = getHand(game.current_player + 1);
-            List<Integer> tags = new ArrayList<>();
-
-            for (ImageView imageView : handImageViews) {
-                // Get the tag of each ImageView and add it to the list
-                Integer tag = (Integer) imageView.getTag();
-                tags.add(tag);
-            }
-            int pl = game.current_player +  1;
-            String data = "Player " + pl + ": " + tags;
-            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-            //////////////////////////////////////////////////////////////////////////////////////////////////
-
 
             // 3. GETS THE IMAGEVIEW WHICH IS INVISIBLE I.E. CARD HAS BEEN DROPPED
             ImageView img = findEmptyImageView();
@@ -546,20 +477,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             gameController.onPileClick(img, stackImageView);
 
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////
-            handImageViews = getHand(game.current_player + 1);
-            tags = new ArrayList<>();
-
-            for (ImageView imageView : handImageViews) {
-                // Get the tag of each ImageView and add it to the list
-                Integer tag = (Integer) imageView.getTag();
-                tags.add(tag);
-            }
-            data = "Player " + pl + " picking from pile: " + img.getTag();
-            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-            data = "Player " + pl + ": " + tags;
-            fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-            //////////////////////////////////////////////////////////////////////////////////////////////////
             if (game.x > Card.getCards().size() - 1) {
                 game.iv_deck.setVisibility(View.INVISIBLE);
                 Button showButton = findViewById(R.id.show);
@@ -578,61 +495,20 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         }
 
-//        System.out.println("nextttttt pileeee");
-
-
     }
 
 
-//    @Override
-//    public void onDeckClick() throws CloneNotSupportedException {
-//
-//        if(!game.show){
-//            if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE )  {
-//
-//                ImageView img = findEmptyImageView();
-//                if (img != null) {
-//                    gameController.onDeckClick(img);
-//                    game.x++;
-//                    img.setVisibility(View.VISIBLE);
-//                    ImageView stackImageView = findViewById(R.id.stack);
-//                    stackImageView.setImageDrawable(game.current);
-//                }
-//
-//                nextTurn();
-//
-//            } else {
-//                Toast.makeText(this, "Drop a card first", Toast.LENGTH_LONG).show();
-//            }
-//            if (game.x > Card.getCards().size() - 1) {
-//                game.iv_deck.setVisibility(View.INVISIBLE);
-//                Button showButton = findViewById(R.id.show);
-//                dispEndScores();
-//            }
-//        }
-//
-//    }
-
 //     1. DECK IS CLICKED
+
+    /**
+     * Allows the user to pick a card by clicking on the deck
+     * @throws CloneNotSupportedException
+     */
     @Override
     public void onDeckClick() throws CloneNotSupportedException {
 
         if(!game.show) {
             if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
-                ////////////////////////////////////////////////////////////////////////////////////////////
-                List<ImageView> handImageViews = getHand(game.current_player + 1);
-                List<Integer> tags = new ArrayList<>();
-
-                for (ImageView imageView : handImageViews) {
-                    // Get the tag of each ImageView and add it to the list
-                    Integer tag = (Integer) imageView.getTag();
-                    tags.add(tag);
-                }
-
-                int pl = game.current_player + 1;
-                String data = "Player " + pl + ": " + tags;
-                fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-                ////////////////////////////////////////////////////////////////////////////////////////////
 
                 // 2. CHECKS IF A CARD HAS BEEN DROP AND THERE ARE CARDS IN THE DECK
                 if (game.dropped && game.iv_deck.getVisibility() == View.VISIBLE) {
@@ -650,27 +526,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
                         stackImageView.setImageDrawable(game.current);
                     }
-
-
-
-                    ////////////////////////////////////////////////////////////////////////////////////////////
-
-                    handImageViews = getHand(game.current_player + 1);
-                    tags = new ArrayList<>();
-
-                    for (ImageView imageView : handImageViews) {
-                        // Get the tag of each ImageView and add it to the list
-                        Integer tag = (Integer) imageView.getTag();
-                        tags.add(tag);
-                    }
-                    data = "Player " + pl + " picking from deck: " + img.getTag();
-                    fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-                    data = "Player " + pl + ": " + tags;
-                    fileWriter.appendToFile(getApplicationContext(), fileName, data); // Use appendToFile() instead of writeToFile()
-                    ////////////////////////////////////////////////////////////////////////////////////////////
-
-                    //
-
 
                 }
                 // 6. INFORMS THE USER TO DROP A CARD FIRST
@@ -691,10 +546,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
-//        System.out.println("nextttttt deck");
     }
 
 
+    /**
+     * Finds the empty image views in the player's hands
+     * @return
+     */
     private ImageView findEmptyImageView() {
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier("iv_p" + game.turns[game.current_player] + "c" + i, "id", getPackageName());
@@ -707,14 +565,17 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-
+    /**
+     * Implements the next turn and moves the turn from the current player to the next
+     * Changes UI by moving the highlight from current player to next
+     * @throws CloneNotSupportedException
+     */
     public void nextTurn() throws CloneNotSupportedException {
         if(!game.show){
             TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
 
             timerTextView.setText("Time left: " + "- seconds");
             if (countDownTimer != null) {
-
                 countDownTimer.cancel();
                 countDownTimer = null;
                 remainingTime = 0;
@@ -727,7 +588,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 LinearLayout linearLayoutold = findViewById(resID);
                 linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutold.setBackground(null);
-
                 String img_name = "ai_av" + (game.current_player+1);
                 int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
@@ -742,8 +602,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 LinearLayout linearLayoutold = findViewById(resID);
                 linearLayoutold.setBackgroundColor(Color.TRANSPARENT);
                 linearLayoutold.setBackground(null);
-
-
                 String img_name = "ai_av1";
                 int resIDImage = getResources().getIdentifier(img_name, "id", getPackageName());
 
@@ -751,7 +609,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 borderDrawable.setStroke(5, Color.TRANSPARENT); // Set the border width and color
                 ImageView img = findViewById(resIDImage);
 
-// Set the border drawable as the background of the ImageView
                 img.setBackground(borderDrawable);
 
             }
@@ -762,7 +619,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             LinearLayout linearLayout = findViewById(resID);
             GradientDrawable border = new GradientDrawable();
-//        border.setColor(0xFFFFFFFF); // White background
             border.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
             linearLayout.setBackground(border);
 
@@ -782,21 +638,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             if(currentRound< numberOfRounds){
                 calculateScores();
-
             }
 
-
-
             if (game.current_player == 0) {
-
                 timerTextView.setText("Time left: " + "- seconds");
-//            callGreedy(game.current_player + 1);
-//            callMinimize(game.current_player +1);
-
-
-//            callGreedy(game.current_player+1);
-
-
             }
             else{
                 timerTextView.setText("Time left: " + "- seconds");
@@ -811,48 +656,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     callMinimize(game.current_player + 1);
                 }
             }
-//        if (game.current_player == 1) {
-//
-//            timerTextView.setText("Time left: " + "- seconds");
-////            callGreedy(game.current_player + 1);
-////            callMinimize(game.current_player +1);
-//
-//
-//            callMonte();
-//
-//
-//        } else if (game.current_player == 2) {
-//
-//            timerTextView.setText("Time left: " + "- seconds");
-////            callGreedy(game.current_player + 1);
-////            callMinimize(game.current_player +1);
-//
-//
-//            callMinimize(game.current_player+1);
-//
-//
-//        } else if (game.current_player == 3) {
-//
-//            timerTextView.setText("Time left: " + "- seconds");
-////            callGreedy(game.current_player + 1);
-////            callMinimize(game.current_player +1);
-//
-//
-//            callRandom(game.current_player+1);
-//
-//
-//        }
 
             if (countDownTimer != null) {
-
                 countDownTimer.cancel();
                 countDownTimer = null;
                 remainingTime = 0;
             }
             timer();
-
-
-
 
             if(currentRound< numberOfRounds) {
                 // MAKES THE SHOW BUTTON APPEAR ONLY IF SCORE IS <=5
@@ -864,11 +674,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
-
-
-
     }
 
+    /**
+     * Shows if scores <= 5
+     * Calls the ISMCTS
+     * @throws CloneNotSupportedException
+     */
     public void callMonte() throws CloneNotSupportedException {
         State s = new State(this, game.current_player+1);
 
@@ -888,115 +700,87 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
-        public List<ImageView> getHand( int j) {
-            List<ImageView> imageViewList =  new ArrayList<>();;
-            for (int i = 1; i <= 5; i++) {
-                int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
+
+    /**
+     * Gets the cards in the hands of the player
+     * @param j - player whose hand the function returns
+     * @return
+     */
+    public List<ImageView> getHand(int j) {
+
+        List<ImageView> imageViewList =  new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
                 if(img.getVisibility()==View.VISIBLE){
                     imageViewList.add(img);
-
                 }
 
             }
-
             return imageViewList;
-        }
-
-
-
-
-    private class MonteCarloTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            State s = new State(MainActivity.this, game.current_player + 1);
-            ISMCTS monte = new ISMCTS();
-            Button dropButton = findViewById(R.id.drop);
-            monte.runInBackground(s, 5, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.droppedCard);
-            return null;
-        }
     }
 
 
+
+
     // 1. CALCULATES THE SCORES FOR ALL THE PLAYERS
+
+    /**
+     * Calculates score for each player and updates it in the array 'scores'
+     */
     private void  calculateScores() {
         int currentRound = StartScreen.currentRound;
         for (int j = 1; j < 5; j++) {
             int score = 0;
-            System.out.println("PLAYER: " + j);
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
                 if (img.getVisibility() == View.VISIBLE) {
                     int cardNumber = (int) img.getTag();
                     score = score + (cardNumber % 100);
-                    System.out.println("card num " + i + " :" + cardNumber);
-
                 }
             }
-            System.out.println("index " + currentRound);
-            System.out.println("player " + j + " " +score);
+
             scores[currentRound][j - 1] = score;
         }
     }
 
+    /**
+     * Shows toast displaying the player who clicked show and shows scoreboard popup
+     * @param v
+     * @throws CloneNotSupportedException
+     */
     public void showScores(View v) throws CloneNotSupportedException {
         calculateScores();
         int win = scoreController.calculateMinScore();
-        int winner = win+ 1;
         showCustomToastWithDelay(3000, Boolean.FALSE);
 
         scoreController.showScores(win, game);
         game.show=true;
-//        System.out.println("showing");
-//        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
+
         scorecard sc = new scorecard(this);
         sc.showScoreboardPopup(3);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Check if the game is paused before performing the third click
-//                try {
-//                    next();
-//                } catch (CloneNotSupportedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//            }
-//        }, 2000);
+
     }
 
-
+    /**
+     * Shows toast for when deck is over and displays scoreboard
+     * @throws CloneNotSupportedException
+     */
     public void dispEndScores() throws CloneNotSupportedException {
         int win = scoreController.calculateMinScore();
-        int winner = win+ 1;
         showCustomToastWithDelay(3000, Boolean.TRUE);
-
         game.show=true;
-//        System.out.println("showing");
-
-
-//        Toast.makeText(this, "THE WINNER IS PLAYER " + winner , Toast.LENGTH_LONG).show();
         scorecard sc = new scorecard(this);
         sc.showScoreboardPopup(3);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Check if the game is paused before performing the third click
-//                try {
-//                    next();
-//                } catch (CloneNotSupportedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//            }
-//        }, 2000);
-
 
     }
 
-
+    /**
+     * Shows custom toast display
+     * @param duration - for the toast to stay on the screen
+     * @param deckOver - whether the deck is over or not
+     */
     private void showCustomToastWithDelay(int duration, Boolean deckOver) {
         // Inflate the custom layout
         LayoutInflater inflater = getLayoutInflater();
@@ -1038,10 +822,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
+    /**
+     * Begins the next round of the game if multiple or shows the final winner popup
+     * @param v
+     * @throws CloneNotSupportedException
+     */
     public void nextRound(View v) throws CloneNotSupportedException {
         currentRound++;
         if(currentRound < StartScreen.numberOfRounds){
-//            System.out.println("new round");
 
             View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
 
@@ -1063,64 +851,32 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             winner_popup popup = new winner_popup(MainActivity.this);
             popup.displayWinner(scoreController);
 
-
-        }
-
-    }
-
-    public void next() throws CloneNotSupportedException {
-        int win = scoreController.calculateMinScore()+1;
-
-        String data = currentRound + ": " + win;
-        fileWriter.appendToFile(getApplicationContext(), fileName1, data);
-        currentRound++;
-        System.out.println("ROUND: " + currentRound);
-        if(currentRound < StartScreen.numberOfRounds){
-
-            View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
-
-            TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
-            tableLayout.setVisibility(View.INVISIBLE);
-            tableLayout.setVisibility(View.GONE);
-            if(tableLayout.getVisibility()==View.VISIBLE){
-                tableLayout.setVisibility(View.INVISIBLE);
-                tableLayout.setVisibility(View.GONE);
-            }
-
-
-            if (scorecard.dialog != null && scorecard.dialog.isShowing()) {
-                scorecard.dialog.dismiss();
-                closeOptionsMenu();
-                startGame();
-
-            }
-        }
-        else{
-            winner_popup popup = new winner_popup(MainActivity.this);
-            popup.displayWinner(scoreController);
-
-
         }
 
     }
 
 
+    /**
+     * Calls the greedy AO
+     * @param j - player whose turn it is
+     */
     public void callGreedy(int j){
         if(!game.show){
+            // show if score<= 5
             if(game.playerHand!=null && game.picked){
                 Button showButton = findViewById(R.id.show);
                 showButton.setVisibility(View.INVISIBLE);
                 show(getHand(game.current_player+1), game, showButton);
-
             }
 
             int largest = 0;
             ImageView drop = null;
             if (isPaused) {
-                return; // Exit the method if the game is paused
+                return;
             }
-            Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
+            Button dropButton = findViewById(R.id.drop);
 
+            // finds the image with the largest value
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
@@ -1134,6 +890,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 }
             }
 
+            // calls the greedy AI
             GreedyAI greedy = new GreedyAI();
             if (!(game.show)){
                 greedy.greedyAI(j, drop, game, dropButton);
@@ -1141,47 +898,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
-
-
     }
 
 
-    public void callRandom(int j){
-        if(game.playerHand!=null){
-            Button showButton = findViewById(R.id.show);
-            showButton.setVisibility(View.INVISIBLE);
-            show(getHand(game.current_player+1), game, showButton);
-
-        }
-
-
-        Random random = new Random();
-
-        // Initialize the random number
-        int randomNumber;
-        int imageViewId;
-        ImageView img;
-
-        // Repeat until a visible ImageView is found
-        do {
-            // Generate a random number between 1 and 5 (inclusive)
-            randomNumber = random.nextInt(5 - 1 + 1) + 1;
-
-            // Get the resource identifier for the ImageView
-            imageViewId = getResources().getIdentifier("iv_p" + j + "c" + randomNumber, "id", getPackageName());
-
-            // Find the ImageView using the resource identifier
-            img = findViewById(imageViewId);
-
-            // Check if the ImageView is visible
-        } while (img.getVisibility()==View.INVISIBLE);
-
-        if (!(game.show)){
-            applyRandom(j, img);
-
-        }
-    }
-
+    /**
+     * 
+     * @param j
+     */
     public void callMinimize(int j){
         int largest = 0;
         Boolean pickFromStack = false;
@@ -1303,12 +1026,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             MinimizeAI minimize = new MinimizeAI();
             minimize.minimizeAI(newList, drop, pickFromStack, game, dropButton, stack, source);
         }
-
-
-
-
-
-
 
     }
 
@@ -1488,6 +1205,43 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     public void finishActivity() {
         finish(); // Finish the activity
+    }
+
+
+    public void callRandom(int j){
+        if(game.playerHand!=null){
+            Button showButton = findViewById(R.id.show);
+            showButton.setVisibility(View.INVISIBLE);
+            show(getHand(game.current_player+1), game, showButton);
+
+        }
+
+
+        Random random = new Random();
+
+        // Initialize the random number
+        int randomNumber;
+        int imageViewId;
+        ImageView img;
+
+        // Repeat until a visible ImageView is found
+        do {
+            // Generate a random number between 1 and 5 (inclusive)
+            randomNumber = random.nextInt(5 - 1 + 1) + 1;
+
+            // Get the resource identifier for the ImageView
+            imageViewId = getResources().getIdentifier("iv_p" + j + "c" + randomNumber, "id", getPackageName());
+
+            // Find the ImageView using the resource identifier
+            img = findViewById(imageViewId);
+
+            // Check if the ImageView is visible
+        } while (img.getVisibility()==View.INVISIBLE);
+
+        if (!(game.show)){
+            applyRandom(j, img);
+
+        }
     }
     private List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
         List<Integer> cardsWithSameRank = new ArrayList<>();

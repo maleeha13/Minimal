@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Previous"
+        android:background="@drawable/backarrow_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -45,8 +45,18 @@
         android:layout_margin="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Next"
+        android:background="@drawable/arrow_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        android:onClick="begin"
+        android:text="BEGIN"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnNext"
+        app:layout_constraintEnd_toStartOf="@+id/btnNext" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
