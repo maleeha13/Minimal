@@ -315,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     existing = x % 100;
                 }
 
+
                 // 7. CHECKS IF CURRENT CARD CARD AND PREV CARD HAS SAME RANK
                 if(player==game.turns[game.current_player] && game.picked &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
                     // 8. SELECTS THE CARDS
@@ -323,8 +324,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     params.topMargin -= 50;
                     imageView.setLayoutParams(params);
                     game.selectedCardId = imageView.getId();
-                    RelativeLayout rootView = findViewById(R.id.main);
-                    rootView.requestLayout();
+//                    RelativeLayout rootView = findViewById(R.id.main);
+//                    rootView.requestLayout();
                 }
 
                 // 9. TELLS USER THEY CANNOT SELECT CARDS WITH DIFFERENT RANKS
