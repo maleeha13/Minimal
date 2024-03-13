@@ -1,5 +1,7 @@
 package com.example.minimal;
 
+import static com.example.minimal.Game.scores;
+import static com.example.minimal.StartScreen.numberOfRounds;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -137,6 +140,51 @@ public class MainActivityTest {
             }
 
         }
+    }
+
+    @Test
+    public void testCalculateScores() {
+        // Mock ImageView objects
+        ImageView imageView1 = mock(ImageView.class);
+        when(imageView1.getTag()).thenReturn(101);
+
+        ImageView imageView2 = mock(ImageView.class);
+        when(imageView2.getTag()).thenReturn(202);
+
+        ImageView imageView3 = mock(ImageView.class);
+        when(imageView3.getTag()).thenReturn(303);
+
+        ImageView imageView4 = mock(ImageView.class);
+        when(imageView4.getTag()).thenReturn(404);
+
+        ImageView imageView5 = mock(ImageView.class);
+        when(imageView5.getTag()).thenReturn(505);
+
+        // Create an array of image views
+        ImageView[] imageViews = {imageView1, imageView2, imageView3, imageView4, imageView5};
+
+        // Call the method under test
+        calculateScores(imageViews);
+
+        // Verify that scores are calculated correctly
+        int[][] expectedScores = new int[1][1];
+        expectedScores[0][0]= 15;
+
+        assertArrayEquals(expectedScores, game.scores);
+    }
+
+    private void calculateScores(ImageView[] imageViews) {
+        scores = new int[1][1];
+        int currentRound = StartScreen.currentRound;
+        int score = 0;
+        for (int j = 0; j < imageViews.length; j++) {
+                ImageView img = imageViews[j];
+                if (img != null && img.getVisibility() == View.VISIBLE) {
+                    int cardNumber = (int) img.getTag();
+                    score = score + (cardNumber % 100);
+                }
+        }
+        game.scores[currentRound][0] = score;
     }
 
 
