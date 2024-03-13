@@ -56,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     static ArrayList<Integer> testCards = new ArrayList<>();
 
 
-    String fileName = "eval_1.txt";
-
-    String fileName1 = "ev_27.txt";
-
-
     /**
      * Distributes the cards and starts the game
      * @param savedInstanceState If the activity is being re-initialized after
@@ -145,6 +140,15 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
     }
+
+
+    public void init(){
+        gameController = new gameController(this, this);
+        scoreController = new ScoreController();
+        game = gameController.game;
+
+    }
+
 
     /**
      * Starts the game

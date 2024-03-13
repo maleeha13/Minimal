@@ -2,8 +2,12 @@ package com.example.minimal;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import org.junit.Before;
@@ -41,23 +45,20 @@ public class CardTest {
 
     @Test
     public void testAssignImages() {
-        // Set a drawable to the ImageView
-        imageView.setImageResource(R.drawable.clubs_2);
-        assertNotNull("Drawable should not be null after setting", imageView.getDrawable());
+        // Mock ImageView
+        ImageView imageView = mock(ImageView.class);
 
+        // Set a drawable to the ImageView
+        when(imageView.getDrawable()).thenReturn(mock(Drawable.class)); // Mock the Drawable returned by getDrawable()
 
         // Call the method to be tested
         Card.assignImages(102, imageView); // Assign an image for card 102 (clubs_2)
 
         // Verify if the correct tag is set
-        assertEquals(102, (int) imageView.getTag());
+        verify(imageView).setTag(102);
 
-        // Get the ShadowDrawable associated with the ImageView's drawable
-        ShadowDrawable shadowDrawable = Shadows.shadowOf(imageView.getDrawable());
-
-        // Verify if the correct image resource is set
-        int resourceId = shadowDrawable.getCreatedFromResId();
-        assertEquals("Drawable resource ID is invalid", R.drawable.clubs_2, resourceId);
+        // Verify if setImageResource() is called with the correct resource ID
+        verify(imageView).setImageResource(R.drawable.clubs_2);
     }
 
 
