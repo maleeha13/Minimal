@@ -3,7 +3,12 @@ package com.example.minimal;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -11,10 +16,13 @@ import android.widget.RelativeLayout;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Config.OLDEST_SDK})
@@ -22,11 +30,26 @@ public class MainActivityTest {
 
     private MainActivity mainActivity;
     private  Game game;
+    @Mock
+    private View mockView;
+    @Mock
+    private ImageView mockSelectedCard;
+    @Mock
+    private ImageView mockStackImageView;
+    @Mock
+    private Drawable mockCardDrawable;
+    @Mock
+    private Button mockExitButton;
+    @Mock
+    private Resources mockResources;
 
+    @Mock
+    private ImageView mockImageView1, mockImageView2;
 
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         mainActivity = spy(new MainActivity()); // Use spy to partially mock MainActivity
         mainActivity.init();
         Card.makeCardList();
@@ -69,5 +92,52 @@ public class MainActivityTest {
         // Verify if the margins of ImageView have been updated
 
     }
+
+    @Test
+    public void testOnCardDrop() {
+        // Call the method under test
+        onCardDrop();
+
+        // Verify that the picked and dropped variables are updated
+        assertFalse(game.picked);
+        assertTrue(game.dropped);
+
+        // Verify that the selected image views are made invisible
+        verify(mockImageView1).setVisibility(View.INVISIBLE);
+        verify(mockImageView2).setVisibility(View.INVISIBLE);
+
+
+    }
+
+
+    public void onCardDrop(){
+        game.picked = true;
+        game.dropped = false;
+        game.cardsSelected = new ArrayList<>();
+        game.cardsSelected.add(mockImageView1);
+        game.cardsSelected.add(mockImageView2);
+
+        // 2. CHECKS IF A CARD HAS BEEN SELECTED
+        if(game.picked && !(game.cardsSelected.isEmpty())) {
+
+            game.dropped = true;
+            game.picked = false;
+
+            // 7. UPDATES THE UI AND MAKES THE "DROPPED" CARDS INVISIBLE
+            for (ImageView img_view : game.cardsSelected) {
+                if (img_view.getTag() != null) {
+
+                }
+                img_view.setVisibility(View.INVISIBLE);
+                ViewParent parent = img_view.getParent();
+                if (parent instanceof View) {
+                    ((View) parent).invalidate();
+                }
+                game.droppedCard = img_view;
+            }
+
+        }
+    }
+
 
 }
