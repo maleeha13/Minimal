@@ -187,5 +187,63 @@ public class MainActivityTest {
         game.scores[currentRound][0] = score;
     }
 
+    public ImageView callGreedy(ImageView[] imageViews, int j) {
+        ImageView drop = null;
+        if (!game.show) {
+            int largest = 0;
+
+
+            // Find the image with the largest value
+            for (ImageView img : imageViews) {
+                if (img.getVisibility() == View.VISIBLE) {
+                    int cardNumber = (int) img.getTag();
+                    if ((cardNumber % 100) > largest) {
+                        largest = cardNumber % 100;
+                        drop = img;
+                    }
+                }
+            }
+
+            // Perform action with the largest image view
+
+        }
+        return drop;
+    }
+
+
+    @Test
+    public void testCallGreedy() {
+        // Mock ImageView objects
+        ImageView imageView1 = mock(ImageView.class);
+        when(imageView1.getTag()).thenReturn(101);
+        when(imageView1.getVisibility()).thenReturn(View.VISIBLE);
+
+        ImageView imageView2 = mock(ImageView.class);
+        when(imageView2.getTag()).thenReturn(202);
+        when(imageView2.getVisibility()).thenReturn(View.VISIBLE);
+
+        ImageView imageView3 = mock(ImageView.class);
+        when(imageView3.getTag()).thenReturn(303);
+        when(imageView3.getVisibility()).thenReturn(View.VISIBLE);
+
+        ImageView imageView4 = mock(ImageView.class);
+        when(imageView4.getTag()).thenReturn(404);
+        when(imageView4.getVisibility()).thenReturn(View.VISIBLE);
+
+        ImageView imageView5 = mock(ImageView.class);
+        when(imageView5.getTag()).thenReturn(505);
+        when(imageView5.getVisibility()).thenReturn(View.VISIBLE);
+
+        ImageView[] imageViews = {imageView1, imageView2, imageView3, imageView4, imageView5};
+
+        // Call the method under test
+        ImageView result = callGreedy(imageViews, 1);
+
+        // Verify that the correct ImageView is returned
+        assertEquals(imageView5, result);
+    }
+
+
+
 
 }
