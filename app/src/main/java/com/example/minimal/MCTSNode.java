@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Represents a node in the search tree for ISMCTS
+ */
 public class MCTSNode {
     private int visits;
     private int wins;

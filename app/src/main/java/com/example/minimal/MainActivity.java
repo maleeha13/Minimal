@@ -902,7 +902,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     /**
-     * 
+     *
      * @param j
      */
     public void callMinimize(int j){
@@ -1030,8 +1030,18 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-
-
+    /**
+     * Initializes or resumes a countdown timer.
+     *
+     * This method starts a countdown timer and updates a TextView
+     * with the remaining time. If there is remaining time and a valid timer, the method
+     * resumes the timer from the remaining time. If there is no remaining time or no valid
+     * timer, a new timer with the default duration (10,000 milliseconds) is started.
+     *
+     * The countdown timer ticks every 500 milliseconds. When the timer finishes, the method
+     * calls the {@link #timerUp()} method to perform the desired action.
+     *
+     */
     private void timer() {
         long durationInMillis;
 
@@ -1074,9 +1084,18 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-
+    /**
+     * Handles actions to be performed when the timer finishes.
+     * <p>
+     * This method is called when the countdown timer initiated by the {@link #timer()} method
+     * finishes. It contains logic to perform different actions based on the game state and user
+     * interactions. If cards are picked and some cards are selected, it simulates button clicks
+     * after certain delays. If no cards are dropped and no cards are selected, it calls the
+     * {@link #callGreedy(int)} method to invoke the greedy AI. Otherwise, it simulates a button
+     * click on the deck image view after a delay.
+     * </p>
+     */
     public void timerUp() {
-//                countDownTimer.cancel();
 
         // Your UI-related code here, including the existing content of timerUp
         if (game.picked && !(game.cardsSelected.isEmpty())) {
@@ -1112,6 +1131,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
     }
 
+
     public void resumeGame(View v) {
         isPaused = false;
         timer();
@@ -1131,12 +1151,36 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
+    /**
+     * Helps exit the game by navigating back to the start screen
+     * @param v
+     */
     public void exitGame(View v) {
         Intent intent=new Intent(MainActivity.this, StartScreen.class);
         startActivity(intent);
         finish();
     }
 
+
+    /**
+     * If score of a player is less than 5, clicks the show button
+     * @param myCards
+     * @param game
+     * @param show
+     */
+    public void show(List<ImageView> myCards, Game game, Button show) {
+        int val = 0;
+        for (ImageView imageView : myCards) {
+            int tag = (Integer) imageView.getTag();
+            val += tag % 100;
+
+        }
+
+        if (val < 6) {
+            show.performClick();
+        }
+
+    }
 
     public List<Move> getAllMoves() {
         List<Move> allMoves = new ArrayList<>();
@@ -1342,20 +1386,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-    public void show(List<ImageView> myCards, Game game, Button show) {
-        int val = 0;
-        for (ImageView imageView : myCards) {
-            int tag = (Integer) imageView.getTag();
-            val += tag % 100;
 
-        }
-
-        if (val < 6) {
-            show.performClick();
-        }
-
-
-    }
 
 
     public static ArrayList<Integer> makeTestList() {
