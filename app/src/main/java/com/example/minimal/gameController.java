@@ -97,7 +97,6 @@ public class gameController {
         // 4B. ASSIGNS THE PREVIOUS PLAYERS CARD
         imageView.setImageDrawable(game.previous);
         imageView.setTag(game.second);
-        imageView.setTag(game.second);
         stackImageView.setImageDrawable(game.current);
         game.second =game.check;
         game.dropped=false;

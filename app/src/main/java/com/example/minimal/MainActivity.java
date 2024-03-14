@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
      * @param pre
      * @param visibility
      */
-    private void hideImageViewsRange(int start, String pre, int visibility) {
+    void hideImageViewsRange(int start, String pre, int visibility) {
         for (int i = 1; i <= 5; i++) {
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
 
@@ -724,7 +723,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
             return imageViewList;
     }
-
 
 
 
