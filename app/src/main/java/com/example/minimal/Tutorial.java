@@ -9,16 +9,18 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+/**
+ * The Tutorial class provides functionality to display tutorial content, including images and videos,
+ * with navigation buttons to move between content.
+ */
 public class Tutorial extends AppCompatActivity {
 
     private VideoView videoView;
     private ImageView imageView;
     private Button btnPrevious, btnNext;
     private int currentContentIndex = 0;
-    private int currentPic = 0;
-    private int currentVid = 0;
 
-    private boolean isVideoMode = false; // Start with video mode
 
     // Define your video and image URLs
     private int[] videoUrls = {
@@ -28,41 +30,25 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.t4,
             R.raw.t5,
             R.drawable.t6,
-
             R.raw.t7,
             R.drawable.t8,
-
             R.raw.t9,
             R.drawable.t10,
-
             R.raw.t11,
             R.drawable.t12,
-
             R.raw.t13,
             R.drawable.t14,
             R.drawable.t15,
             R.raw.t16,
-
-
-
-            // Add more video URLs as needed
     };
 
-    // Define your image URLs or resource IDs
-//    private int[] imageResourceIds = {
-//            R.drawable.t1,
-//            R.drawable.t2,
-//            R.drawable.t4,
-//            R.drawable.t6,
-//            R.drawable.t8,
-//            R.drawable.t10,
-//            R.drawable.t12,
-//            R.drawable.t14,
-//            R.drawable.t15
-//
-//            // Add more image resource IDs as needed
-//    };
-
+    /**
+     * Displays initial tutorial page
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,34 +93,39 @@ public class Tutorial extends AppCompatActivity {
         });
     }
 
+    /**
+     * Displays the content at the specified index.
+     * @param index The index of the content to display.
+     */
     private void showContent(int index) {
         if (index < videoUrls.length + videoUrls.length) {
 
                     // Show images
-//                    isVideoMode = false;
             if(index==0 || index == 1 || index ==3 || index == 5 || index == 7 || index == 9 || index ==11 || index ==13 || index ==14) {
                 videoView.setVisibility(View.GONE);
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageResource(videoUrls[index]);
 
-                currentPic++;
             }
             else {
                 // Show videos
-//                    isVideoMode = true;
                 imageView.setVisibility(View.GONE);
                 videoView.setVisibility(View.VISIBLE);
                 videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + videoUrls[index]));
                 videoView.start();
-                currentVid++;
             }
             }
         }
 
+    /**
+     * Starts the game by navigating to the StartScreen activity.
+     * @param v The view that triggered the method call.
+     */
         public void begin(View v){
             Intent intent = new Intent(Tutorial.this, StartScreen.class);
             startActivity(intent);
         }
+        
     }
 
 
