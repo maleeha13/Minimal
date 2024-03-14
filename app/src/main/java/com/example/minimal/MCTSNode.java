@@ -6,18 +6,45 @@ import java.util.Random;
 
 /**
  * Represents a node in the search tree for ISMCTS
+ * Stores information such as visits, wins, parent and children of the node
  */
 public class MCTSNode {
-    private int visits;
-    private int wins;
-    private double score;
-    private double totalReward;
-    private MCTSNode parent;
-    private List<MCTSNode> children;
-    private State gameState;  // Replace with your actual State class or type
-    private Move move;  // Replace with your actual State class or type
-    private int playerJustMoved;  // Replace with your actual State class or type
 
+    private MCTSNode parent;
+    /** The number of times this node has been visited during simulations. */
+    private int visits;
+
+    /** The number of simulated wins from this node. */
+    private int wins;
+
+    /** The total accumulated reward from simulations. */
+    private double totalReward;
+
+    /** The score associated with this node. */
+    private double score;
+    /** The list of child nodes for this node. */
+    private List<MCTSNode> children;
+
+    /** The player who just made a move to reach this state. */
+    private Integer playerJustMoved;
+
+    /** The move that led to this state. */
+    private Move move;
+
+    /** The game state associated with this node. */
+    private State gameState;
+
+
+
+    /**
+     * Constructs a new MCTSNode with the given game state, parent node, player who just moved,
+     * and the move that led to this state.
+     *
+     * @param gameState The game state associated with this node.
+     * @param parent The parent node of this node.
+     * @param playerJustMoved The player who just made a move to reach this state.
+     * @param move The move that led to this state.
+     */
     public MCTSNode(State gameState, MCTSNode parent, Integer playerJustMoved, Move move) {
         this.gameState = gameState;
         this.parent = parent;
@@ -30,80 +57,99 @@ public class MCTSNode {
         this.move=move;
     }
 
-    public void updateState(State newState) {
-        this.gameState = newState;
-        // Perform any other necessary updates based on the new state
-    }
+    /**
+     * Retrieves the number of visits to this node during simulations.
+     * @return The number of visits to this node.
+     */
     public int getVisits() {
         return visits;
     }
+
+    /**
+     * Retrieves the score associated with this node.
+     * @return The score associated with this node.
+     */
     double getScore() {
         return score;
     }
+
+    /**
+     * Retrieves the number of simulated wins from this node.
+     * @return The number of wins from this node.
+     */
     public int getWins() {
         return wins;
     }
+
+    /**
+     * Retrieves the move that led to this state.
+     * @return The move that led to this state.
+     */
     public Move getMove() {
         return move;
     }
 
-    public int getPlayerJustMoved(){
-        return playerJustMoved;
-    }
-
-    public double getTotalReward() {
-        return totalReward;
-    }
-
+    /**
+     * Retrieves the parent node of this node.
+     * @return The parent node of this node.
+     */
     public MCTSNode getParent() {
         return parent;
     }
 
+    /**
+     * Retrieves the list of child nodes for this node.
+     * @return The list of child nodes for this node.
+     */
     public List<MCTSNode> getChildren() {
         return children;
     }
 
+    /**
+     * Retrieves the game state associated with this node.
+     * @return The game state associated with this node.
+     */
     public State getGameState() {
         return gameState;
     }
 
-    public void incrementVisits() {
-        visits++;
-    }
 
-    public void addToReward(double reward) {
-        totalReward += reward;
-    }
-
+    /**
+     * Retrieves a list of untried moves for the given game state.
+     * Untried moves are moves that have not yet been explored from the current node.
+     *
+     * @param state The game state for which untried moves need to be retrieved.
+     * @return A list of untried moves for the given game state.
+     */
     public List<Move> getUntriedMoves(State state) {
 
         if (children.isEmpty()) {
             // If the node has no children, all moves are untried
-//            System.out.println("it is empty????");
-            return state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
+            return state.getAllMoves(state.getPlayerToMove());
         } else {
-//            System.out.println("notttttt????");
-//            System.out.println("player innnnn untr is "+ state.getPlayerToMove());
-
             // If the node has children, filter out moves that have already been tried
-            List<Move> allMoves = state.getAllMoves(state.getPlayerToMove());  // Implement this method in your State class
+            List<Move> allMoves = state.getAllMoves(state.getPlayerToMove());
             List<Move> triedMoves = new ArrayList<>();
 
             for (MCTSNode child : children) {
                 // Collect moves from child nodes
-
                 triedMoves.add(child.getGameState().getLastMove());
 
             }
 
             // Remove tried moves from the list of all moves
             allMoves.removeAll(triedMoves);
-//            System.out.println("moves "+ allMoves);
-
             return allMoves;
         }
     }
 
+    /**
+     * Adds a child node to the current node with the specified move and player who just made the move.
+     *
+     * @param move The move that led to the creation of the child node.
+     * @param playerJustMoved The player who just made the move.
+     * @return The newly created child node.
+     */
     public MCTSNode addChild(Move move, int playerJustMoved) {
         MCTSNode childNode = new MCTSNode(null, this, playerJustMoved, move);
         childNode.move = move;
@@ -112,16 +158,18 @@ public class MCTSNode {
 
         // Additional initialization or updates based on the new child node
 
-        childNode.setParentPlayerJustMoved(playerJustMoved);
         children.add(childNode);
         return childNode;
     }
 
+    /**
+     * Updates the statistics of the current node based on the outcome of simulations from a given game state.
+     * Increments the visit count, updates the score, and increments the win count if the current player wins.
+     *
+     * @param state The game state representing the outcome of simulations.
+     */
     public void update(State state) {
         visits++;
-
-
-            // Assuming your State class has a method GetResult(int player) to get the result for a player
             if(state.getResult(state.getPlayerToMove())){
                 int[] sc = state.getScores(state);
                 score = 0 + Math.sqrt(sc[state.getPlayerToMove()]);
@@ -135,10 +183,12 @@ public class MCTSNode {
 
     }
 
-    private void setParentPlayerJustMoved(int playerJustMoved) {
-        // Set the playerJustMoved value for the child node
-        // Additional logic as needed
-    }
+    /**
+     * Checks if the current node is fully expanded, meaning all legal moves for the current player
+     * have corresponding child nodes.
+     *
+     * @return True if all legal moves have corresponding child nodes, otherwise false.
+     */
     public boolean isFullyExpanded() {
         // Get all legal moves for the current player
         List<Move> legalMoves = gameState.getAllMoves(gameState.getPlayerToMove());
@@ -160,7 +210,13 @@ public class MCTSNode {
     }
 
 
-
+    /**
+     * Selects a child node using the Upper Confidence Bound (UCB) algorithm, considering exploration parameter.
+     *
+     * @param legalMoves A list of legal moves for the current player.
+     * @param exploration The exploration parameter for UCB.
+     * @return The selected child node based on UCB score.
+     */
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
         if (children.isEmpty()) {
             return this; // Return itself if there are no children
@@ -197,7 +253,11 @@ public class MCTSNode {
         return selectedChild;
     }
 
-
+    /**
+     * Creates a deep copy of the current node.
+     *
+     * @return A cloned copy of the current node.
+     */
     public MCTSNode cloneNode() {
         MCTSNode clone = new MCTSNode(this.gameState, this.parent, this.playerJustMoved, this.move);
         clone.visits = this.visits;
@@ -205,9 +265,6 @@ public class MCTSNode {
         clone.totalReward = this.totalReward;
         clone.children = new ArrayList<>(this.children);
         clone.score = this.score;
-        // You might need to add additional cloning logic bas
-        // ed on your specific implementation
-
         return clone;
     }
 
