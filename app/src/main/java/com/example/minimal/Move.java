@@ -1,18 +1,35 @@
 package com.example.minimal;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Move class represents a move made in a game, including the cards played and the source of the move.
+ */
 public class Move implements Cloneable{
-    private List<Integer> cardsPlayed;
-    private String source;  // Source can be "deck", "pile", or any other relevant identifier
 
+    /** The list of cards played in the move. */
+    private List<Integer> cardsPlayed;
+
+    /** The source of the move */
+    private String source;
+
+
+    /**
+     * Constructs a Move object with the specified cards played and source.
+     *
+     * @param cardsPlayed The list of cards played in the move.
+     * @param source The source of the move.
+     */
     public Move(List<Integer> cardsPlayed, String source) {
         this.cardsPlayed = cardsPlayed;
         this.source = source;
     }
 
+    /**
+     * Creates a deep copy of the Move object.
+     * @return A cloned copy of the Move object.
+     */
     @Override
     public Move clone() {
         try {
@@ -22,25 +39,26 @@ public class Move implements Cloneable{
         }
     }
 
-    // Add getters and setters as needed
-
+    /**
+     * Retrieves the list of cards played in the move.
+     * @return The list of cards played in the move.
+     */
     public List<Integer> getCardsPlayed() {
         return cardsPlayed;
     }
 
-    public void setCardsPlayed(List<Integer> cardsPlayed) {
-        this.cardsPlayed = cardsPlayed;
-    }
-
+    /**
+     * Retrieves the source of the move.
+     * @return The source of the move.
+     */
     public String getSource() {
         return source;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    // You can also override toString() method for better readability
+    /**
+     * Generates a string representation of the move for better readability.
+     * @return A string representation of the move.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Played card(s) ");
@@ -52,8 +70,11 @@ public class Move implements Cloneable{
     }
 
 
-
-    // Inside the Move class
+    /**
+     * Checks if this Move object is equal to another object.
+     * @param obj The object to compare with.
+     * @return True if the objects are equal, otherwise false.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -64,7 +85,10 @@ public class Move implements Cloneable{
                 Objects.equals(source, otherMove.source);
     }
 
-    // Optional: Override hashCode for consistency
+    /**
+     * Generates a hash code for the Move object for consistency.
+     * @return The hash code of the Move object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(cardsPlayed, source);
