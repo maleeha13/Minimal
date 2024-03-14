@@ -4,21 +4,17 @@ import static com.example.minimal.Game.scores;
 import static com.example.minimal.StartScreen.currentRound;
 import static com.example.minimal.StartScreen.numberOfRounds;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-
+/**
+ * The ScoreController class manages the scoring system of the game.
+ */
 public class ScoreController {
 
     // 2. FINDS THE PLAYER WITH THE LEAST SCORE
+    /**
+     * Calculates the index of the player with the minimum score for the current round.
+     * @return The index of the player with the minimum score.
+     */
     public int calculateMinScore(){
         int currentRound = StartScreen.currentRound;
         int minIndex = 0;
@@ -32,6 +28,11 @@ public class ScoreController {
     }
 
     // 3. RECALCULATES THE SCORE IF NEEDED -> IF THE WINNER ISN'T THE PLAYER WHO SHOWED
+    /**
+     * Recalculates the scores if the winner isn't the player who showed.
+     * @param win The index of the winner.
+     * @param game The Game instance.
+     */
     public void showScores(int win, Game game){
         if(win!=game.current_player){
             for(int i=0; i<4; i++){
@@ -46,6 +47,10 @@ public class ScoreController {
     }
 
     // 4. CALCULATES THE TOTAL SCORE FOR EACH ROUND
+    /**
+     * Calculates the total score for each player across all rounds.
+     * @return An array containing the total scores for each player.
+     */
     int[] calculateTotalScores() {
         int[] totalScores = new int[4];
         for (int player = 1; player <= 4; player++) {
@@ -62,8 +67,6 @@ public class ScoreController {
         }
         return totalScores;
     }
-
-
-
+    
 
 }
