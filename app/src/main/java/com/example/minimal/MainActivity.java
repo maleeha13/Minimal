@@ -919,7 +919,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             Button show = findViewById(R.id.show);
             show.setVisibility(View.INVISIBLE);
             MinimizeAI minimize = new MinimizeAI();
-            minimize.show(getHand(game.current_player + 1), game, show);
+            minimize.show(getHand(game.current_player + 1), show);
 
         }
 
@@ -1014,7 +1014,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if (totalValue >= largest) {
 
             MinimizeAI minimize = new MinimizeAI();
-            minimize.minimizeAI(list, drop, pickFromStack, game, dropButton, stack, source); // Return the list if its total value is greater than 'largest'
+            minimize.minimizeAI(list, game, dropButton, source); // Return the list if its total value is greater than 'largest'
         } else {
             // Create a new list and add 'img' to it
             List<ImageView> newList = new ArrayList<>();
@@ -1029,7 +1029,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
             MinimizeAI minimize = new MinimizeAI();
-            minimize.minimizeAI(newList, drop, pickFromStack, game, dropButton, stack, source);
+            minimize.minimizeAI(newList, game, dropButton, source);
         }
 
     }
