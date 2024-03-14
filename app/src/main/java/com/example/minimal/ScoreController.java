@@ -67,6 +67,6 @@ public class ScoreController {
         }
         return totalScores;
     }
-    
+
 
 }

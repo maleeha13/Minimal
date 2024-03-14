@@ -18,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+/**
+ * The StartScreen class represents the starting screen of the game.
+ */
 public class StartScreen extends AppCompatActivity {
 
-    MainActivity m = new MainActivity();
     static int numberOfRounds=0;
     static int currentRound=0;
     static String name= "Player 1";
@@ -29,6 +31,13 @@ public class StartScreen extends AppCompatActivity {
     static ImageView chosen;
 
 
+    /**
+     * Sets spinner options for difficulty and number of rounds and sets avatar
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,24 +49,19 @@ public class StartScreen extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.dropdown_options, R.layout.custom_spinner_item);
 
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.dropdown);
 
-        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        // Set up a listener for item selection
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Handle the selected item
                 String selectedOption = parentView.getItemAtPosition(position).toString();
                 setRounds(selectedOption);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
             }
         });
 
@@ -66,13 +70,10 @@ public class StartScreen extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
                 this, R.array.diff_options, R.layout.custom_spinner_item);
 
-        // Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(R.layout.dropdown);
 
-        // Apply the adapter to the spinner
         spinner2.setAdapter(adapter2);
 
-        // Set up a listener for item selection
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -82,7 +83,6 @@ public class StartScreen extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
             }
         });
 
@@ -94,18 +94,10 @@ public class StartScreen extends AppCompatActivity {
         ImageView avatar6 = findViewById(R.id.avatar6);
         chosen = findViewById(R.id.chosen);
 
-
-
-        // Add more image view references for avatars if needed
-
-        // Set click listeners for avatar selection
         avatar1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("click");
-
                 selectAvatar(avatar1);
-
                 avatar= "avatar1";
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av1));
             }
@@ -115,9 +107,7 @@ public class StartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectAvatar(avatar2);
-
                 avatar= "avatar2";
-
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av2));
             }
         });
@@ -126,9 +116,7 @@ public class StartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectAvatar(avatar3);
-
                 avatar= "avatar3";
-
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av3));
             }
         });
@@ -138,7 +126,6 @@ public class StartScreen extends AppCompatActivity {
             public void onClick(View v) {
                 selectAvatar(avatar4);
                 avatar= "avatar4";
-
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av4));
             }
         });
@@ -147,9 +134,7 @@ public class StartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectAvatar(avatar5);
-
                 avatar= "avatar5";
-
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av5));
             }
         });
@@ -158,54 +143,35 @@ public class StartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectAvatar(avatar6);
-
                 avatar= "avatar6";
-
                 chosen.setImageDrawable(ActivityCompat.getDrawable(getApplicationContext(), R.drawable.av6));
             }
         });
         avatar1.performClick();
     }
 
-//    public  void setAvatar(ImageView av) {
-//
-//        Drawable avatarDrawable = av.getDrawable();
-//        if (chosen != null && avatarDrawable != null) {
-//
-//            chosen.setImageResource(R.drawable.av3);
-//        }
-//        // Update other avatar related logic here if needed
-//    }
-
+    /**
+     * Sets the number of rounds based on the selected option.
+     * @param rounds The selected number of rounds.
+     */
     public static void setRounds(String rounds){
         numberOfRounds= Integer.parseInt(rounds);
     }
 
-
+    /**
+     * Highlights the selected avatar and updates the chosen avatar.
+     * @param image The ImageView of the selected avatar.
+     */
     public void selectAvatar(ImageView image) {
-        // Get the current drawable of the ImageView
         if(avatar!=null) {
             int resId = getResources().getIdentifier(avatar, "id", getPackageName());
             ImageView img = findViewById(resId);
-
-
-            Drawable currentDrawable = img.getDrawable();
-
-// Create a GradientDrawable for the border
             GradientDrawable borderDrawable = new GradientDrawable();
             borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
             borderDrawable.setVisible(false, false);
-//            borderDrawable.setStroke(0, Color.GRAY); // Set the border width to 0 to remove the border
-
-// Create a LayerDrawable to combine the image and the border
-//            Drawable[] layers = {currentDrawable, borderDrawable};
-//            LayerDrawable layerDrawable = new LayerDrawable(layers);
             img.setImageDrawable(borderDrawable);
 
         }
-        // Set the LayerDrawable as the image drawable of the ImageView
-
-
         Drawable current = image.getDrawable();
 
         // Create a GradientDrawable for the border
@@ -221,20 +187,18 @@ public class StartScreen extends AppCompatActivity {
         image.setImageDrawable(layDrawable);
     }
 
-
+    /**
+     * Starts the game activity.
+     * @param v The View.
+     */
     public void startButton (View v){
         EditText getName = findViewById(R.id.nameEditText);
         name = getName.getText().toString();
         if(name.isEmpty()){
             name= "Player 1";
         }
-        System.out.println("rounds are " + currentRound);
-
         Intent intent=new Intent(StartScreen.this, MainActivity.class);
-
-
         startActivityForResult(intent, 1);
-//        m.startGame(v);
 
 
     }
