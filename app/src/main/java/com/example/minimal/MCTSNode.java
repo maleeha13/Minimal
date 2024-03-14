@@ -75,72 +75,6 @@ public class MCTSNode {
         totalReward += reward;
     }
 
-
-    // Add any other methods or getters/setters as needed
-
-//    public MCTSNode select(MCTSNode rootNode, double explorationConstant) {
-//        MCTSNode currentNode = rootNode;
-//
-//        // Traverse the tree until a leaf node is reached
-//        while (!currentNode.getChildren().isEmpty()) {
-//            // Select the child node with the highest UCT value
-//            double bestUCTValue = Double.NEGATIVE_INFINITY;
-//            MCTSNode selectedChild = null;
-//
-//            for (MCTSNode child : currentNode.getChildren()) {
-//                double uctValue = calculateUCTValue(child, explorationConstant);
-//
-//                if (uctValue > bestUCTValue) {
-//                    bestUCTValue = uctValue;
-//                    selectedChild = child;
-//                }
-//            }
-//
-//            currentNode = selectedChild;
-//        }
-//
-//        return currentNode;
-//    }
-//
-//    public MCTSNode expand() {
-//        List<Move> untriedMoves = getUntriedMoves();
-//
-//        if (!untriedMoves.isEmpty()) {
-//            Move selectedMove = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
-//            MCTSNode childNode = addChild(selectedMove, playerJustMoved);
-//            return childNode;
-//        }
-//
-//        return null;  // No untried moves, cannot expand further
-//    }
-
-    //    public double simulate() {
-//        State simulatedState = gameState.Clone();
-//        int currentPlayer = playerJustMoved;
-//
-//        while (!simulatedState.isTerminal()) {
-//            List<Move> legalMoves = simulatedState.getAllMoves(currentPlayer);
-//            if (legalMoves.isEmpty()) {
-//                break;  // No legal moves, end simulation
-//            }
-//
-//            Move randomMove = legalMoves.get(new Random().nextInt(legalMoves.size()));
-//            simulatedState.applyMove(randomMove, currentPlayer);
-//
-//            currentPlayer = (currentPlayer % 4) + 1;  // Switch to the next player
-//        }
-//
-//        return simulatedState.getScore(playerJustMoved);  // Return the result of the simulation
-//    }
-//    public void backpropagate(double result) {
-//        MCTSNode currentNode = this;
-//
-//        while (currentNode != null) {
-//            currentNode.visits++;
-//            currentNode.addToReward(result);
-//            currentNode = currentNode.parent;
-//        }
-//    }
     public List<Move> getUntriedMoves(State state) {
 
         if (children.isEmpty()) {
@@ -225,41 +159,7 @@ public class MCTSNode {
         return true; // All legal moves have corresponding child nodes
     }
 
-//    public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
-//        if (children.isEmpty()) {
-//            return this; // Return itself if there are no children
-//        }
-//
-//        // Filter the list of children by the list of legal moves and untried moves
-//        List<MCTSNode> legalChildren = new ArrayList<>();
-//        for (MCTSNode child : children) {
-//            if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
-//                legalChildren.add(child);
-//            }
-//        }
-//
-//        // Get the child with the lowest score
-//        MCTSNode selectedChild = null;
-//        double lowestScore = Double.POSITIVE_INFINITY;
-//        for (MCTSNode child : legalChildren) {
-//            if (child.getVisits() == 0) {
-//                // Assign a high value to unvisited nodes for exploration
-//                lowestScore = Double.NEGATIVE_INFINITY;
-//                selectedChild = child;
-//                break;
-//            } else {
-//                // Compare the score of the child with the lowest score
-//                if (child.getScore() < lowestScore) {
-//                    lowestScore = child.getScore();
-//                    selectedChild = child;
-//                }
-//            }
-//        }
-//
-//        // Return the selected child
-//        return selectedChild;
-//    }
-//
+
 
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
         if (children.isEmpty()) {
