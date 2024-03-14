@@ -12,15 +12,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The State class represents the state of the game at any given point.
+ */
 public class State implements Cloneable {
-    private List<Integer> discardedCards;  // Replace String with the actual type of keys and values
+    /** List of discarded cards */
+    private List<Integer> discardedCards;
+
+    /** Map representing each player's hand */
     private Map<Integer, List<Integer>> playerHand;
+
+    /** Context object for the game environment */
     private Context context;
+
+    /** The index of the player whose turn it is to move */
     private Integer playerToMove;
+
+    /** The last move made in the game */
     private Move lastMove;
+
+    /** Map of moves tried by each player */
     private Map<Integer, List<Move>> triedMoves;
 
 
+    /**
+     * Constructs a new State object with the given context and player.
+     * @param context The context of the game environment.
+     * @param player The index of the player.
+     */
     public State(Context context, int player){
         this.context = context;
         this.discardedCards = new ArrayList<>();
@@ -28,24 +47,16 @@ public class State implements Cloneable {
         this.triedMoves = new HashMap<>();
         this.lastMove = null;
         playerToMove = player;
-
-
         discardedCards = new ArrayList<>(MainActivity.cards);
-//        System.out.println("lallala" + MainActivity.cards.size());
         playerHand.put(player, getPlayersHand(player));
         List<Integer> hand = getPlayersHand(player);
-//        System.out.println("Player " + player + "'s hand: " + handToString(hand));
-//        System.out.println("making a new state ");
-//        System.out.println("size of discareded cards us " + discardedCards.size());
-
-//        System.out.println("Player " + player + "'s hand: " + handToString(hand));
-
     }
 
 
-
-
-
+    /**
+     * Clones the current State object.
+     * @return A deep copy of the State object.
+     */
     @Override
     public State clone() {
         try {
@@ -60,7 +71,6 @@ public class State implements Cloneable {
                 clonedState.playerHand.put(entry.getKey(), new ArrayList<>(entry.getValue()));
             }
 
-//            System.out.println("player hand og is " + playerHand.);
 
             // Deep copy the tried moves map
             clonedState.triedMoves = new HashMap<>();
@@ -88,27 +98,20 @@ public class State implements Cloneable {
 
 
 
-
+    /**
+     * Clones the current State object and randomizes it for the given observer.
+     * @param observer The index of the observing player.
+     * @return A deep copy of the State object with randomized information for the observer.
+     * @throws CloneNotSupportedException Thrown if cloning is not supported for State class.
+     */
     public State CloneAndRandomize(int observer) throws CloneNotSupportedException {
         State st = clone();
-
-
-        // Clear discarded cards
-
-//        System.out.println("in clone + rand");
-        // gets the player's hand
         List<Integer> observerHand = st.playerHand.get(observer);
 
         // Create a new list for seenCards and add the observer's hand
         List<Integer> seenCards = new ArrayList<>(observerHand);
-//        System.out.println("size of seen cards before " + seenCards.size());
-
-
-        // seen cards = player's hand + discarded card
         seenCards.addAll(discardedCards);
-//        System.out.println("size in clone and rand " + discardedCards.size());
         List<Integer> unseenCards = new ArrayList<>(makeList());
-
         unseenCards.removeAll(seenCards);
 
         for(int i=0; i<4;i++){
@@ -121,9 +124,7 @@ public class State implements Cloneable {
         // deals the cards
         for (int p = 1; p <= 4; p++) {
             if (p != observer) {
-                List<Integer> existingCards = Game.playerHand.get(p - 1); // Get existing cards for player p
-
-                // Deal cards to player p
+                List<Integer> existingCards = Game.playerHand.get(p - 1);
 
                 // Initialize player's hand with existing cards
 
@@ -145,37 +146,22 @@ public class State implements Cloneable {
                         hand.addAll(unseenCards.subList(0, remainingCards));
                         unseenCards.subList(0, remainingCards).clear();
                     }
-
                 }
-
-                // Store the size of player p's hand
-                // This step isn't clear from the provided code; you may need to adjust it according to your implementation
-
-                // Update st.playerHand with the new hand
                 st.playerHand.put(p, hand);
-//                System.out.println("puttin in hand " + st.playerHand.size());
-//                System.out.println("hand is " + p + " " + hand);
             }
         }
-
-        // Print every player's hand
-
-
-        // Print discarded cards
-//        System.out.println("Discarded cards: " + handToString(MainActivity.discardedCards));
 
         return st;
     }
 
 
+    /**
+     * Calculates the probability of picking a smaller card from the unseen cards based on the top discarded card.
+     * @return The probability of picking a smaller card.
+     */
     public double calculateProbability() {
 
         List<Integer> unseenCards = updateUnseenCards();
-
-
-        // Count the number of cards smaller than the top discard in the deck
-        ;
-
         int topDiscard = discardedCards.isEmpty() ? 0 : discardedCards.get(0);
         // Count the number of cards smaller than the top discard in the deck
         int smallerCardsCount = 0;
@@ -192,10 +178,11 @@ public class State implements Cloneable {
         return probability;
     }
 
-
-    public void getCards(int p){
-
-    }
+    /**
+     * Retrieves the player's hand based on the player index.
+     * @param player The index of the player.
+     * @return The list of cards in the player's hand.
+     */
     public List<Integer> getPlayersHand(int player) {
         List<Integer> playerHand = new ArrayList<>(); // Initialize the list
 
@@ -210,25 +197,15 @@ public class State implements Cloneable {
             } else {
             }
         }
-
-
         return playerHand;
     }
 
 
-
-    private String handToString(List<Integer> hand) {
-        StringBuilder sb = new StringBuilder("[");
-        for (Integer card : hand) {
-            sb.append(card).append(", ");
-        }
-        if (sb.length() > 1) {
-            sb.setLength(sb.length() - 2); // Remove the trailing comma and space
-        }
-        sb.append("]");
-        return sb.toString();
-    }
-
+    /**
+     * Retrieves all possible moves for the given player.
+     * @param player The index of the player.
+     * @return A list of possible moves for the player.
+     */
     public List<Move> getAllMoves(int player) {
         List<Move> allMoves = new ArrayList<>();
 
@@ -246,10 +223,6 @@ public class State implements Cloneable {
                 pickpile=true;
 //                prob = 1.0;
             }
-
-
-//            System.out.println("probab b4 " + prob);
-
 
             // Check for other cards with the same rank
             boolean cardNotInAllMoves = allMoves.stream()
@@ -323,65 +296,15 @@ public class State implements Cloneable {
             }
         }
 
-
-//        System.out.println("Possible moves for Player "  + ":");
-//        for (Move move : allMoves) {
-//            System.out.println(move);
-//        }
-
         return allMoves;
 
     }
 
-
-
-//    public List<Move> getAllMoves(int player) {
-//        List<Move> allMoves = new ArrayList<>();
-//
-//        // Get the current player's hand
-//        List<Integer> currentPlayerHand = playerHand.get(player);
-////        System.out.println("player num is " + player);
-////        System.out.println("played is " + playerHand.get(player) );
-//
-//        // Iterate over each card in the player's hand
-//        for (int i = 0; i < currentPlayerHand.size(); i++) {
-//            Integer card = currentPlayerHand.get(i);
-//
-//            // Check for other cards with the same rank
-//
-//            boolean cardNotInAllMoves = allMoves.stream()
-//                    .flatMap(move -> move.getCardsPlayed().stream())
-//                    .noneMatch(card::equals);
-//
-//            if(cardNotInAllMoves){
-//                List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
-//
-//
-//                // If there are cards with the same rank, create a move for playing them together with the pile
-//                if (!cardsWithSameRank.isEmpty()) {
-//                    cardsWithSameRank.add(card);  // Add the current card to the list
-//                    Move movePile = new Move(cardsWithSameRank, "pile");
-//                    Move moveDeck = new Move(cardsWithSameRank, "deck");
-//
-//                    allMoves.add(movePile);
-//                    allMoves.add(moveDeck);
-//
-//                    // Remove the processed cards from the player's hand
-//                } else {
-//
-//                    // If there is only one card with the same rank, add it to the "pile" move
-//                    Move movePileSingle = new Move(Collections.singletonList(card), "pile");
-//                    Move moveDeckSingle = new Move(Collections.singletonList(card), "deck");
-//
-//                    allMoves.add(movePileSingle);
-//                    allMoves.add(moveDeckSingle);
-//                }
-//            }
-//
-//        }
-//
-//        return allMoves;
-//    }
+    /**
+     * Applies the specified move to the game state for the given player.
+     * @param move The move to apply.
+     * @param player The index of the player making the move.
+     */
     public void applyMove(Move move, int player) {
 
         String source = move.getSource();
@@ -391,25 +314,15 @@ public class State implements Cloneable {
         triedMoves.put(player, playerTriedMoves);
         lastMove = move;
         for (Integer card : cardsPlayed) {
-            // UPDATES DISCARDED CARD
-//            System.out.println("cards are B4 " + MainActivity.cards.size());
-
             discardedCards.add(card);
-//            System.out.println("cards are " + MainActivity.cards.size());
         }
-
-
 
         List<Integer> playerHandList = playerHand.get(player);
         if (playerHandList != null && !playerHandList.isEmpty()) {
             // Remove cards from the player's hand based on their indices
             for (Integer card : cardsPlayed) {
-                // Remove the first occurrence of the card from the player's hand
-                // UPDATES PLAYER CARD
-
                 playerHandList.remove(card);
             }
-
             // Update the player's hand in the playerHand map
             playerHand.put(player, playerHandList);
 
@@ -442,26 +355,17 @@ public class State implements Cloneable {
             int firstUnseenCard = unseenCards.get(0);
             playerHandList.add(firstUnseenCard);
             playerHand.put(player, playerHandList);
-
-
-
         }
 
-
-//        System.out.println("dissscc " + discardedCards);
-
         this.playerToMove=getNextPlayer();
-
-
-        // Implement logic to apply the specified move to the current state and return the new state.
-        // Ensure that the move is valid before applying it.
     }
-    // Other methods for your game
 
+    /**
+     * Checks if the game is in a terminal state.
+     * @return true if the game is in a terminal state, false otherwise.
+     */
     public Boolean isTerminal(){
         List<Integer> card = updateUnseenCards();
-
-
         if(card.size()<20 || canPlayerShow() ){
             System.out.println();
             return Boolean.TRUE;
@@ -471,6 +375,11 @@ public class State implements Cloneable {
         }
     }
 
+
+    /**
+     * Checks if the current player can show their hand.
+     * @return true if the player can show their hand, false otherwise.
+     */
     public Boolean canPlayerShow(){
         List<Integer> playerHandList = playerHand.get(playerToMove);
         int totalValue = 0;
@@ -482,10 +391,12 @@ public class State implements Cloneable {
         return totalValue < 6;
     }
 
+    /**
+     * Determines if the specified player has won the game.
+     * @param player The index of the player to check.
+     * @return true if the player has won, false otherwise.
+     */
     public Boolean getResult(int player) {
-        // Assuming playerHand is a Map<Integer, List<Integer>> where the key is the player index
-
-
         int[] sums = new int[playerHand.size()];
 
         // Calculate the sum of the last two digits for each player
@@ -515,28 +426,29 @@ public class State implements Cloneable {
         }
     }
 
+
+    /**
+     * Calculates the scores for each player based on the current game state.
+     * @param st The current game state.
+     * @return An array containing the scores for each player.
+     */
     public int[] getScores(State st) {
-        // Assuming playerHand is a Map<Integer, List<Integer>> where the key is the player index
-
-
         int[] sums = new int[st.playerHand.size()];
-//        System.out.println("size " + playerHand.size());
-
-
-        // Calculate the sum of the last two digits for each player
         int i = 0;
         for (List<Integer> hand : playerHand.values()) {
             int sum = hand.stream().mapToInt(card -> card % 100).sum();
-//            System.out.println("sum is " + sum);
-
             sums[i++] = sum;
         }
 
-        // Find the index with the lowest sum
         return sums;
     }
 
-
+    /**
+     * Gets the cards with the same rank
+     * @param hand - cards of the player
+     * @param targetCard - rank
+     * @return cards with same rank
+     */
     private List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
         List<Integer> cardsWithSameRank = new ArrayList<>();
         for (Integer card : hand) {
@@ -547,45 +459,47 @@ public class State implements Cloneable {
         return cardsWithSameRank;
     }
 
+    /**
+     * Gets the rank of the card
+     * @param card
+     * @return rank
+     */
     private int getRank(int card) {
-        // Implement logic to extract and return the rank of the card
-        // This depends on how your cards are represented, e.g., as integers where rank is a part of the integer
-        return card % 100; // Assuming cards are represented as integers from 0 to 51
+        return card % 100;
     }
 
 
-
+    /**
+     * Updates the unseen cards in the game
+     * @return unseen cards
+     */
     List<Integer> updateUnseenCards() {
-        // Clear the current unseenCards list
         List<Integer> unseenCards = new ArrayList<>(makeList());
-//        System.out.println("uneen cards og is " + unseenCards.size());
-
-        // Add all cards to the unseenCards list
-
-        // Remove cards from players' hands
         for (int playerIndex = 1; playerIndex <= 4; playerIndex++) {
             List<Integer> playerHandList = playerHand.get(playerIndex);
 
             if (playerHandList != null && !playerHandList.isEmpty()) {
-                // Remove cards from the unseenCards list
                 unseenCards.removeAll(playerHandList);
-
             }
         }
 
-        // Remove discarded cards from the unseenCards list
         unseenCards.removeAll(discardedCards);
-//        System.out.println(" removing dicarded " + discardedCards.size());
-
-//        System.out.println("size of unseen cards is " + unseenCards.size());
         return unseenCards;
     }
+
+    /**
+     * Retrieves the last move made in the game.
+     * @return The last move made in the game.
+     */
     public Move getLastMove() {
         return lastMove;
     }
 
+    /**
+     * Updates the next player to move
+     * @return the next player to  move
+     */
     public int getNextPlayer(){
-//        System.out.println("changing player.....");
         int next=0;
         if(this.playerToMove==4){
             next=1;
@@ -598,15 +512,21 @@ public class State implements Cloneable {
         return next;
     }
 
+
+    /**
+     * Retrieves the index of the player who should make the next move.
+     * @return The index of the player to make the next move.
+     */
     public int getPlayerToMove(){
         System.out.println("player " + playerToMove);
         return playerToMove;
     }
 
-    public List<Integer> getDiscardedCards() {
-        return discardedCards;
-    }
 
+    /**
+     * Creates a list containing all the cards in the game.
+     * @return A list containing all the cards in the game.
+     */
     public static ArrayList<Integer> makeList() {
 
         ArrayList<Integer>  cards = new ArrayList<>();
