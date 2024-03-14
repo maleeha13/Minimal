@@ -235,7 +235,6 @@ public class MainActivityTest {
         when(imageView5.getVisibility()).thenReturn(View.VISIBLE);
 
         ImageView[] imageViews = {imageView1, imageView2, imageView3, imageView4, imageView5};
-
         // Call the method under test
         ImageView result = callGreedy(imageViews, 1);
 
