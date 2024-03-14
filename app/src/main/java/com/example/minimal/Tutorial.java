@@ -125,7 +125,7 @@ public class Tutorial extends AppCompatActivity {
             Intent intent = new Intent(Tutorial.this, StartScreen.class);
             startActivity(intent);
         }
-        
+
     }
 
 

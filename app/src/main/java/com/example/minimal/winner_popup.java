@@ -29,13 +29,20 @@ import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 
+/**
+ * The winner_popup class represents an AlertDialog to display the winner of the game,
+ * including the winner's message, score, and a confetti animation.
+ */
 public class winner_popup extends AppCompatActivity {
 
     private KonfettiView celeb;
     Context context;
-    static boolean finished = false;
-
     Context c;
+
+    /**
+     * Constructs a winner_popup object with the given context.
+     * @param con The context in which the winner_popup will be shown.
+     */
     public winner_popup(Context con) {
         context = con;
     }
@@ -63,6 +70,10 @@ public class winner_popup extends AppCompatActivity {
         c = this;
     }
 
+    /**
+     * Displays the winner of the game.
+     * @param scoreController The ScoreController object to calculate scores.
+     */
     void displayWinner(ScoreController scoreController) {
         int[] totalScores = scoreController.calculateTotalScores();
 
@@ -113,22 +124,6 @@ public class winner_popup extends AppCompatActivity {
                 .streamFor(300, 5000L);
 
         builder.setView(winnerView);
-//        TextView titleTextView = new TextView(context);
-//        titleTextView.setText("CHAMPION"); // Set the title text
-//        titleTextView.setTextColor(Color.WHITE); // Set the title text color
-//        titleTextView.setTextSize(24); // Set the title text size
-//
-//        titleTextView.setGravity(Gravity.CENTER); // Align the title text to the center
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-//                RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                RelativeLayout.LayoutParams.WRAP_CONTENT
-//        );
-//        params.addRule(RelativeLayout.CENTER_VERTICAL); // Center vertically
-//        params.addRule(RelativeLayout.CENTER_HORIZONTAL); // Center horizontally
-//        params.topMargin = 20; // Adjust the value as needed for the desired margin
-//
-//        titleTextView.setLayoutParams(params);
-//// Create a custom title view and set it to the AlertDialog
         SpannableString title = new SpannableString("Champion");
         title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setTitle(title);
