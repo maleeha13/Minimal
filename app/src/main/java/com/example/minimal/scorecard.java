@@ -22,16 +22,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+
+/**
+ * The scorecard class displays the scoreboard for the game.
+ */
 public class scorecard extends AppCompatActivity {
     public static AlertDialog dialog;
     Context context;
     Button nextButton ;
 
+    /**
+     * Constructs a scorecard object with the given context.
+     * @param con The context for the scorecard.
+     */
     public scorecard(Context con) {
         context = con;
     }
@@ -44,6 +51,10 @@ public class scorecard extends AppCompatActivity {
 
 
     // 5. DISPLAYS THE SCOREBOARD
+    /**
+     * Displays the scoreboard popup after a specified delay.
+     * @param delayInSeconds The delay in seconds before displaying the scoreboard popup.
+     */
     void showScoreboardPopup(int delayInSeconds ) {
         System.out.println("score board " + scores);
         // Delay the appearance of the scoreboard
@@ -60,41 +71,23 @@ public class scorecard extends AppCompatActivity {
                 // Build the AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.dial2);
                 builder.setView(popupView);
-//                TextView titleTextView = new TextView(context);
-//                titleTextView.setText("Scoreboard"); // Set the title text
-//                titleTextView.setTextColor(Color.WHITE); // Set the title text color
-//                titleTextView.setGravity(Gravity.CENTER); // Align the title text to the center
-//                titleTextView.setTextSize(24); // Set the title text size
-//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-//                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-//                        RelativeLayout.LayoutParams.WRAP_CONTENT
-//                );
-//                params.addRule(RelativeLayout.CENTER_VERTICAL); // Center vertically
-//                params.addRule(RelativeLayout.CENTER_HORIZONTAL); // Center horizontally
-//
-//                params.topMargin = 20; // Adjust the value as needed for the desired margin
-//
-//                titleTextView.setLayoutParams(params);
-//// Create a custom title view and set it to the AlertDialog
-//                builder.setCustomTitle(titleTextView);
                 SpannableString title = new SpannableString("Scoreboard");
                 builder.setCancelable(false);
 
                 title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setTitle(title);
-
-
-                // Add any additional customization or buttons to the AlertDialog if needed
-
-                // Show the AlertDialog
                 dialog = builder.create();
                 dialog.show();
-//                System.out.println("init");
             }
         }, delayInSeconds * 1000); // Convert seconds to milliseconds
     }
 
-
+    /**
+     * Creates the scoreboard and adds it to the specified TableLayout.
+     *
+     * @param tableLayout The TableLayout to which the scoreboard will be added.
+     * @param numColumns The number of columns in the scoreboard.
+     */
     private void createScoreboard(TableLayout tableLayout, int numColumns) {
         // Create Header Row
         int totalScores[] = new int[4]; // Array to store total scores for each player
@@ -105,14 +98,13 @@ public class scorecard extends AppCompatActivity {
                 TableRow.LayoutParams.WRAP_CONTENT
         );
         headerRow.setLayoutParams(headerParams);
-//        headerRow.setBackgroundColor(Color.parseColor("#E17B26")); // Set background color
 
-// Empty cell for the top-left corner
+
         TextView emptyHeader = new TextView(context);
         emptyHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
         headerRow.addView(emptyHeader);
 
-// Player Headers
+
         for (int player = 1; player <= 4; player++) {
             TextView playerHeader = new TextView(context);
             if (player == 1) {
@@ -192,22 +184,17 @@ public class scorecard extends AppCompatActivity {
                 }
             }
 
-            // Add Round Row to the TableLayout
             tableLayout.addView(roundRow);
         }
 
         tableLayout.addView(new TableRow(context));
 
-        // Add a row for total scores
         TableRow totalRow = new TableRow(context);
-//        totalRow.setLayoutParams(new TableLayout.LayoutParams(
-//                TableLayout.LayoutParams.MATCH_PARENT,
-//                TableLayout.LayoutParams.WRAP_CONTENT));
         TableRow.LayoutParams params = new TableRow.LayoutParams(
                 TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(0, 0, 0, 50); // Set bottom margin to 20px
+        params.setMargins(0, 0, 0, 50);
 
         TextView totalHeader = new TextView(context);
         totalHeader.setText("Total");
@@ -237,26 +224,18 @@ public class scorecard extends AppCompatActivity {
 
             totalCell.setText(Integer.toString(playerTotal));
             totalCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            totalCell.setGravity(Gravity.CENTER); // Center align the text
+            totalCell.setGravity(Gravity.CENTER);
 
             totalRow.addView(totalCell);
         }
 
-        // Add Total Row to the TableLayout
         tableLayout.addView(totalRow);
-        // Get the nextButton reference
 
-// Get the layout params of the nextButton
-        // Get the layout params of the nextButton
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) nextButton.getLayoutParams();
 
-// Set the button to be centered horizontally
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
 
-// Apply the updated layout params to the button
         nextButton.setLayoutParams(layoutParams);
-
-
 
     }
 }
