@@ -26,7 +26,7 @@ public class State implements Cloneable {
     private Context context;
 
     /** The index of the player whose turn it is to move */
-    private Integer playerToMove;
+    Integer playerToMove;
 
     /** The last move made in the game */
     private Move lastMove;
@@ -464,7 +464,7 @@ public class State implements Cloneable {
      * @param targetCard - rank
      * @return cards with same rank
      */
-    private List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
+    List<Integer> getCardsWithSameRank(List<Integer> hand, int targetCard) {
         List<Integer> cardsWithSameRank = new ArrayList<>();
         for (Integer card : hand) {
             if (getRank(card) == getRank(targetCard) && !card.equals(targetCard)) {
@@ -479,7 +479,7 @@ public class State implements Cloneable {
      * @param card
      * @return rank
      */
-    private int getRank(int card) {
+    int getRank(int card) {
         return card % 100;
     }
 
@@ -521,7 +521,7 @@ public class State implements Cloneable {
         }
 
         else{
-            next = this.playerToMove++;
+            next = ++this.playerToMove;
         }
 
         return next;
@@ -533,7 +533,6 @@ public class State implements Cloneable {
      * @return The index of the player to make the next move.
      */
     public int getPlayerToMove(){
-        System.out.println("player " + playerToMove);
         return playerToMove;
     }
 
