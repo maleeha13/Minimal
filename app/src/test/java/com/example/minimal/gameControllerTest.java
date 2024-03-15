@@ -113,6 +113,23 @@ public class gameControllerTest {
     }
 
 
+    @Test
+    public void testSetGame() {
+        // Create an instance of the State class
+        gameController.GameUIListener gameUIListener = mock(gameController.GameUIListener.class);
+        Context context = mock(Context.class);
+        gameController controller = new gameController(gameUIListener, context);
 
+        // Create a mock Game object
+        Game mockGame = new Game(); // You may need to use a mocking framework for a more complex Game object
+
+        controller.setGame(mockGame);
+
+        // Retrieve the Game object from the State object
+        Game actualGame = controller.game;
+
+        // Assert that the game field of the State object has been correctly set to the mock Game object
+        assertEquals(mockGame, actualGame);
+    }
 
 }

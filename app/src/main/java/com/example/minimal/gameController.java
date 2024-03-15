@@ -33,6 +33,9 @@ public class gameController {
         }
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     /**
      * The GameUIListener interface defines methods for handling user interface interactions in a game.
@@ -188,7 +191,4 @@ public class gameController {
         }
 
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
 }

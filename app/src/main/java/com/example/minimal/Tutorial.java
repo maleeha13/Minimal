@@ -22,7 +22,6 @@ public class Tutorial extends AppCompatActivity {
     private int currentContentIndex = 0;
 
 
-    // Define your video and image URLs
     private int[] videoUrls = {
             R.drawable.t1,
             R.drawable.t2,
