@@ -32,7 +32,7 @@ public class State implements Cloneable {
     private Move lastMove;
 
     /** Map of moves tried by each player */
-    private Map<Integer, List<Move>> triedMoves;
+    Map<Integer, List<Move>> triedMoves;
 
 
     /**
@@ -331,6 +331,7 @@ public class State implements Cloneable {
         if (playerHandList != null && !playerHandList.isEmpty()) {
             // Remove cards from the player's hand based on their indices
             for (Integer card : cardsPlayed) {
+
                 playerHandList.remove(card);
             }
             // Update the player's hand in the playerHand map
@@ -349,13 +350,16 @@ public class State implements Cloneable {
                 playerHandList.add(lastAddedCard);
                 playerHand.put(player, playerHandList);
 
+
+
+
+                // You can use lastAddedCard as needed
+            } else {
+
                 List<Integer> unseenCards = updateUnseenCards();
                 int firstUnseenCard = unseenCards.get(0);
                 playerHandList.add(firstUnseenCard);
                 playerHand.put(player, playerHandList);
-                // You can use lastAddedCard as needed
-            } else {
-
                 // Handle the case when the discard pile is empty
             }
         }
@@ -366,6 +370,7 @@ public class State implements Cloneable {
             playerHandList.add(firstUnseenCard);
             playerHand.put(player, playerHandList);
         }
+
 
         this.playerToMove=getNextPlayer();
     }
