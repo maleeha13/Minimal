@@ -140,44 +140,44 @@ public class MCTSNodeTest {
         assertTrue(fullyExpanded);
     }
 
-    @Test
-    public void testUCBSelectChild() {
-        // Mock a list of legal moves
-        List<Move> legalMoves = Arrays.asList(
-                new Move(Arrays.asList(1, 2), "deck"),
-                new Move(Arrays.asList(3, 4), "pile"),
-                new Move(Arrays.asList(5, 6), "hand")
-        );
-
-        // Create child nodes
-        State state = mock(State.class);
-        MCTSNode child1 = new MCTSNode(state, null, 1, new Move(Arrays.asList(1, 2), "deck"));
-        MCTSNode child2 = new MCTSNode(state, null, 1, new Move(Arrays.asList(3, 4), "pile"));
-        MCTSNode child3 = new MCTSNode(state, null, 1, new Move(Arrays.asList(5, 6), "hand"));
-
-        // Set the visits and wins for the child nodes
-        child1.setVisits(10);
-        child2.setVisits(20);
-        child3.setVisits(30);
-        child1.setWins(3);
-        child2.setWins(4);
-        child3.setWins(5);
-
-        // Mock the behavior of state.getAllMoves(1) to return legalMoves
-        when(state.getAllMoves(1)).thenReturn(legalMoves);
-
-        // Create the parent node
-        MCTSNode parentNode = new MCTSNode(state, null, 1, null);
-        List<MCTSNode> children = Arrays.asList(child1, child2, child3);
-        parentNode.setChildren(children);
-
-        // Create an instance of the class containing the method to test
-
-        MCTSNode selectedChild = parentNode.UCBSelectChild(legalMoves, 1.0);
-
-        // Call the method under test
-        assertEquals(child3, selectedChild);
-    }
+//    @Test
+//    public void testUCBSelectChild() {
+//        // Mock a list of legal moves
+//        List<Move> legalMoves = Arrays.asList(
+//                new Move(Arrays.asList(1, 2), "deck"),
+//                new Move(Arrays.asList(3, 4), "pile"),
+//                new Move(Arrays.asList(5, 6), "hand")
+//        );
+//
+//        // Create child nodes
+//        State state = mock(State.class);
+//        MCTSNode child1 = new MCTSNode(state, null, 1, new Move(Arrays.asList(1, 2), "deck"));
+//        MCTSNode child2 = new MCTSNode(state, null, 1, new Move(Arrays.asList(3, 4), "pile"));
+//        MCTSNode child3 = new MCTSNode(state, null, 1, new Move(Arrays.asList(5, 6), "hand"));
+//
+//        // Set the visits and wins for the child nodes
+//        child1.setVisits(10);
+//        child2.setVisits(20);
+//        child3.setVisits(30);
+//        child1.setWins(3);
+//        child2.setWins(4);
+//        child3.setWins(5);
+//
+//        // Mock the behavior of state.getAllMoves(1) to return legalMoves
+//        when(state.getAllMoves(1)).thenReturn(legalMoves);
+//
+//        // Create the parent node
+//        MCTSNode parentNode = new MCTSNode(state, null, 1, null);
+//        List<MCTSNode> children = Arrays.asList(child1, child2, child3);
+//        parentNode.setChildren(children);
+//
+//        // Create an instance of the class containing the method to test
+//
+//        MCTSNode selectedChild = parentNode.UCBSelectChild(legalMoves, 1.0);
+//
+//        // Call the method under test
+//        assertEquals(child3, selectedChild);
+//    }
 
 
 

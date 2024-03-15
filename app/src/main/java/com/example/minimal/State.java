@@ -52,6 +52,16 @@ public class State implements Cloneable {
         List<Integer> hand = getPlayersHand(player);
     }
 
+    public State( int player){
+
+        this.discardedCards = new ArrayList<>();
+        this.playerHand = new HashMap<>();
+        this.triedMoves = new HashMap<>();
+        this.lastMove = null;
+        playerToMove = player;
+        discardedCards = new ArrayList<>(MainActivity.cards);
+
+    }
 
     /**
      * Clones the current State object.
@@ -211,12 +221,12 @@ public class State implements Cloneable {
 
         // Get the current player's hand
         List<Integer> currentPlayerHand = playerHand.get(player);
+        System.out.println("hand " + currentPlayerHand);
 //        System.out.println("size here is " + playerHand.size());
         Integer largestCardWithoutSameRank = null; // Variable to store the largest card without the same rank
 //        double prob = 0;
         boolean pickpile =false;
         for (Integer card : currentPlayerHand) {
-
             Integer discaredCard = discardedCards.get(discardedCards.size()-1);
             if((discaredCard % 100) == (card % 100)){
 
