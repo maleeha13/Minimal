@@ -157,8 +157,6 @@ public class MCTSNode {
         childNode.parent = this;
         childNode.gameState = this.gameState;
 
-        // Additional initialization or updates based on the new child node
-
         children.add(childNode);
         return childNode;
     }
@@ -172,16 +170,9 @@ public class MCTSNode {
     public void update(State state) {
         visits++;
             if(state.getResult(state.getPlayerToMove())){
-                System.out.println("update");
-//                int[] sc = state.getScores(state);
-//                score = 0 + Math.sqrt(sc[state.getPlayerToMove()]);
-
                 wins++;
             }
-            else{
-//                int[] sc = state.getScores(state);
-//                score = 100 + Math.sqrt(sc[state.getPlayerToMove()]);
-            }
+
 
     }
 
@@ -198,7 +189,6 @@ public class MCTSNode {
 
         // Check if all legal moves have corresponding child nodes
         for (Move move : legalMoves) {
-            System.out.println("check");
 
             boolean found = false;
             for (MCTSNode child : children) {
@@ -208,10 +198,10 @@ public class MCTSNode {
                 }
             }
             if (!found) {
-                return false; // At least one legal move doesn't have a corresponding child node
+                return false;
             }
         }
-        return true; // All legal moves have corresponding child nodes
+        return true;
     }
 
 
@@ -243,10 +233,8 @@ public class MCTSNode {
         for (MCTSNode child : legalChildren) {
             double UCB;
             if (child.getVisits() == 0) {
-                // Assign a high value to unvisited nodes for exploration
                 UCB = Double.MAX_VALUE;
             } else {
-                // Use the standard UCB formula
                 UCB = (double) child.getWins() / child.getVisits()
                         + exploration * Math.sqrt(Math.log(getVisits()) / child.getVisits());
             }
@@ -276,32 +264,60 @@ public class MCTSNode {
         return clone;
     }
 
+    /**
+     * Gets the player who just made a move.
+     * @return The player who just made a move.
+     */
     public int getPlayerJustMoved() {
         return playerJustMoved;
     }
 
+    /**
+     * Sets the game state.
+     * @param state The new game state to set.
+     */
     public void setGameState(State state) {
-        gameState=state;
+        gameState = state;
     }
 
+    /**
+     * Sets the move.
+     * @param move The new move to set.
+     */
     public void setMove(Move move) {
-        this.move=move;
+        this.move = move;
     }
 
+    /**
+     * Sets the number of visits.
+     * @param i The number of visits to set.
+     */
     public void setVisits(int i) {
-        this.visits=i;
+        this.visits = i;
     }
 
+    /**
+     * Sets the number of wins.
+     * @param i The number of wins to set.
+     */
     public void setWins(int i) {
-        this.wins=i;
+        this.wins = i;
     }
 
+    /**
+     * Sets the children nodes.
+     * @param children The list of children nodes to set.
+     */
     public void setChildren(List<MCTSNode> children) {
-        this.children=children;
+        this.children = children;
     }
 
-
+    /**
+     * Sets the player who just moved.
+     * @param i The player who just moved.
+     */
     public void setPlayerJustMoved(int i) {
-        this.playerJustMoved =i;
+        this.playerJustMoved = i;
     }
+
 }

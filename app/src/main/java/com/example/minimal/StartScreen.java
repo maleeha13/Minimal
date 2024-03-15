@@ -2,7 +2,6 @@ package com.example.minimal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,18 +15,28 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 /**
  * The StartScreen class represents the starting screen of the game.
  */
 public class StartScreen extends AppCompatActivity {
 
+    /** Total number of rounds set by the user */
     static int numberOfRounds=0;
+
+    /** Current round of the game */
     static int currentRound=0;
+
+    /** Default name for player*/
     static String name= "Player 1";
+
+    /** Default difficulty */
     static String  difficulty = "easy";
+
+    /** Default avatar*/
     static String avatar = "avatar1";
+
+    /** Image of chosen avatar */
     static ImageView chosen;
 
 
@@ -167,23 +176,20 @@ public class StartScreen extends AppCompatActivity {
             int resId = getResources().getIdentifier(avatar, "id", getPackageName());
             ImageView img = findViewById(resId);
             GradientDrawable borderDrawable = new GradientDrawable();
-            borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
+            borderDrawable.setShape(GradientDrawable.OVAL);
             borderDrawable.setVisible(false, false);
             img.setImageDrawable(borderDrawable);
 
         }
         Drawable current = image.getDrawable();
 
-        // Create a GradientDrawable for the border
         GradientDrawable border = new GradientDrawable();
-        border.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        border.setStroke(12, Color.parseColor("#E17B26")); // Set the border width and color
+        border.setShape(GradientDrawable.OVAL);
+        border.setStroke(12, Color.parseColor("#E17B26"));
 
-        // Create a LayerDrawable to combine the image and the border
         Drawable[] layer = {current, border};
         LayerDrawable layDrawable = new LayerDrawable(layer);
 
-        // Set the LayerDrawable as the image drawable of the ImageView
         image.setImageDrawable(layDrawable);
     }
 
@@ -198,7 +204,7 @@ public class StartScreen extends AppCompatActivity {
             name= "Player 1";
         }
         Intent intent=new Intent(StartScreen.this, MainActivity.class);
-        startActivityForResult(intent, 1);
+        startActivity(intent);
 
 
     }

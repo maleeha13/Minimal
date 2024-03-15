@@ -16,12 +16,27 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class Tutorial extends AppCompatActivity {
 
+    /**
+     * VideoView used to display videos.
+     */
     private VideoView videoView;
+
+    /** ImageView used to display images */
     private ImageView imageView;
-    private Button btnPrevious, btnNext;
+
+    /** Button for navigating to the previous content */
+    private Button btnPrevious;
+
+    /** Button for navigating to the next content  */
+    private Button btnNext;
+
+    /** Index of the currently displayed content */
     private int currentContentIndex = 0;
 
-
+    /**
+     * Array of resource IDs for the videos and images to be displayed.
+     * The array contains a mix of drawable resources and raw resources.
+     */
     private int[] videoUrls = {
             R.drawable.t1,
             R.drawable.t2,
@@ -40,6 +55,7 @@ public class Tutorial extends AppCompatActivity {
             R.drawable.t15,
             R.raw.t16,
     };
+
 
     /**
      * Displays initial tutorial page
@@ -99,7 +115,7 @@ public class Tutorial extends AppCompatActivity {
     private void showContent(int index) {
         if (index < videoUrls.length + videoUrls.length) {
 
-                    // Show images
+            // Show images
             if(index==0 || index == 1 || index ==3 || index == 5 || index == 7 || index == 9 || index ==11 || index ==13 || index ==14) {
                 videoView.setVisibility(View.GONE);
                 imageView.setVisibility(View.VISIBLE);

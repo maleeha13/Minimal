@@ -87,17 +87,16 @@ public class State implements Cloneable {
             for (Map.Entry<Integer, List<Move>> entry : this.triedMoves.entrySet()) {
                 List<Move> moves = new ArrayList<>();
                 for (Move move : entry.getValue()) {
-                    moves.add(move.clone()); // Assuming Move class also implements Cloneable
+                    moves.add(move.clone());
                 }
                 clonedState.triedMoves.put(entry.getKey(), moves);
             }
 
             // Deep copy the last move
             if (this.lastMove != null) {
-                clonedState.lastMove = this.lastMove.clone(); // Assuming Move class also implements Cloneable
+                clonedState.lastMove = this.lastMove.clone();
             }
 
-            // Retain the same context reference or clone it if necessary
             clonedState.context = this.context;
 
             return clonedState;
@@ -128,16 +127,15 @@ public class State implements Cloneable {
             List<Integer> playerHand = Game.playerHand.get(i);
         }
 
-        // shuffles the other cards
+        // Shuffles the other cards
         Collections.shuffle(unseenCards);
 
-        // deals the cards
+        // Deals the cards
         for (int p = 1; p <= 4; p++) {
             if (p != observer) {
                 List<Integer> existingCards = Game.playerHand.get(p - 1);
 
                 // Initialize player's hand with existing cards
-
                 List<Integer> hand;
                 int numExistingCards;
                 // Add random cards to complete the hand up to 5 cards
@@ -194,7 +192,7 @@ public class State implements Cloneable {
      * @return The list of cards in the player's hand.
      */
     public List<Integer> getPlayersHand(int player) {
-        List<Integer> playerHand = new ArrayList<>(); // Initialize the list
+        List<Integer> playerHand = new ArrayList<>();
 
         for (int i = 1; i < 6; i++) {
             int imageViewId = context.getResources().getIdentifier("iv_p" + player + "c" + i, "id", context.getPackageName());
@@ -221,18 +219,11 @@ public class State implements Cloneable {
 
         // Get the current player's hand
         List<Integer> currentPlayerHand = playerHand.get(player);
-        System.out.println("hand " + currentPlayerHand);
-//        System.out.println("size here is " + playerHand.size());
-        Integer largestCardWithoutSameRank = null; // Variable to store the largest card without the same rank
-//        double prob = 0;
+
+        Integer largestCardWithoutSameRank = null;
         boolean pickpile =false;
         for (Integer card : currentPlayerHand) {
             Integer discaredCard = discardedCards.get(discardedCards.size()-1);
-            if((discaredCard % 100) == (card % 100)){
-
-                pickpile=true;
-//                prob = 1.0;
-            }
 
             // Check for other cards with the same rank
             boolean cardNotInAllMoves = allMoves.stream()
@@ -240,7 +231,6 @@ public class State implements Cloneable {
                     .noneMatch(card::equals);
 
 
-//            && card%100!=discaredCard%100
             if (cardNotInAllMoves ) {
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
                 // If there are cards with the same rank, create a move for playing them together with the pile
@@ -248,29 +238,12 @@ public class State implements Cloneable {
 
                     cardsWithSameRank.add(card);  // Add the current card to the list
 
-
                     Double probability = calculateProbability();
 
-//                    System.out.println(" prob is " + prob);
-//                    if(pickpile){
-//                        probability=0.0;
-//
-//                    }
-
-//
-//                    Move movePile = new Move(cardsWithSameRank, "deck");
-//                    allMoves.add(movePile);
-//                    Move moveDeck = new Move(cardsWithSameRank, "pile");
-//                    allMoves.add(moveDeck);
                     if (probability > 0.6 ||  updateUnseenCards().isEmpty()) {
-
                         Move movePile = new Move(cardsWithSameRank, "deck");
-
-//                        System.out.println("there is a move");
                         allMoves.add(movePile);
                     } else {
-//                        System.out.println("there is a move deck");
-
                         Move moveDeck = new Move(cardsWithSameRank, "pile");
                         allMoves.add(moveDeck);
                     }
@@ -287,20 +260,10 @@ public class State implements Cloneable {
         // If there is a largest card without the same rank, add it to the moves
         if (largestCardWithoutSameRank != null ) {
             Double probability = calculateProbability();
-//
-//                Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
-//                allMoves.add(movePileSingle);
-//                Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
-//                allMoves.add(moveDeckSingle);
-//            if(pickpile){
-//                probability=0.0;
-//
-//            }
             if (probability > 0.6) {
                 Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
                 allMoves.add(movePileSingle);
             } else {
-
                 Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
                 allMoves.add(moveDeckSingle);
             }
@@ -329,38 +292,27 @@ public class State implements Cloneable {
 
         List<Integer> playerHandList = playerHand.get(player);
         if (playerHandList != null && !playerHandList.isEmpty()) {
-            // Remove cards from the player's hand based on their indices
+            // Remove cards from the player's hand
             for (Integer card : cardsPlayed) {
 
                 playerHandList.remove(card);
             }
-            // Update the player's hand in the playerHand map
             playerHand.put(player, playerHandList);
 
-        } else {
-            // Handle the case when playerHandList is null or empty
         }
 
         if(Objects.equals(source, "pile")){
             if (!discardedCards.isEmpty()) {
                 // Remove the last added value from the discard pile
-
                 int lastAddedCard= discardedCards.get(0);
                 discardedCards.remove(0);
                 playerHandList.add(lastAddedCard);
                 playerHand.put(player, playerHandList);
-
-
-
-
-                // You can use lastAddedCard as needed
             } else {
-
                 List<Integer> unseenCards = updateUnseenCards();
                 int firstUnseenCard = unseenCards.get(0);
                 playerHandList.add(firstUnseenCard);
                 playerHand.put(player, playerHandList);
-                // Handle the case when the discard pile is empty
             }
         }
 
@@ -428,7 +380,7 @@ public class State implements Cloneable {
         for (i = 0; i < sums.length; i++) {
             if (sums[i] < lowestSum) {
                 lowestSum = sums[i];
-                lowestIndex = i + 1;  // Adding 1 to convert from 0-based index to 1-based index
+                lowestIndex = i + 1;
             }
         }
 

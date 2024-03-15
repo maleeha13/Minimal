@@ -11,12 +11,11 @@ public class GreedyAI {
 
     /**
      * Executes the movements of the AI such as card click, drop and pick
-     * @param j
      * @param drop  - card to be dropped
      * @param game  - instance of the game
      * @param dropButton    - instance of the drop button
      */
-    public void greedyAI(int j, ImageView drop, Game game,Button dropButton) {
+    public void greedyAI( ImageView drop, Game game,Button dropButton) {
 
         // Selects the card
         new Handler().postDelayed(new Runnable() {

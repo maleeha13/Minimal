@@ -43,6 +43,7 @@ public class scorecard extends AppCompatActivity {
         context = con;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,19 +57,15 @@ public class scorecard extends AppCompatActivity {
      * @param delayInSeconds The delay in seconds before displaying the scoreboard popup.
      */
     void showScoreboardPopup(int delayInSeconds ) {
-        System.out.println("score board " + scores);
-        // Delay the appearance of the scoreboard
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Inflate the layout for the popup
                 View popupView = LayoutInflater.from(context).inflate(R.layout.activity_scorecard, null);
 
                 // Create a TableLayout and add it to the popup
                 TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
                 nextButton = popupView.findViewById(R.id.nextButton);
                 createScoreboard(tableLayout, 5); // 5 columns, adjust as needed
-                // Build the AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.dial2);
                 builder.setView(popupView);
                 SpannableString title = new SpannableString("Scoreboard");
@@ -79,7 +76,7 @@ public class scorecard extends AppCompatActivity {
                 dialog = builder.create();
                 dialog.show();
             }
-        }, delayInSeconds * 1000); // Convert seconds to milliseconds
+        }, delayInSeconds * 1000);
     }
 
     /**
@@ -113,11 +110,11 @@ public class scorecard extends AppCompatActivity {
                 playerHeader.setText("Pl " + player);
             }
 
-            playerHeader.setTextSize(22); // Set text size to 22sp
-            playerHeader.setTextColor(Color.WHITE); // Set text color
+            playerHeader.setTextSize(22);
+            playerHeader.setTextColor(Color.WHITE);
             Typeface customFont = ResourcesCompat.getFont(context, R.font.pixel);
             playerHeader.setTypeface(customFont);
-            playerHeader.setGravity(Gravity.CENTER); // Align text horizontally to the center
+            playerHeader.setGravity(Gravity.CENTER);
 
 
             TableRow.LayoutParams playerParams = new TableRow.LayoutParams(
@@ -125,7 +122,7 @@ public class scorecard extends AppCompatActivity {
                     TableRow.LayoutParams.WRAP_CONTENT,
                     1
             );
-            playerParams.setMargins(0, 25, 0, 50); // Set bottom margin to 50px
+            playerParams.setMargins(0, 25, 0, 50);
             playerHeader.setLayoutParams(playerParams);
 
             headerRow.addView(playerHeader);
@@ -133,10 +130,8 @@ public class scorecard extends AppCompatActivity {
 
 
 
-        // Add Header Row to the TableLayout
         tableLayout.addView(headerRow);
 
-        // Dynamic Frame Headers
         for (int round = 1; round <= numberOfRounds; round++) {
             TableRow roundRow = new TableRow(context);
             TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(
@@ -145,41 +140,36 @@ public class scorecard extends AppCompatActivity {
             );
 
 
-            // Round Header
             TextView roundHeader = new TextView(context);
-            layoutParams.setMargins(0, 0, 0, 50); // Set bottom margin to 20px
+            layoutParams.setMargins(0, 0, 0, 50);
 
             roundHeader.setText("Round " + round);
             roundHeader.setTextColor(Color.WHITE);
 
             Typeface customFont = ResourcesCompat.getFont(context, R.font.pixel);
 
-            roundHeader.setTextSize(21); // Set text size to 16sp
+            roundHeader.setTextSize(21);
 
             roundHeader.setTypeface(customFont);
 
             roundHeader.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-            layoutParams.setMargins(0, 0, 0, 50); // Set bottom margin to 20px
+            layoutParams.setMargins(0, 0, 0, 50);
             roundRow.setLayoutParams(layoutParams);
 
             roundRow.addView(roundHeader);
 
-            // Create Player Cells for the Current Round
             for (int player = 1; player <= 4; player++) {
                 TextView frameCell = new TextView(context);
-                // Get the score from the game.scores array
 
-                // Adjust the conditions here to match your array size
                 if (round - 1 < scores.length && player - 1 < scores[round - 1].length) {
                     int score = scores[round - 1][player - 1];
                     frameCell.setText(Integer.toString(score));
                     frameCell.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
-                    frameCell.setGravity(Gravity.CENTER); // Center align the text
+                    frameCell.setGravity(Gravity.CENTER);
                     frameCell.setTextColor(Color.WHITE);
 
                     roundRow.addView(frameCell);
                 } else {
-                    // Handle the case where the array bounds are exceeded
                     System.out.println("Array index out of bounds.");
                 }
             }
@@ -209,11 +199,9 @@ public class scorecard extends AppCompatActivity {
 
             // Sum up the scores for the player across all rounds
             for (int round = 1; round <= numberOfRounds; round++) {
-                // Adjust the conditions here to match your array size
                 if (round - 1 < scores.length && player - 1 < scores[round - 1].length) {
                     playerTotal += scores[round - 1][player - 1];
                 } else {
-                    // Handle the case where the array bounds are exceeded
                     System.out.println("Array index out of bounds.");
                 }
             }

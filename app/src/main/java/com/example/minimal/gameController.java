@@ -14,9 +14,14 @@ import java.util.List;
  */
 public class gameController {
 
-    private GameUIListener gameUIListener;      // UI listener
-    Game game;                                  // Instance of the game
-    private Context context;                    // Instance of teh context of main activity
+    /** UI listener */
+    private GameUIListener gameUIListener;
+
+    /** Instance of the game */
+    Game game;
+
+    /** Instance of teh context of main activity */
+    private Context context;
 
 
     /**
@@ -33,6 +38,10 @@ public class gameController {
         }
     }
 
+    /**
+     * Sets game instance
+     * @param game
+     */
     public void setGame(Game game) {
         this.game = game;
     }
@@ -122,11 +131,9 @@ public class gameController {
         }
         else {
             game.current_player = game.current_player + 1;
-
         }
         game.cardsSelected.clear();
         game.begin = false;
-
     }
 
     /**
@@ -178,7 +185,7 @@ public class gameController {
                     existing = x % 100;
                 }
 
-                // if its the players turn and they've picked a card and its a new card or one w same value pick it
+                // if it is the players turn and they've picked a card and its a new card or one w same value pick it
                 if(player==game.turns[game.current_player] && game.picked == true &&(game.cardsSelected.isEmpty() || lastDigit==existing)){
                     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
                     game.cardsSelected.add(imageView);

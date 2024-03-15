@@ -35,9 +35,15 @@ import nl.dionsegijn.konfetti.models.Size;
  */
 public class winner_popup extends AppCompatActivity {
 
+    /** KonfettiView used for displaying confetti effects. */
     private KonfettiView celeb;
-    Context context;
-    Context c;
+
+    /** The context of the application or activity. */
+    private Context context;
+
+    /** Another context object. */
+    private Context c;
+
 
     /**
      * Constructs a winner_popup object with the given context.
@@ -89,10 +95,8 @@ public class winner_popup extends AppCompatActivity {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.dial2);
-        // Use the LayoutInflater from the context variable
         View winnerView = LayoutInflater.from(context).inflate(R.layout.activity_winner_popup, null);
 
-        // Customize the winner message and score
         TextView winnerMessageTextView = winnerView.findViewById(R.id.winnerMessageTextView);
         if(winnerPlayer==1){
             winnerMessageTextView.setText(StartScreen.name+ " wins!");
@@ -100,15 +104,14 @@ public class winner_popup extends AppCompatActivity {
         else{
             winnerMessageTextView.setText("Player " + winnerPlayer + " wins!");
         }
-        winnerMessageTextView.setTextColor(Color.WHITE); // Set text color
+        winnerMessageTextView.setTextColor(Color.WHITE);
 
 
         TextView winnerScoreTextView = winnerView.findViewById(R.id.winnerScoreTextView);
         winnerScoreTextView.setText("Score: " + winnerScore);
-        winnerScoreTextView.setTextColor(Color.WHITE); // Set text color
+        winnerScoreTextView.setTextColor(Color.WHITE);
 
 
-        // Get the KonfettiView reference
         KonfettiView celeb = winnerView.findViewById(R.id.celeb);
 
         // Trigger the confetti animation
@@ -133,46 +136,45 @@ public class winner_popup extends AppCompatActivity {
 
         ImageView imageView1 = winnerView.findViewById(R.id.imageView1);
         if(winnerPlayer==2){
-            Drawable w2Drawable = context.getDrawable(R.drawable.w2); // Assuming w2.png is in the drawable folder
+            Drawable w2Drawable = context.getDrawable(R.drawable.w2);
             imageView1.setImageDrawable(w2Drawable);
         }
         else if(winnerPlayer==3){
-            Drawable w3Drawable = context.getDrawable(R.drawable.w3); // Assuming w2.png is in the drawable folder
+            Drawable w3Drawable = context.getDrawable(R.drawable.w3);
             imageView1.setImageDrawable(w3Drawable);
         }
         else if(winnerPlayer==4){
-            Drawable w4Drawable = context.getDrawable(R.drawable.w4); // Assuming w2.png is in the drawable folder
+            Drawable w4Drawable = context.getDrawable(R.drawable.w4);
             imageView1.setImageDrawable(w4Drawable);
         }
         else{
             if(Objects.equals(StartScreen.avatar, "avatar1")){
-                Drawable w1Drawable = context.getDrawable(R.drawable.p1); // Assuming w2.png is in the drawable folder
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1);
                 imageView1.setImageDrawable(w1Drawable);
             }
             if(Objects.equals(StartScreen.avatar, "avatar2")){
-                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w2); // Assuming w2.png is in the drawable folder
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w2);
                 imageView1.setImageDrawable(w1Drawable);
             }
             if(Objects.equals(StartScreen.avatar, "avatar3")){
-                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w3); // Assuming w2.png is in the drawable folder
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w3);
                 imageView1.setImageDrawable(w1Drawable);
             }
             if(Objects.equals(StartScreen.avatar, "avatar4")){
-                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w4); // Assuming w2.png is in the drawable folder
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w4);
                 imageView1.setImageDrawable(w1Drawable);
             }
             if(Objects.equals(StartScreen.avatar, "avatar5")){
-                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w5); // Assuming w2.png is in the drawable folder
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w5);
                 imageView1.setImageDrawable(w1Drawable);
             }
             if(Objects.equals(StartScreen.avatar, "avatar6")){
-                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w6); // Assuming w2.png is in the drawable folder
+                Drawable w1Drawable = context.getDrawable(R.drawable.p1_w6);
                 imageView1.setImageDrawable(w1Drawable);
             }
 
         }
 
-        // Show the AlertDialog
         AlertDialog winnerDialog = builder.create();
         winnerDialog.show();
 

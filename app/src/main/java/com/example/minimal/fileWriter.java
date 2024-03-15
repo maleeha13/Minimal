@@ -11,25 +11,20 @@ public class fileWriter {
     public static void appendToFile(Context context, String fileName, String data) {
         FileOutputStream fos = null;
         try {
-            // Open the file for appending, creating it if it doesn't exist
             fos = context.openFileOutput(fileName, Context.MODE_APPEND | Context.MODE_PRIVATE);
 
-            // Append the data to the file with a newline character
+            // Append the data to the file
             fos.write((data + "\n").getBytes());
 
-            // Notify that the data was written successfully
-            // You can handle this as needed, such as showing a Toast message
+
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception appropriately
         } finally {
-            // Close the FileOutputStream
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    // Handle the exception appropriately
                 }
             }
         }

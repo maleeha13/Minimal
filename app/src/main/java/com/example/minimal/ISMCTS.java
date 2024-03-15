@@ -39,13 +39,27 @@ public class ISMCTS {
      * This task is responsible for evaluating possible moves in a game using Monte Carlo simulation.
      */
     private class MonteCarloTask extends AsyncTask<Void, Void, Move> {
-        private State rootState;    // Initial state of the game
-        private int itermax;        // Max number of iterations to run the loop
-        private List<ImageView> hand;   // The list of ImageViews representing the player's hand.
-        private Button dropButton;          // The button used for dropping cards from the hand.
-        private Game game;                  // The instance of the Game class managing the game state.
-        private ImageView deck;             // The ImageView representing the deck of cards.
-        private ImageView stack;            // The ImageView representing the stack or discard pile of cards.
+
+        /** Initial state of the game */
+        private State rootState;
+
+        /** Max number of iterations to run the loop */
+        private int itermax;
+
+        /** The list of ImageViews representing the player's hand */
+        private List<ImageView> hand;
+
+        /** The button used for dropping cards from the hand */
+        private Button dropButton;
+
+        /** The instance of the Game class managing the game state */
+        private Game game;
+
+        /** The ImageView representing the deck of cards */
+        private ImageView deck;
+
+        /** The ImageView representing the stack or discard pile of cards. */
+        private ImageView stack;
 
 
         /**
@@ -89,7 +103,7 @@ public class ISMCTS {
                 // Clone the root state for simulation
                 State state = rootState.clone();
                 try {
-                    // Update unseen cards and randomize the state
+                    //rR andomize the state
                     state.updateUnseenCards();
                     state = state.CloneAndRandomize(rootState.getPlayerToMove());
                 } catch (CloneNotSupportedException e) {
@@ -132,7 +146,7 @@ public class ISMCTS {
                 }
             }
 
-            // Choose the best move based on the statistics of child nodes
+            // Choose the best move based on the max wins of child nodes
             if (!rootNode.getChildren().isEmpty()) {
                 return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getWins)).getMove();
             } else {
@@ -152,7 +166,7 @@ public class ISMCTS {
                 applyBest(maxMove, hand, dropButton, game, deck, stack);
             }
             else{
-                System.out.println("is null ");
+                System.out.println("Max move is null ");
             }
         }
     }
@@ -200,7 +214,6 @@ public class ISMCTS {
                     }
                 }
 
-                // Simulate clicking on the dropButton after a delay
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -208,7 +221,7 @@ public class ISMCTS {
                     }
                 }, 500);
 
-                // Simulate clicking on the deck or stack based on the source of the best move
+                // Clicks on the deck or stack based on the source of the best move
                 if (Objects.equals(source, "deck")) {
                     new Handler().postDelayed(new Runnable() {
                         @Override

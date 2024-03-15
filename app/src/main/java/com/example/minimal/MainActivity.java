@@ -11,7 +11,6 @@ import static com.example.minimal.StartScreen.numberOfRounds;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -45,13 +44,29 @@ import java.util.Random;
  * It also contains functions for next turns, and starting the game
  */
 public class MainActivity extends AppCompatActivity implements gameController.GameUIListener  {
+
+    /** Checks whether the game is paused - implementation removed */
     private static boolean isPaused = false;
-    CountDownTimer countDownTimer;              // Countdown timer
-    private long remainingTime;                 // Time remaining for the player to play
+
+    /** Countdown timer */
+    CountDownTimer countDownTimer;           
+    
+    /** Time remaining on timer*/
+    private long remainingTime;          
+    
+    /** Instance of game controller */
     gameController gameController ;
+    
+    /** Instance of score controller */
     ScoreController scoreController ;
+
+    /** List of cards */
     static List<Integer> cards = new ArrayList<>();
+    
+    /** Instance of the game */
     Game game;
+    
+    /** List of imageviews */
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
 
@@ -67,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getAllMoves();
         scores = new int[numberOfRounds][4];
         StartScreen.currentRound=0;
 
@@ -76,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         hideImageViewsRange(2, "iv_p", View.INVISIBLE);
         hideImageViewsRange(3, "iv_p", View.INVISIBLE);
         hideImageViewsRange(4, "iv_p", View.INVISIBLE);
-
 
         try {
             startGame();
@@ -119,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
             ImageView imageView = findViewById(imageViewId);
             Card.assignImages(Card.getCards().get(game.x), imageView);
-//            Card.assignImages(testCards.get(game.x), imageView);
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,10 +150,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             game.x++;
 
         }
-
     }
 
 
+    /**
+     * Initial setup for testing
+     */
     public void init(){
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
@@ -159,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     public void startGame() throws CloneNotSupportedException {
         System.out.println("current round is " + currentRound);
 
-        // Creates new instances of game and score controllers
         gameController = new gameController(this, this);
         scoreController = new ScoreController();
         game = gameController.game;
@@ -181,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         // Shuffles and assigns cards
         Card.makeCardList();
         Collections.shuffle(Card.getCards());
-//        ArrayList<Integer> list = makeTestList();
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
         assignCard("iv_p", 3);
@@ -200,10 +212,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         // Highlights player 1
         LinearLayout linearLayout = findViewById(R.id.lay1);
 
-        // Create a GradientDrawable
+
         GradientDrawable border = new GradientDrawable();
         border.setColor(0xFFFFFFFF); // White background
-        border.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
+        border.setStroke(12, Color.parseColor("#E17B26"));
         linearLayout.setBackground(border);
 
 
@@ -212,9 +224,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         ImageView image = findViewById(resIDImage);
         GradientDrawable borderDrawable = new GradientDrawable();
-        borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-        borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
-        borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
+        borderDrawable.setShape(GradientDrawable.OVAL);
+        borderDrawable.setStroke(12, Color.parseColor("#E17B26"));
+        borderDrawable.setSize(image.getWidth(), image.getHeight());
         image.setBackground(borderDrawable);
 
         linearLayout.setBackground(border);
@@ -261,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             for (int i = 1; i <= 5; i++) {
                 int imageViewId = getResources().getIdentifier("iv_p" + j + "c" + i, "id", getPackageName());
                 ImageView img = findViewById(imageViewId);
-                // Add the ImageView to the list
                 playerImageViews.add(img);
             }
 
@@ -324,22 +335,21 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     params.topMargin -= 50;
                     imageView.setLayoutParams(params);
                     game.selectedCardId = imageView.getId();
-//                    RelativeLayout rootView = findViewById(R.id.main);
-//                    rootView.requestLayout();
+
                 }
 
                 // 9. TELLS USER THEY CANNOT SELECT CARDS WITH DIFFERENT RANKS
                 else if ((!(game.cardsSelected.isEmpty()) && (lastDigit!=existing))&& game.picked){
-//                    Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Selected cards must have same value " , Toast.LENGTH_LONG).show();
 
                 }
 
                 else if (player!=game.turns[game.current_player]) {
-//                    Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Wait for your turn " , Toast.LENGTH_LONG).show();
 
                 }
                 else if((game.turns[game.current_player])==tag){
-//                    Toast.makeText(this, "That's not your card! " , Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "That's not your card! " , Toast.LENGTH_LONG).show();
                 }
 
                 game.currentCard = findViewById(game.selectedCardId);
@@ -423,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             stackImageView.setVisibility(View.VISIBLE);
 
-            ///////////////////////////////////////////////////////////////////////////////////////////
+
 
             if (game.playerHand != null ) {
                 List<Integer> playerHandList = game.playerHand.get(game.current_player);
@@ -438,13 +448,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
                 }
             }
-            ///////////////////////////////////////////////////////////////////////////////////////////
+
 
         }
 
         // 8. INFORMS THE USER TO PICK A CARD FIRST
         else{
-//            Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Pick a card to drop" , Toast.LENGTH_LONG).show();
 
         }
 
@@ -535,10 +545,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 }
                 // 6. INFORMS THE USER TO DROP A CARD FIRST
 
-//            System.out.println("game x in deck is " + game.x);
-//            System.out.println("stuck here ");
                 if (game.x > Card.getCards().size() - 1) {
-//                System.out.println("end game ?");
                     game.iv_deck.setVisibility(View.INVISIBLE);
                     Button showButton = findViewById(R.id.show);
                     game.show = true;
@@ -577,7 +584,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
      */
     public void nextTurn() throws CloneNotSupportedException {
         if(!game.show){
-            TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+            TextView timerTextView = findViewById(R.id.time);
 
             timerTextView.setText("Time left: " + "- seconds");
             if (countDownTimer != null) {
@@ -632,24 +639,23 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             ImageView image = findViewById(resIDImage);
             GradientDrawable borderDrawable = new GradientDrawable();
-            borderDrawable.setShape(GradientDrawable.OVAL); // Set the shape to Oval for circular shape
-            borderDrawable.setStroke(12, Color.parseColor("#E17B26")); // Black border with width 2
-            borderDrawable.setSize(image.getWidth(), image.getHeight()); // Set the size of the border drawable to match the ImageView
+            borderDrawable.setShape(GradientDrawable.OVAL);
+            borderDrawable.setStroke(12, Color.parseColor("#E17B26"));
+            borderDrawable.setSize(image.getWidth(), image.getHeight());
             image.setBackground(borderDrawable);
 
 
             Button showButton = findViewById(R.id.show);
-            System.out.println("check round " + currentRound);
 
             if(currentRound< numberOfRounds){
                 calculateScores();
             }
 
             if (game.current_player == 0) {
-                timerTextView.setText("Time left: " + "- seconds");
+                timerTextView.setText( "- seconds");
             }
             else{
-                timerTextView.setText("Time left: " + "- seconds");
+                timerTextView.setText("- seconds");
                 if(Objects.equals(difficulty, "Easy")){
                     callGreedy(game.current_player + 1);
                 }
@@ -695,7 +701,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             Button showButton = findViewById(R.id.show);
             showButton.setVisibility(View.INVISIBLE);
             monte.show(getHand(game.current_player+1), game, showButton);
-
         }
 
         if(!game.show){
@@ -807,16 +812,12 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             textView.setText("Deck finished... Game Over ");
         }
 
-        // Create and customize the toast
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
-
-        // Show the toast
         toast.show();
 
-        // Hide the toast after the specified duration
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -897,7 +898,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             // calls the greedy AI
             GreedyAI greedy = new GreedyAI();
             if (!(game.show)){
-                greedy.greedyAI(j, drop, game, dropButton);
+                greedy.greedyAI( drop, game, dropButton);
 
             }
         }
@@ -906,7 +907,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
     /**
-     *
+     * Chooses which cards to drop and where to pick from based on algorithm
+     * Drops card/ cards with max value in player hand
+     * If a player has a card that matches the one on top of the deck, it picks from stack -> so it can drop both on next turn
      * @param j
      */
     public void callMinimize(int j){
@@ -926,10 +929,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         Map<Integer, List<ImageView>> imageViewMap = new HashMap<>();
 
         if (isPaused) {
-            return; // Exit the method if the game is paused
+            return;
         }
 
-        Button dropButton = findViewById(R.id.drop); // Replace R.id.myButton with your actual button ID
+        Button dropButton = findViewById(R.id.drop);
         ImageView stack = findViewById(R.id.stack);
 
 
@@ -950,10 +953,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                 }
 
                 if (imageViewMap.containsKey(remainder)) {
-                    // Add the image view to the existing list
                     imageViewMap.get(remainder).add(img);
                 } else {
-                    // Create a new list and add the image view to it
                     List<ImageView> imageViewList = new ArrayList<>();
                     imageViewList.add(img);
                     imageViewMap.put(remainder, imageViewList);
@@ -976,11 +977,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         largest = (int) descList.get(0).getTag() % 100;
 
-// Iterate over the image view map and add all values to the list
         int largestKey = 0;
         int largestValue = 0;
 
-// Find the key with the largest value in the map
+        // Find the key with the largest value in the map
         for (Map.Entry<Integer, List<ImageView>> entry : imageViewMap.entrySet()) {
             int key = entry.getKey();
             int value = entry.getValue().size();
@@ -991,10 +991,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
-// Add the ImageViews corresponding to the largest key to the list
+        // Add the ImageViews corresponding to the largest key to the list
         list.addAll(imageViewMap.get(largestKey));
 
-// Check if the total value in the list is greater than 'largest'
+        // Check if the total value in the list is greater than 'largest'
         int totalValue = 0;
         for (ImageView imageView : list) {
 
@@ -1013,12 +1013,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         if (totalValue >= largest) {
 
             MinimizeAI minimize = new MinimizeAI();
-            minimize.minimizeAI(list, game, dropButton, source); // Return the list if its total value is greater than 'largest'
+            minimize.minimizeAI(list, game, dropButton, source);
         } else {
-            // Create a new list and add 'img' to it
             List<ImageView> newList = new ArrayList<>();
             if (largest == stackCardNumber % 100 && pickFromStack) {
-                    drop = (descList.get(1)); // Add the second ImageView in the list to the descList
+                    drop = (descList.get(1));
             }
 
             else{
@@ -1066,11 +1065,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             @Override
             public void onTick(long millisUntilFinished) {
                 if (!isPaused) {
-                    // Update the TextView with the remaining time
-                    TextView timerTextView = findViewById(R.id.time); // Use the ID you assigned in XML
+                    TextView timerTextView = findViewById(R.id.time);
                     remainingTime = millisUntilFinished;
 
-                    timerTextView.setText("Time left: " + (millisUntilFinished / 1000) + " seconds");
+                    timerTextView.setText((millisUntilFinished / 1000) + " seconds left");
                 }
             }
 
@@ -1101,34 +1099,29 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
      */
     public void timerUp() {
 
-        // Your UI-related code here, including the existing content of timerUp
         if (game.picked && !(game.cardsSelected.isEmpty())) {
             Button dropButton = findViewById(R.id.drop);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // Perform the second click after a 2-second delay
                     dropButton.performClick();
                 }
-            }, 500); // 2000 milliseconds = 2 seconds
+            }, 500);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // Perform the third click after a 2-second delay
                     game.iv_deck.performClick();
                 }
             }, 1000);
 
 
         } else if (!game.dropped && game.cardsSelected.isEmpty()) {
-            // Call greedyAI immediately
             callGreedy(1);
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // Perform the third click after a 2-second delay
                     game.iv_deck.performClick();
                 }
             }, 1000);
@@ -1136,6 +1129,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
+    /**
+     * Resumes the game when paused
+     * @param v
+     */
     public void resumeGame(View v) {
         isPaused = false;
         timer();
@@ -1144,6 +1141,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
+    /**
+     * Pauses the game
+     * @param v
+     */
     public void pauseGame(View v) {
         isPaused = true;
         if (countDownTimer != null) {
@@ -1187,12 +1188,13 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-
+    /** Finishes activity */
     public void finishActivity() {
         finish(); // Finish the activity
     }
 
 
+    /** Ai for testing purposes - does random moves*/
     public void callRandom(int j){
         if(game.playerHand!=null){
             Button showButton = findViewById(R.id.show);
@@ -1201,7 +1203,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         }
 
-
         Random random = new Random();
 
         // Initialize the random number
@@ -1209,18 +1210,14 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         int imageViewId;
         ImageView img;
 
-        // Repeat until a visible ImageView is found
         do {
             // Generate a random number between 1 and 5 (inclusive)
             randomNumber = random.nextInt(5 - 1 + 1) + 1;
 
-            // Get the resource identifier for the ImageView
             imageViewId = getResources().getIdentifier("iv_p" + j + "c" + randomNumber, "id", getPackageName());
 
-            // Find the ImageView using the resource identifier
             img = findViewById(imageViewId);
 
-            // Check if the ImageView is visible
         } while (img.getVisibility()==View.INVISIBLE);
 
         if (!(game.show)){
@@ -1230,46 +1227,42 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
+    /**
+     * Applies random move
+     * @param player - player whose turn it is
+     * @param img - card to be dropped
+     */
     public void applyRandom(int player, ImageView img) {
-
 
         if (!game.show) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // Perform the second click after a 2-second delay
 
                     img.performClick();
                 }
 
-            }, 500); // 2000 milliseconds = 2 seconds
+            }, 500);
 
             Button dropButton = findViewById(R.id.drop);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // Perform the second click after a 2-second delay
 
                     dropButton.performClick();
                 }
 
-            }, 500); // 2000 milliseconds = 2 seconds
+            }, 500);
 
-            // Delay between the second and third clicks
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    // Check if the game is paused before performing the third click
                     game.iv_deck.performClick();
 
                 }
             }, 500);
         }
     }
-
-
-
-
 
 
 }
