@@ -3,20 +3,13 @@ package com.example.minimal;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static com.example.minimal.Game.scores;
-import static com.example.minimal.StartScreen.numberOfRounds;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +43,7 @@ public class MainActivityTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mainActivity = spy(new MainActivity()); // Use spy to partially mock MainActivity
+        mainActivity = spy(new MainActivity());
         mainActivity.init();
         Card.makeCardList();
         mockImageViews = new ImageView[5];
@@ -63,50 +56,40 @@ public class MainActivityTest {
 
     @Test
     public void testOnCardClicked() throws CloneNotSupportedException {
-        // Create a real instance of the Game object
 
-        game.show = false; // Set the show state accordingly
-        game.turns = new int[]{0}; // Assuming turns is set up accordingly
+        game.show = false;
+        game.turns = new int[]{0};
         game.current_player = 0;
         game.picked = true;
         game.cardsSelected = new ArrayList<>();
 
-        // Mock ImageView
         ImageView imageView = mock(ImageView.class);
 
-        // Mock LayoutParams
         LinearLayout.LayoutParams params = mock(LinearLayout.LayoutParams.class);
         when(imageView.getLayoutParams()).thenReturn(params);
 
-        // Set a tag to mock the behavior of a clicked card
-        when(imageView.getTag()).thenReturn(102); // Assuming the tag is 102
+        when(imageView.getTag()).thenReturn(102);
 
-        // Mock the findViewById method to return the mocked ImageView
         doReturn(imageView).when(mainActivity).findViewById(anyInt());
 
-        // Call the actual method on the real MainActivity object
         mainActivity.onCardClicked(102, imageView, 0);
 
-        // Verify if the card is added to the list of selected cards
         game= mainActivity.game;
 
 
         assertTrue(game.cardsSelected.contains(imageView));
 
-        // Verify if the margins of ImageView have been updated
 
     }
 
     @Test
     public void testOnCardDrop() {
-        // Call the method under test
+
         onCardDrop();
 
-        // Verify that the picked and dropped variables are updated
         assertFalse(game.picked);
         assertTrue(game.dropped);
 
-        // Verify that the selected image views are made invisible
         verify(mockImageView1).setVisibility(INVISIBLE);
         verify(mockImageView2).setVisibility(INVISIBLE);
 
@@ -161,13 +144,10 @@ public class MainActivityTest {
         ImageView imageView5 = mock(ImageView.class);
         when(imageView5.getTag()).thenReturn(505);
 
-        // Create an array of image views
         ImageView[] imageViews = {imageView1, imageView2, imageView3, imageView4, imageView5};
 
-        // Call the method under test
         calculateScores(imageViews);
 
-        // Verify that scores are calculated correctly
         int[][] expectedScores = new int[1][1];
         expectedScores[0][0]= 15;
 
@@ -177,17 +157,14 @@ public class MainActivityTest {
 
     @Test
     public void testHideImageViewsRange() {
-        // Mock resource ids
         int start = 1;
-        String pre = "ivp1_c"; // Assuming resource IDs follow the format ivp1_c1, ivp1_c2, ..., ivp1_c5
+        String pre = "ivp1_c";
         int visibility = GONE;
 
-        // Call the method to hide image views with mock ImageViews
         for (int i = 0; i < 5; i++) {
             mockImageViews[i].setVisibility(visibility);
         }
 
-        // Verify that the visibility of each mock ImageView was set to GONE
         for (ImageView mockImageView : mockImageViews) {
             verify(mockImageView).setVisibility(GONE);
         }
@@ -211,8 +188,6 @@ public class MainActivityTest {
         if (!game.show) {
             int largest = 0;
 
-
-            // Find the image with the largest value
             for (ImageView img : imageViews) {
                 if (img.getVisibility() == View.VISIBLE) {
                     int cardNumber = (int) img.getTag();
@@ -223,22 +198,18 @@ public class MainActivityTest {
                 }
             }
 
-            // Perform action with the largest image view
-
         }
         return drop;
     }
 
     @Test
     public void testFindEmptyImageView() {
-        // Create mock ImageViews with different visibility states
         ImageView[] mockImageViews = new ImageView[5];
         for (int i = 0; i < 5; i++) {
             mockImageViews[i] = mock(ImageView.class);
             when(mockImageViews[i].getVisibility()).thenReturn(i % 2 == 0 ? INVISIBLE : ImageView.VISIBLE);
         }
 
-        // Call the method to find an empty image view
         ImageView result = null;
         for (ImageView imageView : mockImageViews) {
             if (imageView.getVisibility() == INVISIBLE) {
@@ -247,35 +218,29 @@ public class MainActivityTest {
             }
         }
 
-        // Verify that the method returned an image view with INVISIBLE visibility
         if (result != null) {
             assertEquals(INVISIBLE, result.getVisibility());
         }
 
-        // Verify that the method returns null if no empty image view is found
     }
 
 
     @Test
     public void testGetHand() {
-        // Mock ImageView objects with different visibility states
         ImageView[] mockImageViews = new ImageView[5];
         for (int i = 0; i < 5; i++) {
             mockImageViews[i] = mock(ImageView.class);
             when(mockImageViews[i].getVisibility()).thenReturn(i % 2 == 0 ? View.VISIBLE : View.INVISIBLE);
         }
 
-        // Call the method to get the hand
         List<ImageView> hand = getHandWithMockImageViews(mockImageViews);
 
-        // Verify that the correct ImageView objects with VISIBLE visibility are added to the list
-        assertEquals(3, hand.size()); // Assuming there are 3 ImageView objects with VISIBLE visibility
+        assertEquals(3, hand.size());
         for (ImageView imageView : hand) {
             assertEquals(View.VISIBLE, imageView.getVisibility());
         }
     }
 
-    // Method to get the hand with mock ImageView objects
     private List<ImageView> getHandWithMockImageViews(ImageView[] mockImageViews) {
         List<ImageView> imageViewList =  new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -311,10 +276,8 @@ public class MainActivityTest {
         when(imageView5.getVisibility()).thenReturn(View.VISIBLE);
 
         ImageView[] imageViews = {imageView1, imageView2, imageView3, imageView4, imageView5};
-        // Call the method under test
         ImageView result = callGreedy(imageViews, 1);
 
-        // Verify that the correct ImageView is returned
         assertEquals(imageView5, result);
     }
 
@@ -344,8 +307,6 @@ public class MainActivityTest {
 
         Map<Integer, List<ImageView>> imageViewMap = new HashMap<>();
 
-
-
         Integer stackCardNumber = 112;
 
         List<ImageView> descList = new ArrayList<>();
@@ -363,10 +324,8 @@ public class MainActivityTest {
                 }
 
                 if (imageViewMap.containsKey(remainder)) {
-                    // Add the image view to the existing list
                     imageViewMap.get(remainder).add(img);
                 } else {
-                    // Create a new list and add the image view to it
                     List<ImageView> imageViewList = new ArrayList<>();
                     imageViewList.add(img);
                     imageViewMap.put(remainder, imageViewList);
@@ -380,7 +339,6 @@ public class MainActivityTest {
             public int compare(ImageView img1, ImageView img2) {
                 int tag1 = (int) img1.getTag() % 100;
                 int tag2 = (int) img2.getTag() % 100;
-                // Sort in descending order
                 return tag2 - tag1;
             }
         });
@@ -389,11 +347,9 @@ public class MainActivityTest {
 
         largest = (int) descList.get(0).getTag() % 100;
 
-// Iterate over the image view map and add all values to the list
         int largestKey = 0;
         int largestValue = 0;
 
-// Find the key with the largest value in the map
         for (Map.Entry<Integer, List<ImageView>> entry : imageViewMap.entrySet()) {
             int key = entry.getKey();
             int value = entry.getValue().size();
@@ -404,10 +360,8 @@ public class MainActivityTest {
             }
         }
 
-// Add the ImageViews corresponding to the largest key to the list
         list.addAll(imageViewMap.get(largestKey));
 
-// Check if the total value in the list is greater than 'largest'
         int totalValue = 0;
         for (ImageView imageView : list) {
 
@@ -424,16 +378,13 @@ public class MainActivityTest {
         }
 
         if (totalValue >= largest) {
-            System.out.println("tot " + totalValue);
             assertEquals(source, "deck");
 
 
         } else {
-            System.out.println("lalalla");
-            // Create a new list and add 'img' to it
             List<ImageView> newList = new ArrayList<>();
             if (largest == stackCardNumber % 100 && pickFromStack) {
-                drop = (descList.get(1)); // Add the second ImageView in the list to the descList
+                drop = (descList.get(1));
             }
 
             else{
@@ -447,7 +398,6 @@ public class MainActivityTest {
         }
 
     }
-
 
 
 }

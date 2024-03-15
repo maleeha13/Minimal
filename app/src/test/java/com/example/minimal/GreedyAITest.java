@@ -35,6 +35,5 @@ public class GreedyAITest {
         greedyAI.greedyAI( mockDrop, mockGame, mockDropButton);
         assertTrue("Dropped image should be visible", mockDrop.getVisibility() == View.VISIBLE);
 
-        // Add your assertions here
     }
 }

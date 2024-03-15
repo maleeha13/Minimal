@@ -26,7 +26,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <!-- Button for navigating to previous content -->
     <Button
         android:id="@+id/btnPrevious"
         android:layout_width="wrap_content"
@@ -37,7 +36,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Button for navigating to next content -->
     <Button
         android:id="@+id/btnNext"
         android:layout_width="wrap_content"

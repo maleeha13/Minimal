@@ -6,8 +6,6 @@ import java.util.List;
 
 public class EvalTests {
     static ArrayList<Integer> testCards = new ArrayList<>();
-
-
     public static ArrayList<Integer> makeTestList() {
 
         testCards.add(410);
@@ -52,9 +50,8 @@ public class EvalTests {
     }
 
     private int getRank(int card) {
-        // Implement logic to extract and return the rank of the card
-        // This depends on how your cards are represented, e.g., as integers where rank is a part of the integer
-        return card % 100; // Assuming cards are represented as integers from 0 to 51
+
+        return card % 100;
     }
 
     public double calculateProbability() {
