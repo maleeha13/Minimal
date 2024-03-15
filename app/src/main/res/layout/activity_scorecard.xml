@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:id="@+id/popup_scoreboard">
 
-
-    <!-- res/layout/popup_scoreboard.xml -->
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:id="@+id/popup_scoreboard">
+        android:layout_marginTop="20dp">
 
-
-
-        <!-- Include the same TableLayout as before -->
-        <TableLayout
-            android:id="@+id/tableLayout"
+        <!-- Include the TableLayout and the Button inside the ScrollView -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*" />
+            android:orientation="vertical">
 
-        <!-- Add any additional views or buttons as needed -->
+            <!-- TableLayout -->
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" />
 
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="150dp"
-        android:layout_height="match_parent"
-        android:onClick="nextRound"
-        android:layout_marginTop="20dp"
-
-
-
-
-        android:text="Next">
-
-    </Button>
-    </LinearLayout>
-
-
+            <!-- Button -->
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:onClick="nextRound"
+                android:layout_marginTop="20dp"
+                android:text="Next" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

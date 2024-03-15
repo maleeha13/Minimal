@@ -13,23 +13,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="110dp"
         android:fontFamily="@font/pixel"
         android:hint="Enter player name"
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="28sp"
+        android:textSize="22sp"
         tools:layout_editor_absoluteX="54dp"
         tools:layout_editor_absoluteY="224dp" />
 
 
     <GridLayout
         android:id="@+id/avatarGridLayout"
-        android:layout_width="253dp"
-        android:layout_height="163dp"
-        android:layout_marginTop="360dp"
+        android:layout_width="151dp"
+        android:layout_height="97dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
         android:columnCount="3"
         tools:layout_editor_absoluteX="87dp"
         tools:layout_editor_absoluteY="362dp">
@@ -41,7 +41,7 @@
         <ImageView
             android:id="@+id/avatar1"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_row="0"
             android:layout_column="0"
             android:layout_columnWeight="1"
@@ -51,7 +51,7 @@
         <ImageView
             android:id="@+id/avatar2"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_row="0"
             android:layout_column="1"
             android:layout_columnWeight="1"
@@ -61,7 +61,7 @@
         <ImageView
             android:id="@+id/avatar3"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_row="0"
             android:layout_column="2"
             android:layout_columnWeight="1"
@@ -71,7 +71,7 @@
         <ImageView
             android:id="@+id/avatar4"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_columnWeight="1"
             android:background="@drawable/av4"
             android:scaleType="centerCrop" />
@@ -80,7 +80,7 @@
         <ImageView
             android:id="@+id/avatar5"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_columnWeight="1"
             android:background="@drawable/av5"
             android:scaleType="centerCrop" />
@@ -88,7 +88,7 @@
         <ImageView
             android:id="@+id/avatar6"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="40dp"
             android:layout_columnWeight="1"
             android:background="@drawable/av6"
             android:scaleType="centerCrop" />
@@ -100,8 +100,8 @@
         android:id="@+id/spinner"
         android:layout_width="117dp"
         android:layout_height="42dp"
-        android:layout_marginTop="540dp"
-        android:layout_marginStart="240dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginStart="235dp"
         android:background="@drawable/arrow"
         android:popupBackground="@android:color/black"
         android:entries="@array/dropdown_options"
@@ -115,8 +115,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/pixel"
         android:text="Difficulty:"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="600dp"
+        android:layout_marginStart="380dp"
+        android:layout_marginTop="260dp"
         android:textColor="@color/white"
         android:textSize="28sp"
         tools:layout_editor_absoluteX="54dp"
@@ -126,8 +126,8 @@
         android:id="@+id/spinner2"
         android:layout_width="118dp"
         android:layout_height="42dp"
-        android:layout_marginTop="590dp"
-        android:layout_marginStart="240dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginStart="500dp"
 
         android:background="@drawable/arrow"
         android:entries="@array/diff_options"
@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/pixel"
         android:text="Number of rounds:"
-        android:layout_marginTop="550dp"
+        android:layout_marginTop="260dp"
         android:layout_marginStart="35dp"
         android:textColor="@color/white"
         android:textSize="28sp"
@@ -154,9 +154,9 @@
         android:fontFamily="@font/pixel"
         android:onClick="startButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="650dp"
+        android:layout_marginTop="305dp"
         android:text="PLAY"
-        android:textSize="29dp"
+        android:textSize="25dp"
         tools:layout_editor_absoluteX="152dp"
         tools:layout_editor_absoluteY="636dp" />
 
@@ -168,9 +168,9 @@
         android:text="CHOOSE YOUR AVATAR"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
-        android:layout_marginTop="315dp"
+        android:layout_marginTop="155dp"
         android:layout_marginStart="40dp"
-        android:textSize="28dp"
+        android:textSize="22dp"
         app:flow_verticalAlign="center"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="313dp" />
@@ -185,10 +185,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="347dp"
-        android:layout_height="403dp"
-        android:layout_marginTop="-50dp"
-        android:layout_marginStart="35dp"
+        android:layout_width="263dp"
+        android:layout_height="135dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
         app:srcCompat="@drawable/finallogo"
         tools:layout_editor_absoluteX="32dp"
         tools:layout_editor_absoluteY="-73dp" />

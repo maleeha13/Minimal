@@ -241,7 +241,7 @@ public class State implements Cloneable {
 
 
 //            && card%100!=discaredCard%100
-            if (cardNotInAllMoves  && card%100!=discaredCard%100) {
+            if (cardNotInAllMoves ) {
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
                 // If there are cards with the same rank, create a move for playing them together with the pile
                 if (!cardsWithSameRank.isEmpty() && (cardsWithSameRank.get(0)%100!=0)) {
@@ -252,10 +252,10 @@ public class State implements Cloneable {
                     Double probability = calculateProbability();
 
 //                    System.out.println(" prob is " + prob);
-                    if(pickpile){
-                        probability=0.0;
-
-                    }
+//                    if(pickpile){
+//                        probability=0.0;
+//
+//                    }
 
 //
 //                    Move movePile = new Move(cardsWithSameRank, "deck");
@@ -292,10 +292,10 @@ public class State implements Cloneable {
 //                allMoves.add(movePileSingle);
 //                Move moveDeckSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "pile");
 //                allMoves.add(moveDeckSingle);
-            if(pickpile){
-                probability=0.0;
-
-            }
+//            if(pickpile){
+//                probability=0.0;
+//
+//            }
             if (probability > 0.6) {
                 Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
                 allMoves.add(movePileSingle);

@@ -11,6 +11,7 @@ import static com.example.minimal.StartScreen.numberOfRounds;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
     }
+
 
 
     /**
@@ -697,7 +699,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         if(!game.show){
-            monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+            monte.runInBackground(s, 300, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
 
         }
 
