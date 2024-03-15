@@ -17,10 +17,10 @@ import java.util.Objects;
  */
 public class State implements Cloneable {
     /** List of discarded cards */
-    private List<Integer> discardedCards;
+    protected List<Integer> discardedCards;
 
     /** Map representing each player's hand */
-    private Map<Integer, List<Integer>> playerHand;
+    protected Map<Integer, List<Integer>> playerHand;
 
     /** Context object for the game environment */
     private Context context;

@@ -2,6 +2,7 @@ package com.example.minimal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -12,16 +13,16 @@ public class MCTSNode {
 
     private MCTSNode parent;
     /** The number of times this node has been visited during simulations. */
-    private int visits;
+    int visits;
 
     /** The number of simulated wins from this node. */
-    private int wins;
+    int wins;
 
     /** The total accumulated reward from simulations. */
     private double totalReward;
 
     /** The score associated with this node. */
-    private double score;
+    double score;
     /** The list of child nodes for this node. */
     private List<MCTSNode> children;
 
@@ -171,14 +172,15 @@ public class MCTSNode {
     public void update(State state) {
         visits++;
             if(state.getResult(state.getPlayerToMove())){
-                int[] sc = state.getScores(state);
-                score = 0 + Math.sqrt(sc[state.getPlayerToMove()]);
+                System.out.println("update");
+//                int[] sc = state.getScores(state);
+//                score = 0 + Math.sqrt(sc[state.getPlayerToMove()]);
 
                 wins++;
             }
             else{
-                int[] sc = state.getScores(state);
-                score = 100 + Math.sqrt(sc[state.getPlayerToMove()]);
+//                int[] sc = state.getScores(state);
+//                score = 100 + Math.sqrt(sc[state.getPlayerToMove()]);
             }
 
     }
@@ -192,9 +194,12 @@ public class MCTSNode {
     public boolean isFullyExpanded() {
         // Get all legal moves for the current player
         List<Move> legalMoves = gameState.getAllMoves(gameState.getPlayerToMove());
+        System.out.println("leg " + legalMoves);
 
         // Check if all legal moves have corresponding child nodes
         for (Move move : legalMoves) {
+            System.out.println("check");
+
             boolean found = false;
             for (MCTSNode child : children) {
                 if (child.getMove().equals(move)) {
@@ -225,7 +230,10 @@ public class MCTSNode {
         // Filter the list of children by the list of legal moves and untried moves
         List<MCTSNode> legalChildren = new ArrayList<>();
         for (MCTSNode child : children) {
+
             if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
+                System.out.println("ch " + child.isFullyExpanded());
+
                 legalChildren.add(child);
             }
         }
@@ -268,4 +276,32 @@ public class MCTSNode {
         return clone;
     }
 
+    public int getPlayerJustMoved() {
+        return playerJustMoved;
+    }
+
+    public void setGameState(State state) {
+        gameState=state;
+    }
+
+    public void setMove(Move move) {
+        this.move=move;
+    }
+
+    public void setVisits(int i) {
+        this.visits=i;
+    }
+
+    public void setWins(int i) {
+        this.wins=i;
+    }
+
+    public void setChildren(List<MCTSNode> children) {
+        this.children=children;
+    }
+
+
+    public void setPlayerJustMoved(int i) {
+        this.playerJustMoved =i;
+    }
 }

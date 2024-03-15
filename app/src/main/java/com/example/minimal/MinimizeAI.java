@@ -67,7 +67,7 @@ public class MinimizeAI {
 
 
     /**
-     * Clicks teh show button if score of player <= 5
+     * Clicks the show button if score of player <= 5
      * @param myCards - cards of the player
      * @param show - show button
      */
