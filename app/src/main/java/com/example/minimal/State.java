@@ -33,6 +33,7 @@ public class State implements Cloneable {
 
     /** Map of moves tried by each player */
     Map<Integer, List<Move>> triedMoves;
+    static int pileCount=0;
 
 
     /**
@@ -50,6 +51,7 @@ public class State implements Cloneable {
         discardedCards = new ArrayList<>(MainActivity.cards);
         playerHand.put(player, getPlayersHand(player));
         List<Integer> hand = getPlayersHand(player);
+        pileCount=0;
     }
 
     public State( int player){
@@ -170,18 +172,29 @@ public class State implements Cloneable {
     public double calculateProbability() {
 
         List<Integer> unseenCards = updateUnseenCards();
-        int topDiscard = discardedCards.isEmpty() ? 0 : discardedCards.get(0);
-        // Count the number of cards smaller than the top discard in the deck
-        int smallerCardsCount = 0;
-        int topDiscardValue = topDiscard % 100;
-        for (Integer card : unseenCards) {
-            if (card % 100 < topDiscardValue) {
-                smallerCardsCount++;
+        double probability;
+        if(discardedCards.size()>0){
+            int topDiscard = discardedCards.get(discardedCards.size()-1);
+            // Count the number of cards smaller than the top discard in the deck
+            int smallerCardsCount = 0;
+            int topDiscardValue = topDiscard % 100;
+            for (Integer card : unseenCards) {
+                if (card % 100 < topDiscardValue) {
+                    smallerCardsCount++;
+                }
+            }
+
+            // Calculate the probability of picking a smaller card from the deck
+             probability = (double) smallerCardsCount / unseenCards.size();
+            if(pileCount==100){
+                probability= 1.0;
             }
         }
+        else{
+             probability = 1.0;
 
-        // Calculate the probability of picking a smaller card from the deck
-        double probability = (double) smallerCardsCount / unseenCards.size();
+        }
+
 
         return probability;
     }
@@ -221,9 +234,8 @@ public class State implements Cloneable {
         List<Integer> currentPlayerHand = playerHand.get(player);
 
         Integer largestCardWithoutSameRank = null;
-        boolean pickpile =false;
+
         for (Integer card : currentPlayerHand) {
-            Integer discaredCard = discardedCards.get(discardedCards.size()-1);
 
             // Check for other cards with the same rank
             boolean cardNotInAllMoves = allMoves.stream()
@@ -231,7 +243,7 @@ public class State implements Cloneable {
                     .noneMatch(card::equals);
 
 
-            if (cardNotInAllMoves ) {
+            if (cardNotInAllMoves  ) {
                 List<Integer> cardsWithSameRank = getCardsWithSameRank(currentPlayerHand, card);
                 // If there are cards with the same rank, create a move for playing them together with the pile
                 if (!cardsWithSameRank.isEmpty() && (cardsWithSameRank.get(0)%100!=0)) {
@@ -239,6 +251,8 @@ public class State implements Cloneable {
                     cardsWithSameRank.add(card);  // Add the current card to the list
 
                     Double probability = calculateProbability();
+
+
 
                     if (probability > 0.6 ||  updateUnseenCards().isEmpty()) {
                         Move movePile = new Move(cardsWithSameRank, "deck");
@@ -260,6 +274,7 @@ public class State implements Cloneable {
         // If there is a largest card without the same rank, add it to the moves
         if (largestCardWithoutSameRank != null ) {
             Double probability = calculateProbability();
+
             if (probability > 0.6) {
                 Move movePileSingle = new Move(Collections.singletonList(largestCardWithoutSameRank), "deck");
                 allMoves.add(movePileSingle);
@@ -280,12 +295,15 @@ public class State implements Cloneable {
      */
     public void applyMove(Move move, int player) {
 
+
+
         String source = move.getSource();
         List<Integer> cardsPlayed = move.getCardsPlayed();
         List<Move> playerTriedMoves = triedMoves.getOrDefault(player, new ArrayList<>());
         playerTriedMoves.add(move);
         triedMoves.put(player, playerTriedMoves);
         lastMove = move;
+
         for (Integer card : cardsPlayed) {
             discardedCards.add(card);
         }
@@ -304,8 +322,11 @@ public class State implements Cloneable {
         if(Objects.equals(source, "pile")){
             if (!discardedCards.isEmpty()) {
                 // Remove the last added value from the discard pile
-                int lastAddedCard= discardedCards.get(0);
-                discardedCards.remove(0);
+                int lastAddedCard= discardedCards.get(discardedCards.size()-2);
+                pileCount++;
+
+
+                discardedCards.remove(discardedCards.size()-2);
                 playerHandList.add(lastAddedCard);
                 playerHand.put(player, playerHandList);
             } else {
@@ -327,6 +348,7 @@ public class State implements Cloneable {
         this.playerToMove=getNextPlayer();
     }
 
+
     /**
      * Checks if the game is in a terminal state.
      * @return true if the game is in a terminal state, false otherwise.
@@ -334,7 +356,6 @@ public class State implements Cloneable {
     public Boolean isTerminal(){
         List<Integer> card = updateUnseenCards();
         if(card.size()<20 || canPlayerShow() ){
-            System.out.println();
             return Boolean.TRUE;
         }
         else{

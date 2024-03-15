@@ -19,7 +19,7 @@
         android:id="@+id/iv_deck"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="250dp"
         android:scaleType="centerInside"
         android:src="@drawable/red_card" />
@@ -30,7 +30,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
 
-        android:layout_marginLeft="180dp"
+        android:layout_marginStart="180dp"
         android:layout_marginTop="250dp"
         android:src="@drawable/red_card" />
 
@@ -50,8 +50,6 @@
             android:layout_width="match_parent"
 
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
@@ -62,10 +60,7 @@
         <ImageView
             android:id="@+id/iv_p1c2"
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
@@ -78,8 +73,6 @@
             android:layout_width="match_parent"
 
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
@@ -92,8 +85,6 @@
             android:layout_width="match_parent"
 
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
@@ -106,8 +97,6 @@
             android:layout_width="match_parent"
 
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
@@ -129,11 +118,12 @@
         android:id="@+id/player_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="250dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginStart="250dp"
         android:textColor="@color/white"
-        android:text="Player 1"
-        android:textSize="20dp"
+        android:layout_marginTop="730dp"
+        android:text="@string/player_1"
+        android:textSize="20sp"
+        android:fontFamily="@font/pixel"
 
         >
 
@@ -157,77 +147,67 @@
             android:id="@+id/iv_p4c1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
-            tools:ignore="Suspicious0dp"></ImageView>
+            tools:ignore="Suspicious0dp"/>
 
 
         <ImageView
             android:id="@+id/iv_p4c2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
-            tools:ignore="Suspicious0dp"></ImageView>
+            tools:ignore="Suspicious0dp"/>
 
         <ImageView
             android:id="@+id/iv_p4c3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
-            tools:ignore="Suspicious0dp"></ImageView>
+            tools:ignore="Suspicious0dp"/>
 
         <ImageView
             android:id="@+id/iv_p4c4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
-            tools:ignore="Suspicious0dp"></ImageView>
+            tools:ignore="Suspicious0dp"/>
 
         <ImageView
             android:id="@+id/iv_p4c5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
             android:src="@drawable/red_card"
-            tools:ignore="Suspicious0dp"></ImageView>
+            tools:ignore="Suspicious0dp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/ai_av4"
-        android:layout_width="54dp"
+        android:layout_width="57dp"
         android:layout_height="54dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/circular_border"
-
-
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+
+
         android:layout_marginStart="0dp"
         android:layout_marginTop="460dp"
-        android:layout_marginRight="366dp"
+        android:layout_marginEnd="354dp"
+        android:background="@drawable/circular_border"
         android:rotation="90"
         app:srcCompat="@drawable/ai1" />
 
@@ -246,27 +226,24 @@
             android:id="@+id/iv_new_p4c1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/red_card"></ImageView>
+            android:src="@drawable/red_card" />
 
         <ImageView
             android:id="@+id/iv_new_p4c2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/red_card"></ImageView>
+            android:src="@drawable/red_card" />
 
         <ImageView
             android:id="@+id/iv_new_p4c3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
@@ -278,23 +255,20 @@
             android:id="@+id/iv_new_p4c4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/red_card"></ImageView>
+            android:src="@drawable/red_card" />
 
         <ImageView
             android:id="@+id/iv_new_p4c5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:rotation="90"
             android:scaleType="centerInside"
-            android:src="@drawable/red_card"></ImageView>
+            android:src="@drawable/red_card" />
 
-        <!-- Add more new images here -->
     </LinearLayout>
 
 
@@ -335,8 +309,6 @@
                 android:layout_width="0dp"
 
                 android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -348,8 +320,6 @@
                 android:id="@+id/iv_p2c3"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -361,8 +331,6 @@
                 android:id="@+id/iv_p2c4"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -374,8 +342,6 @@
                 android:id="@+id/iv_p2c5"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -389,7 +355,7 @@
             android:id="@+id/ai_av2"
             android:layout_width="54dp"
             android:layout_height="54dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginHorizontal="0dp"
             android:layout_marginTop="460dp"
@@ -415,7 +381,6 @@
                 android:id="@+id/iv_new_p2c1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -426,7 +391,6 @@
                 android:id="@+id/iv_new_p2c2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -436,7 +400,6 @@
                 android:id="@+id/iv_new_p2c3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -448,7 +411,6 @@
                 android:id="@+id/iv_new_p2c4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
@@ -459,24 +421,22 @@
                 android:id="@+id/iv_new_p2c5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:rotation="90"
                 android:scaleType="centerInside"
                 android:src="@drawable/red_card">
             </ImageView>
 
-            <!-- Add more new images here -->
         </LinearLayout>
 
         <Button
             android:id="@+id/show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
+            android:layout_marginStart="150dp"
             android:layout_marginTop="410dp"
             android:onClick="showScores"
-            android:text="Show" />
+            android:text="@string/show" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -496,8 +456,6 @@
                     android:id="@+id/iv_p3c1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
 
                     android:scaleType="centerInside"
                     android:src="@drawable/red_card">
@@ -508,8 +466,6 @@
                     android:id="@+id/iv_p3c2"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/red_card">
 
@@ -519,8 +475,6 @@
                     android:id="@+id/iv_p3c3"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/red_card">
 
@@ -530,8 +484,6 @@
                     android:id="@+id/iv_p3c4"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/red_card">
 
@@ -541,8 +493,6 @@
                     android:id="@+id/iv_p3c5"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:scaleType="centerInside"
                     android:src="@drawable/red_card">
 
@@ -575,30 +525,24 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/red_card"></ImageView>
+                    android:src="@drawable/red_card" />
 
                 <ImageView
                     android:id="@+id/iv_new_p3c2"
                     android:layout_width="match_parent"
 
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/red_card"></ImageView>
+                    android:src="@drawable/red_card" />
 
                 <ImageView
                     android:id="@+id/iv_new_p3c3"
                     android:layout_width="match_parent"
 
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
                     android:src="@drawable/red_card">
@@ -610,24 +554,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/red_card"></ImageView>
+                    android:src="@drawable/red_card" />
 
                 <ImageView
                     android:id="@+id/iv_new_p3c5"
                     android:layout_width="match_parent"
 
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@drawable/red_card"></ImageView>
+                    android:src="@drawable/red_card" />
 
-                <!-- Add more new images here -->
             </LinearLayout>
 
 
@@ -641,10 +580,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginLeft="150dp"
+        android:layout_marginStart="150dp"
         android:layout_marginTop="470dp"
         android:onClick="onCardDrop"
-        android:text="Drop" />
+        android:text="@string/drop" />
 
 
     <!--    <Button-->
@@ -669,10 +608,10 @@
         android:id="@+id/exitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
+        android:layout_marginStart="150dp"
         android:layout_marginTop="350dp"
         android:onClick="exitGame"
-        android:text="Exit" />
+        android:text="@string/exit" />
 
 
 
@@ -680,9 +619,9 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/pixel"
         android:layout_marginTop="550dp"
-        android:text="TextView"
         android:textColor="@color/white"
         android:textSize="24sp" />
 

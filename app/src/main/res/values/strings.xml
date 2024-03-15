@@ -1,11 +1,23 @@
 <resources>
     <string name="app_name">Minimal</string>
+    <string name="begin">BEGIN</string>
+    <string name="tutorial">TUTORIAL</string>
+    <string name="player_1">Player 1</string>
+    <string name="show">Show</string>
+    <string name="exit">Exit</string>
+    <string name="drop">Drop</string>
+    <string name="choose_your_avatar">CHOOSE YOUR AVATAR</string>
+    <string name="play">PLAY</string>
+    <string name="number_of_rounds">Number of rounds:</string>
+    <string name="difficulty">Difficulty:</string>
+    <string name="enter_player_name">Enter player name</string>
+    <string name="begin2">BEGIN</string>
+    <string name="finish">Finish</string>
 
     <string-array name="dropdown_options">
         <item>1</item>
-        <item>2</item>
-        <item>100</item>
-        <!-- Add more options as needed -->
+        <item>5</item>
+        <item>10</item>
     </string-array>
 
     <string-array name="diff_options">

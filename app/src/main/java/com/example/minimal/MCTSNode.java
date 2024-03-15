@@ -185,7 +185,6 @@ public class MCTSNode {
     public boolean isFullyExpanded() {
         // Get all legal moves for the current player
         List<Move> legalMoves = gameState.getAllMoves(gameState.getPlayerToMove());
-        System.out.println("leg " + legalMoves);
 
         // Check if all legal moves have corresponding child nodes
         for (Move move : legalMoves) {
@@ -222,7 +221,6 @@ public class MCTSNode {
         for (MCTSNode child : children) {
 
             if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
-                System.out.println("ch " + child.isFullyExpanded());
 
                 legalChildren.add(child);
             }

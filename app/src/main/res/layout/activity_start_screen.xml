@@ -15,7 +15,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="240dp"
         android:fontFamily="@font/pixel"
-        android:hint="Enter player name"
+        android:hint="@string/enter_player_name"
         android:padding="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -34,9 +34,6 @@
         tools:layout_editor_absoluteX="87dp"
         tools:layout_editor_absoluteY="362dp">
 
-        <!-- First row -->
-
-        <!-- Second row -->
 
         <ImageView
             android:id="@+id/avatar1"
@@ -76,7 +73,6 @@
             android:background="@drawable/av4"
             android:scaleType="centerCrop" />
 
-        <!-- Third row -->
         <ImageView
             android:id="@+id/avatar5"
             android:layout_width="0dp"
@@ -114,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pixel"
-        android:text="Difficulty:"
+        android:text="@string/difficulty"
         android:layout_marginStart="80dp"
         android:layout_marginTop="600dp"
         android:textColor="@color/white"
@@ -139,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pixel"
-        android:text="Number of rounds:"
+        android:text="@string/number_of_rounds"
         android:layout_marginTop="550dp"
         android:layout_marginStart="35dp"
         android:textColor="@color/white"
@@ -155,8 +151,8 @@
         android:onClick="startButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="650dp"
-        android:text="PLAY"
-        android:textSize="29dp"
+        android:text="@string/play"
+        android:textSize="29sp"
         tools:layout_editor_absoluteX="152dp"
         tools:layout_editor_absoluteY="636dp" />
 
@@ -165,12 +161,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pixel"
-        android:text="CHOOSE YOUR AVATAR"
+        android:text="@string/choose_your_avatar"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
         android:layout_marginTop="315dp"
         android:layout_marginStart="40dp"
-        android:textSize="28dp"
+        android:textSize="28sp"
         app:flow_verticalAlign="center"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="313dp" />

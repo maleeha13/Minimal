@@ -138,6 +138,7 @@ public class ISMCTS {
                     node.update(state);
                 }
 
+
                 // Backpropagation phase: update the statistics of nodes in the tree
                 while (node != null) {
                     node.update(state);
@@ -210,6 +211,7 @@ public class ISMCTS {
                 for (ImageView imageView : hand) {
                     int tagValue = (Integer) imageView.getTag();
                     if (cards.contains(tagValue)) {
+
                         imageView.performClick();
                     }
                 }
@@ -219,7 +221,7 @@ public class ISMCTS {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 500);
+                }, 250);
 
                 // Clicks on the deck or stack based on the source of the best move
                 if (Objects.equals(source, "deck")) {
@@ -228,7 +230,7 @@ public class ISMCTS {
                         public void run() {
                             deck.performClick();
                         }
-                    }, 500);
+                    }, 250);
                 } else {
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -237,7 +239,7 @@ public class ISMCTS {
 
 
                         }
-                    }, 500);
+                    }, 250);
                 }
             }
         });

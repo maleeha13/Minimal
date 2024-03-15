@@ -46,7 +46,6 @@ public class MinimizeAI {
                         @Override
                         public void run() {
                             game.iv_deck.performClick();
-                            System.out.println("pick from deck");
                         }
                     }, 500);
                 }
@@ -56,7 +55,6 @@ public class MinimizeAI {
                         @Override
                         public void run() {
                             game.stack.performClick();
-                            System.out.println("pick from pile");
                         }
                     }, 500);
                 }

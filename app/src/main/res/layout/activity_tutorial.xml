@@ -5,17 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".Tutorial">
 
-    <!-- VideoView for playing videos -->
     <VideoView
         android:id="@+id/videoView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="700dp"
+        android:layout_height="650dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- ImageView for displaying pictures -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="600dp"
@@ -53,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="31dp"
         android:onClick="begin"
-        android:text="BEGIN"
+        android:text="@string/begin2"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnNext"
         app:layout_constraintEnd_toStartOf="@+id/btnNext" />
 

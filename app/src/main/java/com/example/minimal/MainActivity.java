@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     /** List of imageviews */
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
+    String file = "testEv2";
+
 
     /**
      * Distributes the cards and starts the game
@@ -785,6 +787,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     }
 
+
+
     /**
      * Shows custom toast display
      * @param duration - for the toast to stay on the screen
@@ -991,8 +995,11 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
         }
 
+        if(largestKey!=0){
+            list.addAll(imageViewMap.get(largestKey));
+
+        }
         // Add the ImageViews corresponding to the largest key to the list
-        list.addAll(imageViewMap.get(largestKey));
 
         // Check if the total value in the list is greater than 'largest'
         int totalValue = 0;

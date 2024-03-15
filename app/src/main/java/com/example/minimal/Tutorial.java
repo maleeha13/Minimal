@@ -1,6 +1,7 @@
 package com.example.minimal;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -76,13 +77,18 @@ public class Tutorial extends AppCompatActivity {
 
         // Initially show the first content
         showContent(currentContentIndex);
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setVolume(0f, 0f); // Mute the video
+            }
+        });
 
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (currentContentIndex > 0) {
                     currentContentIndex--;
-                    System.out.println("cuurent ind is " + currentContentIndex);
 
                     showContent(currentContentIndex);
                 }
