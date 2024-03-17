@@ -48,6 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Finish"
+        android:theme="@style/buttonTheme"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pixel"
+        android:textSize="25sp"
         android:layout_below="@id/winnerScoreTextView"
         android:layout_marginTop="0dp"/>
 

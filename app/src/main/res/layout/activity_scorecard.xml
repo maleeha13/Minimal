@@ -26,8 +26,13 @@
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:onClick="nextRound"
+                android:theme="@style/buttonTheme"
+                android:textColor="@color/white"
+                android:fontFamily="@font/pixel"
+                android:textSize="25sp"
+                style="@style/Button.RoundCorner"
                 android:layout_marginTop="20dp"
                 android:text="Next" />
         </LinearLayout>

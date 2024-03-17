@@ -110,7 +110,7 @@ public class scorecard extends AppCompatActivity {
                 playerHeader.setText("Pl " + player);
             }
 
-            playerHeader.setTextSize(22);
+            playerHeader.setTextSize(20);
             playerHeader.setTextColor(Color.WHITE);
             Typeface customFont = ResourcesCompat.getFont(context, R.font.pixel);
             playerHeader.setTypeface(customFont);
@@ -148,7 +148,7 @@ public class scorecard extends AppCompatActivity {
 
             Typeface customFont = ResourcesCompat.getFont(context, R.font.pixel);
 
-            roundHeader.setTextSize(21);
+            roundHeader.setTextSize(20);
 
             roundHeader.setTypeface(customFont);
 

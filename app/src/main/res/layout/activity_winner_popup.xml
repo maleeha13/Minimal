@@ -46,6 +46,10 @@
         android:id="@+id/finishButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/buttonTheme"
+        android:textColor="@color/white"
+        android:fontFamily="@font/pixel"
+        android:textSize="25sp"
         android:text="@string/finish"
         android:layout_below="@id/winnerScoreTextView"
         android:layout_marginTop="10dp"/>

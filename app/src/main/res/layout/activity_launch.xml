@@ -9,25 +9,30 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="445dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_marginTop="44dp"
+        android:layout_marginBottom="79dp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/finallogo"
-        tools:layout_editor_absoluteX="-17dp" />
+        app:srcCompat="@drawable/finallogo" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Button.RoundCorner"
+        android:layout_width="144dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="28dp"
         android:fontFamily="@font/pixel"
         android:onClick="startTut"
-
         android:text="@string/tutorial"
+
+        android:textColor="@color/white"
         android:textSize="28sp"
+        android:theme="@style/buttonTheme"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,16 +40,19 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="165dp"
+        style="@style/Button.RoundCorner"
+        android:layout_width="109dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="178dp"
         android:fontFamily="@font/pixel"
         android:onClick="beginButton"
         android:text="@string/begin"
+        android:textColor="@color/white"
         android:textSize="28sp"
+        android:theme="@style/buttonTheme"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

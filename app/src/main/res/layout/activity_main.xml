@@ -197,8 +197,8 @@
 
     <ImageView
         android:id="@+id/ai_av4"
-        android:layout_width="57dp"
-        android:layout_height="54dp"
+        android:layout_width="74dp"
+        android:layout_height="61dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
@@ -206,7 +206,7 @@
 
         android:layout_marginStart="0dp"
         android:layout_marginTop="460dp"
-        android:layout_marginEnd="354dp"
+        android:layout_marginEnd="337dp"
         android:background="@drawable/circular_border"
         android:rotation="90"
         app:srcCompat="@drawable/ai1" />
@@ -431,12 +431,17 @@
 
         <Button
             android:id="@+id/show"
+            style="@style/Button.RoundCorner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:layout_marginStart="150dp"
-            android:layout_marginTop="410dp"
+            android:layout_marginTop="405dp"
+            android:fontFamily="@font/pixel"
             android:onClick="showScores"
-            android:text="@string/show" />
+            android:text="@string/show"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:theme="@style/buttonTheme" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -507,8 +512,8 @@
                 android:layout_height="64dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="0dp"
-                android:rotation="180"
                 android:background="@drawable/circular_border"
+                android:rotation="180"
                 app:srcCompat="@drawable/ai3" />
 
             <LinearLayout
@@ -516,8 +521,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_alignParentTop="true"
-                android:orientation="horizontal"
                 android:layout_marginVertical="40dp"
+                android:orientation="horizontal"
                 android:weightSum="5">
 
                 <ImageView
@@ -577,13 +582,17 @@
 
     <Button
         android:id="@+id/drop"
+        style="@style/Button.RoundCorner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
+        android:layout_height="37dp"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="470dp"
+        android:layout_marginTop="455dp"
+        android:fontFamily="@font/pixel"
         android:onClick="onCardDrop"
-        android:text="@string/drop" />
+        android:text="@string/drop"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:theme="@style/buttonTheme" />
 
 
     <!--    <Button-->
@@ -606,12 +615,17 @@
 
     <Button
         android:id="@+id/exitButton"
+        style="@style/Button.RoundCorner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="355dp"
+        android:fontFamily="@font/pixel"
         android:onClick="exitGame"
-        android:text="@string/exit" />
+        android:text="@string/exit"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:theme="@style/buttonTheme" />
 
 
 

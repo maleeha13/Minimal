@@ -155,6 +155,9 @@
         android:onClick="startButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="305dp"
+        android:theme="@style/buttonTheme"
+        android:textColor="@color/white"
+
         android:text="PLAY"
         android:textSize="25dp"
         tools:layout_editor_absoluteX="152dp"

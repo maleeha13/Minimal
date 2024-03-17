@@ -44,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginEnd="16dp"
+
         android:layout_marginBottom="16dp"
         android:background="@drawable/arrow_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,10 +54,15 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="31dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/pixel"
         android:onClick="begin"
         android:text="BEGIN"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnNext"
-        app:layout_constraintEnd_toStartOf="@+id/btnNext" />
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:theme="@style/buttonTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/videoView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
