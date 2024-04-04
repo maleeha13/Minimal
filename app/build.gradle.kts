@@ -8,10 +8,10 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.minimal"
+        applicationId = "com.diss.minimal"
         minSdk = 24
         targetSdk = 33
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -39,6 +39,7 @@ dependencies {
     implementation("nl.dionsegijn:konfetti:1.3.2")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
     implementation("com.google.android.material:material:1.10.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

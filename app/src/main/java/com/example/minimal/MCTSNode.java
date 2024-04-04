@@ -122,9 +122,9 @@ public class MCTSNode {
      * @param state The game state for which untried moves need to be retrieved.
      * @return A list of untried moves for the given game state.
      */
-    public List<Move> getUntriedMoves(State state) {
+    public List<Move> getUntriedMoves(State state, MCTSNode node) {
 
-        if (children.isEmpty()) {
+        if (node.children.isEmpty()) {
             // If the node has no children, all moves are untried
             return state.getAllMoves(state.getPlayerToMove());
         } else {
@@ -155,6 +155,7 @@ public class MCTSNode {
         MCTSNode childNode = new MCTSNode(null, this, playerJustMoved, move);
         childNode.move = move;
         childNode.parent = this;
+
         childNode.gameState = this.gameState;
 
         children.add(childNode);
@@ -213,6 +214,7 @@ public class MCTSNode {
      */
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
         if (children.isEmpty()) {
+            System.out.println("empt");
             return this; // Return itself if there are no children
         }
 
@@ -221,27 +223,46 @@ public class MCTSNode {
         for (MCTSNode child : children) {
 
             if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
-
                 legalChildren.add(child);
             }
         }
+
         // Get the child with the highest UCB score
         MCTSNode selectedChild = null;
+        boolean allZeroVisits = true;
         double highestUCB = Double.NEGATIVE_INFINITY;
-        for (MCTSNode child : legalChildren) {
-            double UCB;
-            if (child.getVisits() == 0) {
-                UCB = Double.MAX_VALUE;
-            } else {
-                UCB = (double) child.getWins() / child.getVisits()
-                        + exploration * Math.sqrt(Math.log(getVisits()) / child.getVisits());
-            }
 
-            if (UCB > highestUCB) {
-                highestUCB = UCB;
-                selectedChild = child;
+        for (MCTSNode child : legalChildren) {
+            if (child.getVisits() != 0) {
+                allZeroVisits = false;
+                break;
             }
         }
+
+// If all children have zero visits, select a random child
+        if (allZeroVisits) {
+            selectedChild = legalChildren.get(new Random().nextInt(legalChildren.size()));
+        } else {
+            for (MCTSNode child : legalChildren) {
+                double UCB;
+                if (child.getVisits() == 0) {
+                    // Handle division by zero
+                    // You can set a default UCB value for nodes with zero visits
+                    // For example, you can set it to a very large negative value to encourage exploration
+                    UCB = Double.POSITIVE_INFINITY;
+                } else {
+                    UCB = (double) child.getWins() / child.getVisits()
+                            + exploration * Math.sqrt(Math.log(getVisits()) / child.getVisits());
+                }
+
+//                System.out.println("ucb " + UCB + " move " + child.getMove() ) ;
+                if (UCB >= highestUCB) {
+                    highestUCB = UCB;
+                    selectedChild = child;
+                }
+            }
+        }
+
 
         // Return the selected child
         return selectedChild;

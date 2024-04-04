@@ -69,7 +69,41 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     /** List of imageviews */
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
-    String file = "testEv2";
+    String fileName1 = "up1.txt";
+
+//    static ArrayList<Integer> testCards = new ArrayList<>();
+//    public static ArrayList<Integer> makeTestList() {
+//
+//        testCards.add(410);
+//        testCards.add(103);
+//        testCards.add(104);
+//        testCards.add(105);
+//        testCards.add(106);
+//
+//        testCards.add(210);
+//        testCards.add(310);
+//        testCards.add(100);
+//        testCards.add(103);
+//        testCards.add(111);
+//
+//        testCards.add(112);
+//        testCards.add(113);
+//        testCards.add(101);
+//        testCards.add(101);
+//        testCards.add(101);
+//
+//        testCards.add(101);
+//        testCards.add(101);
+//        testCards.add(101);
+//        testCards.add(101);
+//        testCards.add(101);
+//
+//        testCards.add(101);
+//        testCards.add(101);
+//        testCards.add(101);
+//
+//        return testCards;
+//    }
 
 
     /**
@@ -133,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
             int imageViewId = getResources().getIdentifier(pre+ start + "c" + i, "id", getPackageName());
             ImageView imageView = findViewById(imageViewId);
+//            Card.assignImages(Card.getCards().get(game.x), imageView);
             Card.assignImages(Card.getCards().get(game.x), imageView);
-
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -196,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         // Shuffles and assigns cards
         Card.makeCardList();
         Collections.shuffle(Card.getCards());
+
+//        testCards= makeTestList();
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
         assignCard("iv_p", 3);
@@ -281,7 +317,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             // Add the list of ImageViews for the current player to the main list
             imageViewsList.add(playerImageViews);
         }
-
+        if (game.current_player == 0) {
+            callGreedy(game.current_player+1);
+        }
     }
 
 
@@ -654,28 +692,41 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
 
             if (game.current_player == 0) {
+                callGreedy(game.current_player + 1);
+
                 timerTextView.setText( "- seconds");
             }
-            else{
-                timerTextView.setText("- seconds");
-                if(Objects.equals(difficulty, "Easy")){
-                    callGreedy(game.current_player + 1);
-                }
-                else if(Objects.equals(difficulty, "Medium")){
-                    callMonte();
 
-                }
-                else{
-                    callMinimize(game.current_player + 1);
-                }
+            else if(game.current_player == 1) {
+//                callMonte();
+                callMinimize(game.current_player + 1);
             }
+            else if(game.current_player == 2) {
+                callMonte();
+            }
+            else if(game.current_player == 3) {
+                callRandom(game.current_player + 1);
+            }
+//            else{
+//                timerTextView.setText("- seconds");
+//                if(Objects.equals(difficulty, "Easy")){
+//                    callGreedy(game.current_player + 1);
+//                }
+//                else if(Objects.equals(difficulty, "Medium")){
+//                    callMonte();
+//
+//                }
+//                else{
+//                    callMinimize(game.current_player + 1);
+//                }
+//            }
 
             if (countDownTimer != null) {
                 countDownTimer.cancel();
                 countDownTimer = null;
                 remainingTime = 0;
             }
-            timer();
+//            timer();
 
             if(currentRound< numberOfRounds) {
                 // MAKES THE SHOW BUTTON APPEAR ONLY IF SCORE IS <=5
@@ -690,7 +741,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
     /**
-     * Shows if scores <= 5
+     * Shows if scores is less than or equal to 5
      * Calls the ISMCTS
      * @throws CloneNotSupportedException
      */
@@ -706,7 +757,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
 
         if(!game.show){
-            monte.runInBackground(s, 300, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
+            monte.runInBackground(s, 100, getHand(game.current_player+1), dropButton, game, game.iv_deck, game.stack);
 
         }
 
@@ -770,7 +821,21 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         game.show=true;
 
         scorecard sc = new scorecard(this);
-        sc.showScoreboardPopup(3);
+        sc.showScoreboardPopup(1);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Check if the game is paused before performing the third click
+                try {
+                    next();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }, 1500);
 
     }
 
@@ -783,7 +848,19 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         showCustomToastWithDelay(3000, Boolean.TRUE);
         game.show=true;
         scorecard sc = new scorecard(this);
-        sc.showScoreboardPopup(3);
+        sc.showScoreboardPopup(1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Check if the game is paused before performing the third click
+                try {
+                    next();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }, 2000);
 
     }
 
@@ -870,6 +947,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
      * @param j - player whose turn it is
      */
     public void callGreedy(int j){
+
         if(!game.show){
             // show if score<= 5
             if(game.playerHand!=null && game.picked){
@@ -916,7 +994,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
      * If a player has a card that matches the one on top of the deck, it picks from stack -> so it can drop both on next turn
      * @param j
      */
+
     public void callMinimize(int j){
+
+
         int largest = 0;
         Boolean pickFromStack = false;
         ImageView drop = null;
@@ -1024,7 +1105,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         } else {
             List<ImageView> newList = new ArrayList<>();
             if (largest == stackCardNumber % 100 && pickFromStack) {
-                    drop = (descList.get(1));
+                drop = (descList.get(1));
             }
 
             else{
@@ -1125,6 +1206,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
         } else if (!game.dropped && game.cardsSelected.isEmpty()) {
             callGreedy(1);
+
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1176,9 +1258,9 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
     /**
      * If score of a player is less than 5, clicks the show button
-     * @param myCards
-     * @param game
-     * @param show
+     * @param myCards - cards of the player
+     * @param game - instance of the game
+     * @param show - show button
      */
     public void show(List<ImageView> myCards, Game game, Button show) {
         int val = 0;
@@ -1201,7 +1283,10 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     }
 
 
-    /** Ai for testing purposes - does random moves*/
+    /**
+     * Ai for testing purposes - does random moves
+     * @param j - player whose turn it is
+     */
     public void callRandom(int j){
         if(game.playerHand!=null){
             Button showButton = findViewById(R.id.show);
@@ -1249,7 +1334,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     img.performClick();
                 }
 
-            }, 500);
+            }, 10);
 
             Button dropButton = findViewById(R.id.drop);
             new Handler().postDelayed(new Runnable() {
@@ -1259,7 +1344,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     dropButton.performClick();
                 }
 
-            }, 500);
+            }, 10);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1267,9 +1352,45 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
                     game.iv_deck.performClick();
 
                 }
-            }, 500);
+            }, 10);
         }
     }
 
+
+    public void next() throws CloneNotSupportedException {
+        int win = scoreController.calculateMinScore()+1;
+
+        String data = currentRound + ": " + win;
+        fileWriter.appendToFile(getApplicationContext(), fileName1, data);
+        currentRound++;
+        System.out.println("ROUND: " + currentRound + " win: " + win);
+        if(currentRound < StartScreen.numberOfRounds){
+
+            View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
+
+            TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
+            tableLayout.setVisibility(View.INVISIBLE);
+            tableLayout.setVisibility(View.GONE);
+            if(tableLayout.getVisibility()==View.VISIBLE){
+                tableLayout.setVisibility(View.INVISIBLE);
+                tableLayout.setVisibility(View.GONE);
+            }
+
+
+            if (scorecard.dialog != null && scorecard.dialog.isShowing()) {
+                scorecard.dialog.dismiss();
+                closeOptionsMenu();
+                startGame();
+
+            }
+        }
+        else{
+            winner_popup popup = new winner_popup(MainActivity.this);
+            popup.displayWinner(scoreController);
+
+
+        }
+
+    }
 
 }

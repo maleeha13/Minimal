@@ -30,6 +30,7 @@ public class MinimizeAI {
                 // Performs on card clicks
                 for (ImageView imageView : playerHand) {
                     imageView.performClick();
+
                 }
 
                 // Drops the selected cards
@@ -38,7 +39,7 @@ public class MinimizeAI {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 500);
+                }, 3);
 
                 // Picks from deck
                 if (Objects.equals(source, "deck")) {
@@ -46,8 +47,9 @@ public class MinimizeAI {
                         @Override
                         public void run() {
                             game.iv_deck.performClick();
+
                         }
-                    }, 500);
+                    }, 3);
                 }
                 // Picks from pile
                 else {
@@ -55,8 +57,9 @@ public class MinimizeAI {
                         @Override
                         public void run() {
                             game.stack.performClick();
+
                         }
-                    }, 500);
+                    }, 3);
                 }
             }
         });
@@ -65,7 +68,7 @@ public class MinimizeAI {
 
 
     /**
-     * Clicks the show button if score of player <= 5
+     * Clicks the show button if score of player is lesser or equal 5
      * @param myCards - cards of the player
      * @param show - show button
      */

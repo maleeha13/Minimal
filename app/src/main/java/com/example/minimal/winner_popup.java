@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.minimal.R;
+
 import com.example.minimal.StartScreen;
 
 import java.util.Objects;

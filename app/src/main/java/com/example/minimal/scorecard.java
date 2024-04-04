@@ -2,6 +2,8 @@ package com.example.minimal;
 
 import static com.example.minimal.Game.scores;
 import static com.example.minimal.StartScreen.numberOfRounds;
+
+import android.app.Activity;
 import android.graphics.Typeface;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -31,8 +33,13 @@ import android.widget.TextView;
  * The scorecard class displays the scoreboard for the game.
  */
 public class scorecard extends AppCompatActivity {
+    /** An alert popup for the score */
     public static AlertDialog dialog;
+
+    /** Context of main activity*/
     Context context;
+
+    /** Instance of next button */
     Button nextButton ;
 
     /**
@@ -74,7 +81,9 @@ public class scorecard extends AppCompatActivity {
                 title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setTitle(title);
                 dialog = builder.create();
-                dialog.show();
+                if (!((Activity) context).isFinishing()){
+                    dialog.show();
+            }
             }
         }, delayInSeconds * 1000);
     }

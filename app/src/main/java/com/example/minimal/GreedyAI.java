@@ -24,7 +24,7 @@ public class GreedyAI {
                 drop.performClick();
             }
 
-        }, 500) ;
+        }, 2) ;
 
         // Drops the card
         new Handler().postDelayed(new Runnable() {
@@ -33,7 +33,7 @@ public class GreedyAI {
                 dropButton.performClick();
             }
 
-        }, 500) ;
+        }, 2) ;
 
         // Picks a card from the deck
         new Handler().postDelayed(new Runnable() {
@@ -42,7 +42,7 @@ public class GreedyAI {
                 game.iv_deck.performClick();
 
             }
-        }, 500);
+        }, 2);
     }
 
 }
