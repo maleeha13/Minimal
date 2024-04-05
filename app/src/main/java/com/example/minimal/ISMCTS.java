@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -85,6 +86,7 @@ public class ISMCTS {
             this.deck = deck;
             this.stack = stack;
             random = new Random(RANDOM_SEED);
+
         }
 
 
@@ -103,27 +105,28 @@ public class ISMCTS {
             MCTSNode node = null;
             MCTSNode parent = null;
             int x =0;
+            State state = rootState.clone();
+            State ogState;
+            try {
+                // DETERMINIZATION
+                state.updateUnseenCards();
+                state = state.CloneAndRandomize(rootState.getPlayerToMove(), random);
+                 ogState = state.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
             // ISMCTS
             for (int i = 0; i < itermax; i++) {
-                State state = rootState.clone();
-                try {
-                    // DETERMINIZATION
-                    state.updateUnseenCards();
-                    state = state.CloneAndRandomize(rootState.getPlayerToMove(), random);
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
-
                  node = rootNode.cloneNode();
-
-
+                 state = ogState.clone();
+//
                 // Selection phase: descend the tree until a leaf node is reached
-                while (!state.isTerminal() && !node.getChildren().isEmpty()) {
-                    node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 50);
-
-
+                while ( !node.getChildren().isEmpty()) {
+                    node = node.UCBSelectChild(state.getAllMoves(state.getPlayerToMove()), 60);
                     state.applyMove(node.getMove(), state.getPlayerToMove());
+
                 }
+
 
                 // Expansion phase: expand the leaf node if possible
                 List<Move> untriedMoves = node.getUntriedMoves(state, node);
@@ -131,7 +134,6 @@ public class ISMCTS {
                     Move m = untriedMoves.get(new Random().nextInt(untriedMoves.size()));
                     int player = state.getPlayerToMove();
                     state.applyMove(m, player);
-
                     node = node.addChild(m, player);
                     untriedMoves = node.getUntriedMoves(state, node);
                 }
@@ -150,25 +152,14 @@ public class ISMCTS {
                 while (node != null) {
                     node.update(state);
                     parent=node.cloneNode();
-
-                        node = node.getParent();
-
-
-
+                    node = node.getParent();
                 }
-
 
             }
 
             // Return the best move
-//            if (!parent.getChildren().isEmpty()) {
-//                for (MCTSNode child : parent.getChildren()) {
-//                    System.out.println("Move: " + child.getMove() + ", Wins: " + child.getWins() + "vis " + child.getVisits());
-//                }
-                return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getWins)).getMove();
-//            } else {
-//                return rootNode.getMove();
-//            }
+            return Collections.max(rootNode.getChildren(), Comparator.comparingInt(MCTSNode::getWins)).getMove();
+
         }
 
         /**
@@ -228,9 +219,7 @@ public class ISMCTS {
                 for (ImageView imageView : hand) {
                     int tagValue = (Integer) imageView.getTag();
                     if (cards.contains(tagValue)) {
-
                         imageView.performClick();
-//                        System.out.println("dropping : " + tagValue);
                     }
                 }
 
@@ -239,7 +228,7 @@ public class ISMCTS {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 5);
+                }, 250);
 
                 // Clicks on the deck or stack based on the source of the best move
                 if (Objects.equals(source, "deck")) {
@@ -247,18 +236,16 @@ public class ISMCTS {
                         @Override
                         public void run() {
                             deck.performClick();
-//                            System.out.println("picking from deck");
                         }
-                    }, 5);
+                    }, 250);
                 } else {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             stack.performClick();
 
-
                         }
-                    }, 5);
+                    }, 250);
                 }
             }
         });

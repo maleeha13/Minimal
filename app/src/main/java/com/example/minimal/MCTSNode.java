@@ -170,9 +170,19 @@ public class MCTSNode {
      */
     public void update(State state) {
         visits++;
-            if(state.getResult(state.getPlayerToMove())){
-                wins++;
-            }
+        int[] sc = state.getScores(state);
+
+
+        if(state.getResult(playerJustMoved)){
+            sc = state.getScores(state);
+            score = 0 + Math.sqrt(sc[state.getPlayerToMove()-1]);
+
+            wins++;
+        }
+        else{
+            sc = state.getScores(state);
+            score = 100 + Math.sqrt(sc[state.getPlayerToMove()-1]);
+        }
 
 
     }
@@ -213,15 +223,15 @@ public class MCTSNode {
      * @return The selected child node based on UCB score.
      */
     public MCTSNode UCBSelectChild(List<Move> legalMoves, double exploration) {
+
         if (children.isEmpty()) {
-            System.out.println("empt");
             return this; // Return itself if there are no children
         }
+
 
         // Filter the list of children by the list of legal moves and untried moves
         List<MCTSNode> legalChildren = new ArrayList<>();
         for (MCTSNode child : children) {
-
             if (legalMoves.contains(child.getMove()) && !child.isFullyExpanded()) {
                 legalChildren.add(child);
             }
@@ -239,23 +249,26 @@ public class MCTSNode {
             }
         }
 
-// If all children have zero visits, select a random child
+        // If all children have zero visits, select a random child
         if (allZeroVisits) {
-            selectedChild = legalChildren.get(new Random().nextInt(legalChildren.size()));
+            if (legalChildren.isEmpty()) {
+                return children.get(new Random().nextInt(children.size()));
+            }
+            else{
+                selectedChild = legalChildren.get(new Random().nextInt(legalChildren.size()));
+
+            }
+
         } else {
             for (MCTSNode child : legalChildren) {
                 double UCB;
                 if (child.getVisits() == 0) {
-                    // Handle division by zero
-                    // You can set a default UCB value for nodes with zero visits
-                    // For example, you can set it to a very large negative value to encourage exploration
                     UCB = Double.POSITIVE_INFINITY;
                 } else {
                     UCB = (double) child.getWins() / child.getVisits()
                             + exploration * Math.sqrt(Math.log(getVisits()) / child.getVisits());
                 }
 
-//                System.out.println("ucb " + UCB + " move " + child.getMove() ) ;
                 if (UCB >= highestUCB) {
                     highestUCB = UCB;
                     selectedChild = child;
@@ -263,9 +276,28 @@ public class MCTSNode {
             }
         }
 
-
         // Return the selected child
         return selectedChild;
+    }
+
+
+    public void printChildren() {
+        System.out.println("Node: " + this.getMove());
+        for (MCTSNode child : this.getChildren()) {
+            child.printChildren(1);
+        }
+    }
+
+    private void printChildren(int depth) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < depth; i++) {
+            sb.append("  ");
+        }
+        sb.append("Child: ").append(this.getMove());
+        System.out.println(sb.toString());
+        for (MCTSNode child : this.getChildren()) {
+            child.printChildren(depth + 1);
+        }
     }
 
     /**

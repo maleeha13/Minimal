@@ -69,42 +69,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
     /** List of imageviews */
     List<List<ImageView>> imageViewsList = new ArrayList<>();
 
-    String fileName1 = "up1.txt";
-
-//    static ArrayList<Integer> testCards = new ArrayList<>();
-//    public static ArrayList<Integer> makeTestList() {
-//
-//        testCards.add(410);
-//        testCards.add(103);
-//        testCards.add(104);
-//        testCards.add(105);
-//        testCards.add(106);
-//
-//        testCards.add(210);
-//        testCards.add(310);
-//        testCards.add(100);
-//        testCards.add(103);
-//        testCards.add(111);
-//
-//        testCards.add(112);
-//        testCards.add(113);
-//        testCards.add(101);
-//        testCards.add(101);
-//        testCards.add(101);
-//
-//        testCards.add(101);
-//        testCards.add(101);
-//        testCards.add(101);
-//        testCards.add(101);
-//        testCards.add(101);
-//
-//        testCards.add(101);
-//        testCards.add(101);
-//        testCards.add(101);
-//
-//        return testCards;
-//    }
-
 
     /**
      * Distributes the cards and starts the game
@@ -231,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         Card.makeCardList();
         Collections.shuffle(Card.getCards());
 
-//        testCards= makeTestList();
         assignCard("iv_p", 1);
         assignCard("iv_p", 2);
         assignCard("iv_p", 3);
@@ -252,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
 
 
         GradientDrawable border = new GradientDrawable();
-        border.setColor(0xFFFFFFFF); // White background
         border.setStroke(12, Color.parseColor("#E17B26"));
         linearLayout.setBackground(border);
 
@@ -317,9 +279,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             // Add the list of ImageViews for the current player to the main list
             imageViewsList.add(playerImageViews);
         }
-        if (game.current_player == 0) {
-            callGreedy(game.current_player+1);
-        }
+
     }
 
 
@@ -692,41 +652,31 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             }
 
             if (game.current_player == 0) {
-                callGreedy(game.current_player + 1);
-
                 timerTextView.setText( "- seconds");
-            }
 
-            else if(game.current_player == 1) {
-//                callMonte();
-                callMinimize(game.current_player + 1);
             }
-            else if(game.current_player == 2) {
-                callMonte();
+            else{
+                timerTextView.setText("- seconds");
+                if(Objects.equals(difficulty, "Easy")){
+                    callGreedy(game.current_player + 1);
+                }
+                else if(Objects.equals(difficulty, "Medium")){
+                    callMonte();
+
+                }
+                else{
+                    callMinimize(game.current_player + 1);
+                }
             }
-            else if(game.current_player == 3) {
-                callRandom(game.current_player + 1);
-            }
-//            else{
-//                timerTextView.setText("- seconds");
-//                if(Objects.equals(difficulty, "Easy")){
-//                    callGreedy(game.current_player + 1);
-//                }
-//                else if(Objects.equals(difficulty, "Medium")){
-//                    callMonte();
-//
-//                }
-//                else{
-//                    callMinimize(game.current_player + 1);
-//                }
-//            }
 
             if (countDownTimer != null) {
                 countDownTimer.cancel();
                 countDownTimer = null;
                 remainingTime = 0;
             }
-//            timer();
+            if (game.current_player == 0) {
+                timer();
+            }
 
             if(currentRound< numberOfRounds) {
                 // MAKES THE SHOW BUTTON APPEAR ONLY IF SCORE IS <=5
@@ -821,21 +771,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         game.show=true;
 
         scorecard sc = new scorecard(this);
-        sc.showScoreboardPopup(1);
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the game is paused before performing the third click
-                try {
-                    next();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        }, 1500);
+        sc.showScoreboardPopup(2);
 
     }
 
@@ -848,19 +784,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         showCustomToastWithDelay(3000, Boolean.TRUE);
         game.show=true;
         scorecard sc = new scorecard(this);
-        sc.showScoreboardPopup(1);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the game is paused before performing the third click
-                try {
-                    next();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        }, 2000);
+        sc.showScoreboardPopup(2);
 
     }
 
@@ -1104,7 +1028,7 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
             minimize.minimizeAI(list, game, dropButton, source);
         } else {
             List<ImageView> newList = new ArrayList<>();
-            if (largest == stackCardNumber % 100 && pickFromStack) {
+            if (largest == stackCardNumber % 100 && pickFromStack && descList.size()>1) {
                 drop = (descList.get(1));
             }
 
@@ -1356,41 +1280,5 @@ public class MainActivity extends AppCompatActivity implements gameController.Ga
         }
     }
 
-
-    public void next() throws CloneNotSupportedException {
-        int win = scoreController.calculateMinScore()+1;
-
-        String data = currentRound + ": " + win;
-        fileWriter.appendToFile(getApplicationContext(), fileName1, data);
-        currentRound++;
-        System.out.println("ROUND: " + currentRound + " win: " + win);
-        if(currentRound < StartScreen.numberOfRounds){
-
-            View popupView = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_scorecard, null);
-
-            TableLayout tableLayout = popupView.findViewById(R.id.tableLayout);
-            tableLayout.setVisibility(View.INVISIBLE);
-            tableLayout.setVisibility(View.GONE);
-            if(tableLayout.getVisibility()==View.VISIBLE){
-                tableLayout.setVisibility(View.INVISIBLE);
-                tableLayout.setVisibility(View.GONE);
-            }
-
-
-            if (scorecard.dialog != null && scorecard.dialog.isShowing()) {
-                scorecard.dialog.dismiss();
-                closeOptionsMenu();
-                startGame();
-
-            }
-        }
-        else{
-            winner_popup popup = new winner_popup(MainActivity.this);
-            popup.displayWinner(scoreController);
-
-
-        }
-
-    }
 
 }

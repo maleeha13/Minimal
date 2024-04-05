@@ -39,7 +39,7 @@ public class MinimizeAI {
                     public void run() {
                         dropButton.performClick();
                     }
-                }, 3);
+                }, 500);
 
                 // Picks from deck
                 if (Objects.equals(source, "deck")) {
@@ -49,7 +49,7 @@ public class MinimizeAI {
                             game.iv_deck.performClick();
 
                         }
-                    }, 3);
+                    }, 500);
                 }
                 // Picks from pile
                 else {
@@ -59,7 +59,7 @@ public class MinimizeAI {
                             game.stack.performClick();
 
                         }
-                    }, 3);
+                    }, 500);
                 }
             }
         });

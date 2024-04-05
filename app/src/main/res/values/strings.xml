@@ -17,7 +17,7 @@
     <string-array name="dropdown_options">
         <item>1</item>
         <item>5</item>
-        <item>100</item>
+        <item>10</item>
     </string-array>
 
     <string-array name="diff_options">
